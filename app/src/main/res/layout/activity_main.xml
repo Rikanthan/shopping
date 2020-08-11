@@ -97,7 +97,7 @@
                 android:gravity="end"
                 android:padding="5dp"
                 android:text="@string/forgot"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -109,6 +109,7 @@
             android:layout_marginTop="20dp"
             android:text="Login"
             android:fontFamily="casual"
+            android:onClick="login"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:background="@drawable/button"
@@ -123,7 +124,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/newUser"
-            android:textColor="@color/black"
+            android:textColor="@color/blue"
             android:textSize="15sp" />
     </LinearLayout>
 </LinearLayout>
