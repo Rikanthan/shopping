@@ -6,7 +6,7 @@
     <string name="newUser">Don\'t have an account? Signup</string>
     <string name="email">Enter your email id</string>
     <string name="signup">Signup</string>
-    <string name="signin">Signin</string>
+    <string name="signin">Sign in</string>
     <string name="passowrd">Password</string>
     <string name="login">LOGIN</string>
     <string name="hide_pwd">Hide Password</string>
