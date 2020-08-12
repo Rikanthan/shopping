@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="headers">
+        <item>
+            vegetables
+        </item>
+        <item>
+            fruits
+        </item>
+        <item>
+            medical
+        </item>
+        <item>
+            educational things
+        </item>
+        <item>
+            soap
+        </item>
+        <item>
+            fancy things
+        </item>
+        <item>
+            unknown1
+        </item>
+        <item>
+            unknown2
+        </item>
+    </string-array>
+</resources>

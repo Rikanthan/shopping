@@ -52,4 +52,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
 
     }
+    public  void login(View v)
+    {
+        Intent i=new Intent(this,Home.class);
+        startActivity(i);
+
+    }
 }
