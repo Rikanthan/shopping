@@ -19,5 +19,18 @@ public class Home extends AppCompatActivity {
         GridView grid=(GridView) findViewById(R.id.Items);
         customAdapter myadapter=new customAdapter(getApplicationContext(),lables);
         grid.setAdapter(myadapter);
+        /*
+        fruits
+        vegetables
+        softdrinks
+        cosmetric
+        bakery
+        hygiene
+        meat
+        snacks and crackers
+        produce
+        other items
+         */
+
     }
 }

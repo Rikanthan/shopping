@@ -2,28 +2,37 @@
 <resources>
     <string-array name="headers">
         <item>
-            vegetables
+            Vegetables
         </item>
         <item>
-            fruits
+            Fruits
         </item>
         <item>
-            medical
+            Medical
         </item>
         <item>
-            educational things
+            Paper things
         </item>
         <item>
-            soap
+            Hygiene
         </item>
         <item>
-            fancy things
+            Cosmetric
         </item>
         <item>
-            unknown1
+            Softdrinks
         </item>
         <item>
-            unknown2
+            Snacks
+        </item>
+        <item>
+            Produce
+        </item>
+        <item>
+            Bakery
+        </item>
+        <item>
+            Others
         </item>
     </string-array>
 </resources>
