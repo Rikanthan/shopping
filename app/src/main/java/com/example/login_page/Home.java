@@ -1,8 +1,12 @@
 package com.example.login_page;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 public class Home extends AppCompatActivity {
@@ -16,21 +20,21 @@ public class Home extends AppCompatActivity {
         Resources res=getResources();
         lables=res.getStringArray(R.array.headers);
 
-        GridView grid=(GridView) findViewById(R.id.Items);
+
+        final GridView grid=(GridView) findViewById(R.id.Items);
         customAdapter myadapter=new customAdapter(getApplicationContext(),lables);
         grid.setAdapter(myadapter);
-        /*
-        fruits
-        vegetables
-        softdrinks
-        cosmetric
-        bakery
-        hygiene
-        meat
-        snacks and crackers
-        produce
-        other items
-         */
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(getApplicationContext(),fruit.class);
+                startActivity(intent);
+
+
+
+            }
+        });
+
 
     }
 }

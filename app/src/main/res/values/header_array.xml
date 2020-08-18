@@ -32,4 +32,63 @@
             Others
         </item>
     </string-array>
+
+    <string-array name="fruits">
+        <item>
+            Mango
+        </item>
+        <item>
+            Apple
+        </item>
+        <item>
+            Orange
+        </item>
+        <item>
+            Grapes
+        </item>
+        <item>
+            Strawberry
+        </item>
+        <item>
+            Pineapple
+        </item>
+        <item>
+            Banana
+        </item>
+    </string-array>
+    <string-array name="fruits_page">
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+    </string-array>
 </resources>
