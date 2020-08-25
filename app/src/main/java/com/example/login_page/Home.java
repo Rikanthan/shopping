@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 public class Home extends AppCompatActivity {
 
@@ -39,9 +38,9 @@ public class Home extends AppCompatActivity {
                         Intent intent=new Intent(getApplicationContext(),fruit.class);
                         startActivity(intent);
                     }
-                    else if (i==2)
+                    else if (i==4)
                     {
-                        Intent intent=new Intent(getApplicationContext(),display_page.class);
+                        Intent intent=new Intent(getApplicationContext(), hygiene.class);
                         startActivity(intent);
                     }
                     else
