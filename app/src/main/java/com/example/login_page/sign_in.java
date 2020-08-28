@@ -2,16 +2,22 @@ package com.example.login_page;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.regex.Pattern;
 
 
 public class sign_in extends AppCompatActivity {
+
+    DatabaseReference reff;
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[a-z])" +
@@ -30,6 +36,7 @@ public class sign_in extends AppCompatActivity {
     private EditText pswd;
     private EditText conpswd;
     private EditText username;
+    Member member;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,13 @@ public class sign_in extends AppCompatActivity {
         pswd = findViewById(R.id.password);
         conpswd = findViewById(R.id.confirmPassword);
         username = findViewById(R.id.username);
+
+        member=new Member();
+        reff= FirebaseDatabase.getInstance().getReference().child("Member");
+
+
+
+
     }
     private boolean validefullname()
     {
@@ -144,11 +158,30 @@ public class sign_in extends AppCompatActivity {
     }
 
     public void signin(View v) {
+
+        member.setName(fullname.getText().toString().trim());//fullname ;
+        member.setEmail(email.getText().toString().trim());//email = findViewById(R.id.userEmailId);
+        Long phn=Long.parseLong(mobile.getText().toString().trim());
+        member.setMobile(phn);//mobile = findViewById(R.id.mobileNumber);
+        member.setLocation(location.getText().toString().trim());//location = findViewById(R.id.location);
+        member.setPassword(pswd.getText().toString().trim());//pswd = findViewById(R.id.password);
+        //conpswd = findViewById(R.id.confirmPassword);
+        member.setUserName(username.getText().toString().trim());//username = findViewById(R.id.username);
+
+
+
+
+
+
+
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile() |!valideusername()) {
             return;
         }
         String input = "Email: " + email.getText().toString();
         input += "\n";
-        Toast.makeText(this, input, Toast.LENGTH_SHORT).show();
+        reff.push().setValue(member);
+        Toast.makeText(this, "Data input sucessfully", Toast.LENGTH_SHORT).show();
+        Intent i=new Intent(this,MainActivity.class);
+        startActivity(i);
     }
 }

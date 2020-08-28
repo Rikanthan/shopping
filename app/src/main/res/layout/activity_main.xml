@@ -62,7 +62,9 @@
             android:drawableLeft="@drawable/ic_baseline_lock_24"
             android:textColorHint="@color/lightblue"
 
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+
+            app:passwordToggleTint="@color/lightblue">
         <EditText
             android:id="@+id/editTextTextPassword"
             android:layout_width="match_parent"
