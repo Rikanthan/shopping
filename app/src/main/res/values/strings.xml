@@ -22,4 +22,6 @@
     <string name="submit">SUBMIT</string>
     <string name="username">User name</string>
     <string name="back">BACK</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
