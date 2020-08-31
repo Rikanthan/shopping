@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     public  void signup(View v)
     {
-        Intent i=new Intent(this,admin.class);
+        Intent i=new Intent(this,imageupload.class);
         startActivity(i);
 
     }

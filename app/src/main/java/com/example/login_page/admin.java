@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -63,11 +65,15 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
                 break;
 
             case R.id.inventory:
-                Toast.makeText(getApplicationContext(),"inventory",Toast.LENGTH_LONG).show();
+
+                Intent intent2=new Intent(getApplicationContext(),fruit.class);
+                startActivity(intent2);
                 break;
 
+
             case R.id.product:
-                Toast.makeText(getApplicationContext(),"product",Toast.LENGTH_LONG).show();
+                Intent intent3=new Intent(getApplicationContext(),admin_products.class);
+                startActivity(intent3);
                 break;
 
             case R.id.offer:
@@ -79,7 +85,9 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
                 break;
 
             case R.id.logout:
-                Toast.makeText(getApplicationContext(),"logout",Toast.LENGTH_LONG).show();
+
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
                 break;
 
 
@@ -88,4 +96,5 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
 
         return true;
     }
+
 }

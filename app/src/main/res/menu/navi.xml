@@ -4,37 +4,46 @@
     <item
         android:id="@+id/dashboard"
         android:title="Dashboard"
+
        android:icon="@drawable/ic_baseline_dashboard_24"/>
     <item
         android:id="@+id/search"
         android:title="Search"
+
         android:icon="@drawable/ic_baseline_search_24"/>
     <item
         android:id="@+id/customer"
         android:title="Customers"
+
         android:icon="@drawable/customer"/>
     <item
         android:id="@+id/salesmen"
         android:title="Salesmen"
+
         android:icon="@drawable/salesman"/>
     <item
         android:id="@+id/inventory"
         android:title="Inventory items"
-        android:icon="@drawable/inventori"/>
+
+        android:icon="@drawable/inv"/>
     <item
         android:id="@+id/product"
         android:title="Products"
-        android:icon="@drawable/products"/>
+
+        android:icon="@drawable/pro"/>
     <item
         android:id="@+id/offer"
         android:title="Offers"
+
         android:icon="@drawable/ic_baseline_local_offer_24"/>
     <item
         android:id="@+id/setting"
+
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="Settings"/>
     <item
         android:id="@+id/logout"
         android:title="Logout"
+
         android:icon="@drawable/logout"/>
 </menu>

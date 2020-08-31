@@ -4,12 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/app_shoppingcart"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".admin"></activity>
+        <activity android:name=".imageupload"></activity>
+        <activity android:name=".admin_products" />
+        <activity android:name=".admin" />
         <activity android:name=".hygiene" />
         <activity android:name=".fruit" />
         <activity android:name=".Home" />
