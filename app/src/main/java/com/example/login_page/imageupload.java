@@ -11,12 +11,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -25,13 +30,40 @@ import com.google.firebase.storage.UploadTask;
 public class imageupload extends AppCompatActivity {
     Button ch,up;
     ImageView img;
+    DatabaseReference myreff;
+    long imgnewid=0;
+    private EditText productname;
+    private EditText catergory;
+    private EditText quantity;
+    private EditText price;
     StorageReference mStorageRef;
     private StorageTask uploadTask;
+    Product product;
     public Uri imguri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageupload);
+        productname=findViewById(R.id.productname);
+        catergory=findViewById(R.id.catergory);
+        quantity=findViewById(R.id.quantity);
+        price=findViewById(R.id.price);
+
+        product =new Product();
+        myreff=FirebaseDatabase.getInstance().getReference().child("Product");
+        myreff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                imgnewid=(snapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         mStorageRef= FirebaseStorage.getInstance().getReference("Images");
         ch=(Button)findViewById(R.id.choosefile);
         img=(ImageView)findViewById(R.id.imageupload);
@@ -64,7 +96,17 @@ public class imageupload extends AppCompatActivity {
     }
     private  void Fileuploader()
     {
-        StorageReference Ref=mStorageRef.child(System.currentTimeMillis()+"."+getExtension(imguri));
+        String imageid;
+        imageid=System.currentTimeMillis()+"."+getExtension(imguri);
+        product.setProductName(productname.getText().toString().trim());
+        product.setCatergory(catergory.getText().toString().trim());
+        product.setQuantity(quantity.getText().toString().trim());
+        int p=Integer.parseInt(price.getText().toString().trim());
+        product.setPrice(p);
+        myreff.push().setValue(product);
+
+
+        StorageReference Ref=mStorageRef.child(imageid);
        uploadTask= Ref.putFile(imguri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

@@ -1,21 +1,17 @@
 package com.example.login_page;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.regex.Pattern;
 
 
@@ -195,6 +191,7 @@ public class sign_in extends AppCompatActivity {
         }
         String input = "Email: " + email.getText().toString();
         input += "\n";
+
         reff.child(String.valueOf(maxid+1)).setValue(member);
         Toast.makeText(this, "Data input sucessfully", Toast.LENGTH_SHORT).show();
         Intent i=new Intent(this,MainActivity.class);

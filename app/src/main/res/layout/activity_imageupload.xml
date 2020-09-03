@@ -11,7 +11,9 @@
         android:id="@+id/choosefile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="choose file"
+        android:text="   choose file   "
+        android:textFontWeight="@android:integer/config_mediumAnimTime"
+        android:fontFamily="sans-serif-condensed-medium"
         android:layout_margin="10dp"
         android:layout_gravity="start"
         android:background="@drawable/button"/>
@@ -20,15 +22,93 @@
         android:id="@+id/imageupload"
         android:layout_width="match_parent"
         android:layout_height="294dp"
-        app:srcCompat="@android:drawable/ic_menu_report_image" />
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <EditText
+        android:id="@+id/productname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Product Name"
+        android:textColorHint="@color/lightblue"/>
+
+    <EditText
+        android:id="@+id/catergory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/lightblue"
+        android:hint="Catergory"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+    <EditText
+        android:id="@+id/quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Quantity"
+        android:textColorHint="@color/lightblue"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        >
+    <RadioButton
+        android:id="@+id/kg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kg"
+        android:textColor="@color/lightblue"/>
+    <RadioButton
+        android:id="@+id/litre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lightblue"
+        android:text="l" />
+        <RadioButton
+            android:id="@+id/other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightblue"
+            android:text="No" />
+        <RadioButton
+            android:id="@+id/meter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightblue"
+            android:text="m" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Price"
+        android:textColorHint="@color/lightblue"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"/>
 
     <Button
         android:id="@+id/upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload"
-        android:layout_margin="10dp"
         android:layout_gravity="right"
-
-        android:background="@drawable/button"/>
+        android:layout_margin="10dp"
+        android:background="@drawable/button"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Upload" />
 </LinearLayout>
