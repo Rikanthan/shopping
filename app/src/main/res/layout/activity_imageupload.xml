@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/imageupload"
         android:layout_width="match_parent"
-        android:layout_height="294dp"
+        android:layout_height="200dp"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <EditText
@@ -65,30 +65,39 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         >
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
     <RadioButton
         android:id="@+id/kg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="kg"
+        android:onClick="getquantity"
         android:textColor="@color/lightblue"/>
     <RadioButton
         android:id="@+id/litre"
         android:layout_width="wrap_content"
+        android:onClick="getquantity"
         android:layout_height="wrap_content"
         android:textColor="@color/lightblue"
         android:text="l" />
         <RadioButton
             android:id="@+id/other"
             android:layout_width="wrap_content"
+            android:onClick="getquantity"
             android:layout_height="wrap_content"
             android:textColor="@color/lightblue"
             android:text="No" />
         <RadioButton
             android:id="@+id/meter"
             android:layout_width="wrap_content"
+            android:onClick="getquantity"
             android:layout_height="wrap_content"
             android:textColor="@color/lightblue"
             android:text="m" />
+        </RadioGroup>
     </LinearLayout>
 
     <EditText

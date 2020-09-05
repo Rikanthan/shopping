@@ -13,6 +13,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,10 +37,15 @@ public class imageupload extends AppCompatActivity {
     private EditText catergory;
     private EditText quantity;
     private EditText price;
+    private RadioButton kg;
+    private RadioButton m;
+    private RadioButton l;
+    private RadioButton no;
     StorageReference mStorageRef;
     private StorageTask uploadTask;
     Product product;
     public Uri imguri;
+    public  String str="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,10 @@ public class imageupload extends AppCompatActivity {
         catergory=findViewById(R.id.catergory);
         quantity=findViewById(R.id.quantity);
         price=findViewById(R.id.price);
+        kg=findViewById(R.id.kg);
+        no=findViewById(R.id.other);
+        m=findViewById(R.id.meter);
+        l=findViewById(R.id.litre);
 
         product =new Product();
         myreff=FirebaseDatabase.getInstance().getReference().child("Product");
@@ -100,8 +110,10 @@ public class imageupload extends AppCompatActivity {
         imageid=System.currentTimeMillis()+"."+getExtension(imguri);
         product.setProductName(productname.getText().toString().trim());
         product.setCatergory(catergory.getText().toString().trim());
-        product.setQuantity(quantity.getText().toString().trim());
+        product.setTypequantity(str.trim());
+        int q=Integer.parseInt(quantity.getText().toString().trim());
         int p=Integer.parseInt(price.getText().toString().trim());
+        product.setQuantity(q);
         product.setPrice(p);
         myreff.push().setValue(product);
 
@@ -141,5 +153,30 @@ public class imageupload extends AppCompatActivity {
             imguri=data.getData();
             img.setImageURI(imguri);
         }
+    }
+
+    public void getquantity(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.kg:
+                if(checked)
+                    str = "kg";
+                break;
+            case R.id.litre:
+                if(checked)
+                    str = "l";
+                break;
+            case R.id.other:
+                if(checked)
+                    str = "no";
+                break;
+            case R.id.meter:
+                if(checked)
+                    str = "m";
+                break;
+        }
+        //Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 }
