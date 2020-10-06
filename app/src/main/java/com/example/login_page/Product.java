@@ -17,19 +17,11 @@ public class Product {
         Catergory = catergory;
     }
 
-    public String getTypequantity() {
-        return Typequantity;
-    }
-
-    public void setTypequantity(String typequantity) {
-        Typequantity = typequantity;
-    }
-
-    public int getQuantity() {
+    public String getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         Quantity = quantity;
     }
 
@@ -43,9 +35,8 @@ public class Product {
 
     private String productName;
     private String Catergory;
-    private int Quantity;
+    private String Quantity;
     private int Price;
-    private String Typequantity;
 
     public Product() {
     }

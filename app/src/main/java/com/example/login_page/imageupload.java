@@ -50,7 +50,7 @@ public class imageupload extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageupload);
-        productname=findViewById(R.id.productname);
+      /*  productname=findViewById(R.id.productname);
         catergory=findViewById(R.id.catergory);
         quantity=findViewById(R.id.quantity);
         price=findViewById(R.id.price);
@@ -58,7 +58,7 @@ public class imageupload extends AppCompatActivity {
         no=findViewById(R.id.other);
         m=findViewById(R.id.meter);
         l=findViewById(R.id.litre);
-
+*/
         product =new Product();
         myreff=FirebaseDatabase.getInstance().getReference().child("Product");
         myreff.addValueEventListener(new ValueEventListener() {
@@ -110,10 +110,10 @@ public class imageupload extends AppCompatActivity {
         imageid=System.currentTimeMillis()+"."+getExtension(imguri);
         product.setProductName(productname.getText().toString().trim());
         product.setCatergory(catergory.getText().toString().trim());
-        product.setTypequantity(str.trim());
+        //product.setTypequantity(str.trim());
         int q=Integer.parseInt(quantity.getText().toString().trim());
         int p=Integer.parseInt(price.getText().toString().trim());
-        product.setQuantity(q);
+       // product.setQuantity(q);
         product.setPrice(p);
         myreff.push().setValue(product);
 
@@ -155,7 +155,7 @@ public class imageupload extends AppCompatActivity {
         }
     }
 
-    public void getquantity(View view) {
+   /* public void getquantity(View view) {
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
@@ -178,5 +178,5 @@ public class imageupload extends AppCompatActivity {
                 break;
         }
         //Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-    }
+    }*/
 }
