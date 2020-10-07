@@ -20,37 +20,50 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_remove_24"
-            tools:ignore="VectorDrawableCompat"
-            android:onClick="min"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/mango_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="min"
+                app:fabCustomSize="20dp"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_baseline_remove_24"
+                tools:ignore="VectorDrawableCompat" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="max"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            tools:ignore="VectorDrawableCompat" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/mango_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:text="1"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="max"
+                app:fabCustomSize="20dp"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_baseline_add_24"
+                tools:ignore="VectorDrawableCompat" />
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +72,7 @@
             android:id="@+id/man_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Price :25 LKR"
             android:layout_gravity="center"/>
         <Button
             android:layout_width="wrap_content"
@@ -66,10 +80,19 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="@drawable/button"
-            android:text="order" />
+            android:text="order"
+            android:onClick="order"/>
     </LinearLayout>
+
     </LinearLayout>
+
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="430dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -85,7 +108,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,25 +119,37 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab3"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:fabCustomSize="20dp"
+                    app:fabSize="mini"
+                    android:onClick="min3"
                     app:srcCompat="@drawable/ic_baseline_remove_24"
                     tools:ignore="VectorDrawableCompat" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/mango3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="3"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"/>
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="5dp"/>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab4"
+                    android:onClick="max3"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:fabCustomSize="20dp"
+                    app:fabSize="mini"
                     app:srcCompat="@drawable/ic_baseline_add_24"
                     tools:ignore="VectorDrawableCompat" />
             </LinearLayout>
@@ -120,9 +158,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/man3_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price: 80 LKR"
+                    android:text="Price: 60 LKR"
                     android:layout_gravity="center"/>
                 <Button
                     android:layout_width="wrap_content"
@@ -130,7 +169,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:background="@drawable/button"
-                    android:text="order" />
+                    android:text="order"
+                    android:onClick="order"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
