@@ -27,5 +27,35 @@ public class fruit extends AppCompatActivity {
         final GridView grid=(GridView) findViewById(R.id.fruitgrid);
         fruitAdapter myadapter=new fruitAdapter(getApplicationContext(),fruitLabels);
         grid.setAdapter(myadapter);
+
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //intent.putExtra("newpage",fruitPages[i]);
+                long viewId = view.getId();
+
+                if (i==0)
+                {
+                    Intent intent=new Intent(getApplicationContext(),mango.class);
+                    startActivity(intent);
+                }
+               /* else if (i==4)
+                {
+                    Intent intent=new Intent(getApplicationContext(), hygiene.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(getApplicationContext(),forgetpassword.class);
+                    startActivity(intent);
+
+                }*/
+
+
+
+
+            }
+        });
     }
 }

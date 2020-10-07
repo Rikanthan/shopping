@@ -7,11 +7,21 @@
         <item name="colorPrimaryDark">@color/lightblue</item>
         <item name="colorAccent">@color/lightblue</item>
     </style>
+
     <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/lightblue</item>
         <item name="colorPrimaryDark">@color/lightblue</item>
         <item name="colorAccent">@color/lightblue</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>
