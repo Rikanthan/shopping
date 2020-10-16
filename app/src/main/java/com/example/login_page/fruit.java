@@ -35,12 +35,12 @@ public class fruit extends AppCompatActivity {
                 //intent.putExtra("newpage",fruitPages[i]);
                 long viewId = view.getId();
 
-                if (i==0)
+                if (i==1)
                 {
                     Intent intent=new Intent(getApplicationContext(),mango.class);
                     startActivity(intent);
                 }
-               /* else if (i==4)
+                else if (i==4)
                 {
                     Intent intent=new Intent(getApplicationContext(), hygiene.class);
                     startActivity(intent);
@@ -50,7 +50,7 @@ public class fruit extends AppCompatActivity {
                     Intent intent=new Intent(getApplicationContext(),forgetpassword.class);
                     startActivity(intent);
 
-                }*/
+                }
 
 
 
