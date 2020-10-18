@@ -31,9 +31,6 @@ import com.squareup.picasso.Picasso;
 
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
-    private Button mButtonChooseImage;
-    private Button mButtonUpload;
-    private TextView mTextViewShowUploads;
     private EditText mTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
@@ -46,12 +43,12 @@ public class imageupload extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageupload);
-        mButtonChooseImage=findViewById(R.id.button_choose_image);
-        mButtonUpload=findViewById(R.id.button_upload);
-        mTextViewShowUploads=findViewById(R.id.edit_text_file_name);
+        Button mButtonChooseImage = findViewById(R.id.button_choose_image);
+        Button mButtonUpload = findViewById(R.id.button_upload);
+        TextView mTextViewShowUploads = findViewById(R.id.text_view_show_uploads);
         mImageView=findViewById(R.id.image_view);
         mProgressBar=findViewById(R.id.progress_bar);
-
+        mTextFileName = findViewById(R.id.edit_text_file_name);
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef= FirebaseDatabase.getInstance().getReference("uploads");
 
@@ -73,19 +70,19 @@ public class imageupload extends AppCompatActivity {
 
                  else
                 {
-                    uploadFile();;
+                    uploadFile();
                 }
             }
 
         });
-
-
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showimages();
             }
         });
+
+
 
 
 
@@ -97,6 +94,16 @@ public class imageupload extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data !=null && data.getData() !=null)
+        {
+            mImageUri=data.getData();
+            // mImageView.setImageURI(mImageUri);
+            Picasso.get().load(mImageUri).into(mImageView);
+        }
     }
 
     private String getFileExtension(Uri uri)
@@ -152,13 +159,12 @@ public class imageupload extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data !=null && data.getData() !=null)
-        {
-            mImageUri=data.getData();
-            mImageView.setImageURI(mImageUri);
-        }
+    private  void showimages()
+    {
+        Intent i=new Intent(this,admin.class);
+        startActivity(i);
+
     }
+
+
 }
