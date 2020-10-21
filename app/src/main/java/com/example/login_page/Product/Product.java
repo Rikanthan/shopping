@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Product;
 
 public class Product {
     public String getProductName() {

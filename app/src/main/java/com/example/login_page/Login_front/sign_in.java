@@ -1,12 +1,15 @@
-package com.example.login_page;
+package com.example.login_page.Login_front;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.login_page.Home.MainActivity;
+import com.example.login_page.Views.Member;
+import com.example.login_page.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -194,7 +197,7 @@ public class sign_in extends AppCompatActivity {
 
         reff.child(String.valueOf(maxid+1)).setValue(member);
         Toast.makeText(this, "Data input sucessfully", Toast.LENGTH_SHORT).show();
-        Intent i=new Intent(this,MainActivity.class);
+        Intent i=new Intent(this, MainActivity.class);
         startActivity(i);
     }
 }

@@ -7,7 +7,7 @@
     android:background="@color/lightblue"
     android:orientation="vertical"
     android:weightSum="5"
-    tools:context=".hygiene">
+    tools:context=".Views.hygiene">
 
     <LinearLayout
         android:layout_width="match_parent"

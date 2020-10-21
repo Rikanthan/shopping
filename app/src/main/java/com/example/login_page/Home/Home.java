@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.example.login_page.Login_front.forgetpassword;
+import com.example.login_page.R;
+import com.example.login_page.Views.hygiene;
+import com.example.login_page.adapter.customAdapter;
+import com.example.login_page.Views.fruit;
+import com.example.login_page.Views.softdrinks;
 
 public class Home extends AppCompatActivity {
 
@@ -35,7 +42,12 @@ public class Home extends AppCompatActivity {
 
                     if (i==1)
                     {
-                        Intent intent=new Intent(getApplicationContext(),fruit.class);
+                        Intent intent=new Intent(getApplicationContext(), fruit.class);
+                        startActivity(intent);
+                    }
+                    else if (i==4)
+                    {
+                        Intent intent=new Intent(getApplicationContext(), hygiene.class);
                         startActivity(intent);
                     }
                     else if (i==6)
@@ -45,12 +57,10 @@ public class Home extends AppCompatActivity {
                     }
                     else
                     {
-                        Intent intent=new Intent(getApplicationContext(),forgetpassword.class);
+                        Intent intent=new Intent(getApplicationContext(), forgetpassword.class);
                         startActivity(intent);
 
                     }
-
-
 
 
             }

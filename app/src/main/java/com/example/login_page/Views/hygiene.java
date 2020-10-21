@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Views;
 
 import android.os.Bundle;
 import android.widget.GridLayout;
@@ -13,6 +13,8 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.Toast;
 import androidx.cardview.widget.CardView;
+
+import com.example.login_page.R;
 
 public class hygiene extends AppCompatActivity {
 

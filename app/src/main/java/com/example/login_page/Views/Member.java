@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Views;
 
 public class Member {
     private String Name;

@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Product;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.login_page.R;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Images;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login_page.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -161,7 +162,7 @@ public class imageupload extends AppCompatActivity {
 
     private  void showimages()
     {
-        Intent i=new Intent(this,admin.class);
+        Intent i=new Intent(this,ImagesActivity.class);
         startActivity(i);
 
     }

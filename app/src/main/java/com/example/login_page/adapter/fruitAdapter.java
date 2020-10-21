@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.adapter;
 
 import android.content.Context;
         import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.content.Context;
         import android.widget.BaseAdapter;
         import android.widget.ImageView;
         import android.widget.TextView;
+
+import com.example.login_page.R;
 
 public class fruitAdapter extends BaseAdapter {
 

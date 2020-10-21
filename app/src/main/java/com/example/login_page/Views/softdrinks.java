@@ -1,10 +1,13 @@
-package com.example.login_page;
+package com.example.login_page.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.GridView;
+
+import com.example.login_page.R;
+import com.example.login_page.adapter.softdrinks_Adapter;
 
 public class softdrinks extends AppCompatActivity {
     String softdrinksLabels[];

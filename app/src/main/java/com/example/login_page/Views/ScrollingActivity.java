@@ -1,7 +1,8 @@
-package com.example.login_page;
+package com.example.login_page.Views;
 
 import android.os.Bundle;
 
+import com.example.login_page.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;

@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Quantitysample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login_page.R;
 import com.google.android.material.snackbar.Snackbar;
 
 public class mango extends AppCompatActivity {

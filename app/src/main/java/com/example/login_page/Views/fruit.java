@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,10 +7,14 @@ import android.os.Bundle;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.example.login_page.Login_front.forgetpassword;
+import com.example.login_page.Quantitysample.mango;
+import com.example.login_page.R;
+import com.example.login_page.adapter.fruitAdapter;
 
 public class fruit extends AppCompatActivity {
     String [] fruitLabels;
@@ -35,9 +39,9 @@ public class fruit extends AppCompatActivity {
                 //intent.putExtra("newpage",fruitPages[i]);
                 long viewId = view.getId();
 
-                if (i==1)
+                if (i==0)
                 {
-                    Intent intent=new Intent(getApplicationContext(),mango.class);
+                    Intent intent=new Intent(getApplicationContext(), mango.class);
                     startActivity(intent);
                 }
                 else if (i==4)
@@ -47,7 +51,7 @@ public class fruit extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent intent=new Intent(getApplicationContext(),forgetpassword.class);
+                    Intent intent=new Intent(getApplicationContext(), forgetpassword.class);
                     startActivity(intent);
 
                 }

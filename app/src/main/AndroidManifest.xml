@@ -10,21 +10,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".imageupload"></activity>
-        <activity android:name=".softdrinks" />
+        <activity android:name=".Images.imageupload"></activity>
+        <activity android:name=".Views.softdrinks" />
         <activity
-            android:name=".ScrollingActivity"
+            android:name=".Views.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".mango" />
-        <activity android:name=".admin_products" />
-        <activity android:name=".admin" />
-        <activity android:name=".hygiene" />
-        <activity android:name=".fruit" />
-        <activity android:name=".Home" />
-        <activity android:name=".sign_in" />
-        <activity android:name=".forgetpassword" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Quantitysample.mango" />
+        <activity android:name=".Admin.admin_products" />
+        <activity android:name=".Admin.admin" />
+        <activity android:name=".Views.hygiene" />
+        <activity android:name=".Views.fruit" />
+        <activity android:name=".Home.Home" />
+        <activity android:name=".Login_front.sign_in" />
+        <activity android:name=".Login_front.forgetpassword" />
+        <activity  android:name=".Images.ImagesActivity" />
+        <activity android:name=".Home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

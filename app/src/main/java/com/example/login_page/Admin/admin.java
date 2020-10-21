@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Admin;
 
 import androidx.annotation.NonNull;
 
@@ -10,9 +10,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.example.login_page.Home.MainActivity;
+import com.example.login_page.R;
+import com.example.login_page.Views.fruit;
 import com.google.android.material.navigation.NavigationView;
 
 public class admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -66,7 +68,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
 
             case R.id.inventory:
 
-                Intent intent2=new Intent(getApplicationContext(),fruit.class);
+                Intent intent2=new Intent(getApplicationContext(), fruit.class);
                 startActivity(intent2);
                 break;
 
@@ -86,7 +88,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
 
             case R.id.logout:
 
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 break;
 

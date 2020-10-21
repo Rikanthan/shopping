@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.login_page.Login_front;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
+import com.example.login_page.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 
