@@ -2,6 +2,7 @@ package com.example.login_page;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class mango extends AppCompatActivity {
 TextView t,t1;
 TextView p,p1;
+TextView eitem,eprice;
 int price=25;
 int price3=60;
 int i=1;
@@ -24,6 +26,8 @@ int j=3;
         p=(TextView)findViewById(R.id.man_price);
         t1=(TextView)findViewById(R.id.mango3);
         p1=(TextView)findViewById(R.id.man3_price);
+       // eitem=(TextView)findViewById(R.id.edititem);
+        //eprice=(TextView)findViewById(R.id.editprice);
 
     }
     public void max(View v)
@@ -57,7 +61,10 @@ int j=3;
     }
     public void order(View v)
     {
-
-        Toast.makeText(getApplicationContext(), "Your order added to cart successfully", Toast.LENGTH_LONG).show();
+     //eprice.setText("Price :"+ String.valueOf(price)+" LKR");
+     //eitem.setText("Mango");
+       // Toast.makeText(getApplicationContext(), "Your order added to cart successfully", Toast.LENGTH_LONG).show();
+        Intent i=new Intent(this,Bill.class);
+        startActivity(i);
     }
 }

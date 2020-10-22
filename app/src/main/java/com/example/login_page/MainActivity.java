@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     public  void signup(View v)
     {
-        Intent i=new Intent(this,imageupload.class);
+        Intent i=new Intent(this,sign_in.class);
         startActivity(i);
 
     }
@@ -87,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
 
     }
+    private void validation()
+    {
+        String user=name.getText().toString();
+        String pass=name.getText().toString();
+        myRef=FirebaseDatabase.getInstance().getReference().child("Member");
+
+
+    }
+
     public  void login(View v)
     {
         myRef=FirebaseDatabase.getInstance().getReference().child("Member");

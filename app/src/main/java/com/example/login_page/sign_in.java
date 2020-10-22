@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.regex.Pattern;
 
 
-public class sign_in extends AppCompatActivity {
+public class  sign_in extends AppCompatActivity {
 
     DatabaseReference reff;
     long maxid=0;
@@ -56,6 +56,7 @@ public class sign_in extends AppCompatActivity {
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
                 maxid=(snapshot.getChildrenCount());
             }
 

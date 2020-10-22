@@ -38,9 +38,9 @@ public class Home extends AppCompatActivity {
                         Intent intent=new Intent(getApplicationContext(),fruit.class);
                         startActivity(intent);
                     }
-                    else if (i==4)
+                    else if (i==6)
                     {
-                        Intent intent=new Intent(getApplicationContext(), hygiene.class);
+                        Intent intent=new Intent(getApplicationContext(), softdrinks.class);
                         startActivity(intent);
                     }
                     else

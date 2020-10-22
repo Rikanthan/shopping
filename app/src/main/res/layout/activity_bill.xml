@@ -5,22 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fruit">
-
-    <ImageView
-        android:id="@+id/fruitimage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        tools:srcCompat="@tools:sample/avatars" />
+    tools:context=".Bill">
 
     <TextView
-        android:id="@+id/fruittext"
+        android:id="@+id/edititem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="FruitView"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:text="item" />
 
-    
+    <TextView
+        android:id="@+id/editprice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="price" />
 </LinearLayout>
