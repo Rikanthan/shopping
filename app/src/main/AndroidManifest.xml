@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Images.imageupload"></activity>
+        <activity android:name=".Bill.billing"></activity>
+        <activity android:name=".Images.imageupload" />
         <activity android:name=".Views.softdrinks" />
         <activity
             android:name=".Views.ScrollingActivity"
@@ -24,7 +25,7 @@
         <activity android:name=".Home.Home" />
         <activity android:name=".Login_front.sign_in" />
         <activity android:name=".Login_front.forgetpassword" />
-        <activity  android:name=".Images.ImagesActivity" />
+        <activity android:name=".Images.ImagesActivity" />
         <activity android:name=".Home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

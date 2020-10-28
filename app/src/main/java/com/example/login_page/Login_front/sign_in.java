@@ -58,8 +58,13 @@ public class sign_in extends AppCompatActivity {
         reff= FirebaseDatabase.getInstance().getReference().child("Member");
         reff.addValueEventListener(new ValueEventListener() {
             @Override
+
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                maxid=(snapshot.getChildrenCount());
+                if(snapshot.exists())
+                {
+                    maxid=(snapshot.getChildrenCount());
+                }
+
             }
 
             @Override
