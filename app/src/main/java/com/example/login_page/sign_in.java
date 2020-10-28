@@ -12,13 +12,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 import java.util.regex.Pattern;
 
 
 public class  sign_in extends AppCompatActivity {
 
     DatabaseReference reff;
+    DatabaseReference newref;
     long maxid=0;
+    int a=0;
+    ArrayList<String> usrlist=new ArrayList<String>();
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[a-z])" +
@@ -37,6 +44,7 @@ public class  sign_in extends AppCompatActivity {
     private EditText pswd;
     private EditText conpswd;
     private EditText username;
+
     Member member;
 
     @Override
@@ -51,8 +59,12 @@ public class  sign_in extends AppCompatActivity {
         conpswd = findViewById(R.id.confirmPassword);
         username = findViewById(R.id.username);
 
+
+
+
         member=new Member();
         reff= FirebaseDatabase.getInstance().getReference().child("Member");
+
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -66,23 +78,64 @@ public class  sign_in extends AppCompatActivity {
             }
         });
 
+        newref= reff.child(String.valueOf(maxid+1)).child("userName");
+        newref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+             if(snapshot.exists())
+             {
+                 usrlist.add("");
+             }
+             else
+             {
 
+             }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
     }
-    private boolean validefullname()
+    private boolean validateexistinguser()
     {
-        String full=fullname.getText().toString().trim();
 
-        if(full.isEmpty())
+        if(usrlist.contains(username.getText().toString().trim()))
         {
+            username.setError("username already exists");
+            //a=0;
+            return false;
+
+        }
+        else
+        {
+            for( String s1: usrlist ){
+
+                System.out.println("Elemt are: "+s1);
+
+            }
+        }
+
+        return true;
+
+    }
+
+
+    private boolean validefullname() {
+        String full = fullname.getText().toString().trim();
+
+        if (full.isEmpty()) {
             fullname.setError("Fullname can't be empty");
             return false;
         }
-        return  true;
+        return true;
 
 
     }
+
     private boolean valideusername()
     {
         String user=username.getText().toString().trim();
@@ -171,23 +224,21 @@ public class  sign_in extends AppCompatActivity {
     }
 
     public void signin(View v) {
-
-        member.setName(fullname.getText().toString().trim());//fullname ;
-        member.setEmail(email.getText().toString().trim());//email = findViewById(R.id.userEmailId);
+        long a=maxid;
+        final String[] s = {""};
+        member.setName(fullname.getText().toString().trim());
+        member.setEmail(email.getText().toString().trim());
         Long phn=Long.parseLong(mobile.getText().toString().trim());
         member.setMobile(phn);//mobile = findViewById(R.id.mobileNumber);
-        member.setLocation(location.getText().toString().trim());//location = findViewById(R.id.location);
-        member.setPassword(pswd.getText().toString().trim());//pswd = findViewById(R.id.password);
-        //conpswd = findViewById(R.id.confirmPassword);
-        member.setUserName(username.getText().toString().trim());//username = findViewById(R.id.username);
+        member.setLocation(location.getText().toString().trim());
+        member.setPassword(pswd.getText().toString().trim());
+        member.setUserName(username.getText().toString().trim());
 
 
 
 
 
-
-
-        if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile() |!valideusername()) {
+        if (/*!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile() |!valideusername()|*/!validateexistinguser() ) {
             return;
         }
         String input = "Email: " + email.getText().toString();
@@ -195,6 +246,7 @@ public class  sign_in extends AppCompatActivity {
 
         reff.child(String.valueOf(maxid+1)).setValue(member);
         Toast.makeText(this, "Data input sucessfully", Toast.LENGTH_SHORT).show();
+        a=0;
         Intent i=new Intent(this,MainActivity.class);
         startActivity(i);
     }

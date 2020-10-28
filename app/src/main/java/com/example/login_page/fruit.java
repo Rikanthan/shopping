@@ -35,7 +35,7 @@ public class fruit extends AppCompatActivity {
                 //intent.putExtra("newpage",fruitPages[i]);
                 long viewId = view.getId();
 
-                if (i==1)
+                if (i==0)
                 {
                     Intent intent=new Intent(getApplicationContext(),mango.class);
                     startActivity(intent);
