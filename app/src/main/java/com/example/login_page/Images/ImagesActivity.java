@@ -60,8 +60,8 @@ public class ImagesActivity extends AppCompatActivity {
                 }
 
                 mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
-
                 mRecyclerView.setAdapter(mAdapter);
+
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 

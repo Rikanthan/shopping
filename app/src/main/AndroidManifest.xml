@@ -13,10 +13,6 @@
         <activity android:name=".Bill.billing"></activity>
         <activity android:name=".Images.imageupload" />
         <activity android:name=".Views.softdrinks" />
-        <activity
-            android:name=".Views.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Quantitysample.mango" />
         <activity android:name=".Admin.admin_products" />
         <activity android:name=".Admin.admin" />
