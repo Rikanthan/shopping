@@ -56,41 +56,7 @@
             Banana
         </item>
     </string-array>
-    <string-array name="fruits_page">
-        <item>
-           activity_fruit.xml
-        </item>
-        <item>
-           activity_forgetpassword.xml
-        </item>
-        <item>
-           activity_fruit.xml
-        </item>
-        <item>
-           activity_forgetpassword.xml
-        </item>
-        <item>
-           activity_fruit.xml
-        </item>
-        <item>
-           activity_forgetpassword.xml
-        </item>
-        <item>
-           activity_fruit.xml
-        </item>
-        <item>
-           activity_forgetpassword.xml
-        </item>
-        <item>
-           activity_fruit.xml
-        </item>
-        <item>
-           activity_forgetpassword.xml
-        </item>
-        <item>
-           activity_fruit.xml
-        </item>
-    </string-array>
+
     <string-array name="softdrink">
         <item>
             Cocacola mega
@@ -123,49 +89,75 @@
             Fanta buddy
         </item>
     </string-array>
-    <string-array name="softdrinks">
-        <item>
-            Bathroomcleaner
-        </item>
-        <item>
-            Detergent
-        </item>
-        <item>
-            Facewash
-        </item>
-        <item>
-            Soap
-        </item>
-        <item>
-            Toothbrush
-        </item>
-        <item>
-            Toothpaste
-        </item>
-    </string-array>
-    <string-array name="softdrinks_prices">
-        <item>
-            Price
-        </item>
-        <item>
-            Price
-        </item>
-        <item>
-            Price
-        </item>
-        <item>
-            Price
-        </item>
-        <item>
-            Price
-        </item>
-        <item>
-            Price
-        </item>
-    </string-array>
 
 
     <string-array name="softdrink_prices">
+        <item>
+            Price :200 LKR
+        </item>
+        <item>
+            Price :75 LKR
+        </item>
+        <item>
+            Price :200 LKR
+        </item>
+        <item>
+            Price :75 LKR
+        </item>
+        <item>
+            Price :200 LKR
+        </item>
+        <item>
+            Price :75 LKR
+        </item>
+        <item>
+            Price :200 LKR
+        </item>
+        <item>
+            Price :75 LKR
+        </item>
+        <item>
+            Price :200 LKR
+        </item>
+        <item>
+            Price :75 LKR
+        </item>
+    </string-array>
+
+
+    <string-array name="snacks">
+        <item>
+            Cheese biscuit
+        </item>
+        <item>
+            Chocolate puff
+        </item>
+        <item>
+           Cream cracker
+        </item>
+        <item>
+            Lemon puff
+        </item>
+        <item>
+            Maree biscuit
+        </item>
+        <item>
+            Milk biscuit
+        </item>
+        <item>
+            Nice biscuit
+        </item>
+        <item>
+            Onion biscuit
+        </item>
+        <item>
+            Tipi tip
+        </item>
+        <item>
+            Wafers
+        </item>
+    </string-array>
+    <string-array name="snack_prices">
         <item>
             Price :200 LKR
         </item>

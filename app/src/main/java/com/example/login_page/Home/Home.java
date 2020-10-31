@@ -12,6 +12,7 @@ import android.widget.GridView;
 import com.example.login_page.Login_front.forgetpassword;
 import com.example.login_page.R;
 import com.example.login_page.Views.hygiene;
+import com.example.login_page.Views.snacks;
 import com.example.login_page.adapter.customAdapter;
 import com.example.login_page.Views.fruit;
 import com.example.login_page.Views.softdrinks;
@@ -27,7 +28,7 @@ public class Home extends AppCompatActivity {
 
         Resources res=getResources();
         lables=res.getStringArray(R.array.headers);
-        fruitPages=res.getStringArray(R.array.fruits_page);
+
 
 
         final GridView grid=(GridView) findViewById(R.id.Items);
@@ -53,6 +54,11 @@ public class Home extends AppCompatActivity {
                     else if (i==6)
                     {
                         Intent intent=new Intent(getApplicationContext(), softdrinks.class);
+                        startActivity(intent);
+                    }
+                    else if (i==7)
+                    {
+                        Intent intent=new Intent(getApplicationContext(), snacks.class);
                         startActivity(intent);
                     }
                     else

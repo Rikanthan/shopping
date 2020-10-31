@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="110dp"
+    android:layout_height="125dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="18dp"
+    android:layout_margin="10dp"
+    app:cardElevation="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/overlay">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
+        <ImageView
+            android:id="@+id/snackimage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTintMode="add"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="0dp"
+            />
+
+        <TextView
+            android:id="@+id/snack_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SnakeView"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/snack_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Snackprice"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

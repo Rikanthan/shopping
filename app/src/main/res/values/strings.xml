@@ -10,6 +10,9 @@
     <string name="signin">Sign in</string>
     <string name="password">Password</string>
     <string name="login">LOGIN</string>
+    <string name="snack">Snacks</string>
+    <string name="softdrinks">Softdrinks</string>
+    <string name="Fruits">Fruits</string>
     <string name="hide_pwd">Hide Password</string>
     <string name="closebutton">Close Button for Activity</string>
     <string name="fullName">Full Name</string>

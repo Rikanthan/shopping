@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/AppTheme2"
+    android:background="@color/blueaccent"
     tools:context=".Home.Home">
 
     <SearchView

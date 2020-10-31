@@ -18,8 +18,8 @@ public class softdrinks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_softdrinks);
         Resources res=getResources();
-        softdrinksLabels=res.getStringArray(R.array.softdrinks);
-        softdrinksPrices=res.getStringArray(R.array.softdrinks_prices);
+        softdrinksLabels=res.getStringArray(R.array.softdrink);
+        softdrinksPrices=res.getStringArray(R.array.softdrink_prices);
 
 
         final GridView grid=(GridView) findViewById(R.id.soft_grid);

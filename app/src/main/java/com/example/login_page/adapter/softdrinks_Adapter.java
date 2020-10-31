@@ -13,7 +13,16 @@ import com.example.login_page.R;
 public class softdrinks_Adapter extends BaseAdapter {
 
    // private Integer[] softdrink_items={R.drawable.images,R.drawable.cocacola_mega,R.drawable.sprite_mega,R.drawable.sprite_buddy,R.drawable.pepsi_mega,R.drawable.pepsi_buddy,R.drawable.sevenup_mega,R.drawable.sevenup_buddy,R.drawable.fanta_buddy,R.drawable.fanta_mega};
-    private Integer[] softdrink_items={R.drawable.toothbrush,R.drawable.detergent,R.drawable.toothbrush,R.drawable.toothbrush,R.drawable.toothbrush,R.drawable.toothbrush};
+    private Integer[] softdrink_items={R.drawable.cocacola_mega,
+           R.drawable.cocacola_300ml,
+           R.drawable.sprite_mega,
+           R.drawable.sprite_buddy,
+           R.drawable.pepsi_mega,
+           R.drawable.pepsi_buddy,
+            R.drawable.sevenup_mega,
+            R.drawable.sprite_buddy,
+            R.drawable.fanta_mega,
+            R.drawable.fanta_buddy};
     private String[] softdrink_lables;
     private String[] softdrink_Prices;
     private LayoutInflater thisInflater;
