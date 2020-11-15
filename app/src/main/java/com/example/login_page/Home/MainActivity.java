@@ -10,6 +10,8 @@ import android.widget.EditText;
 
 import android.os.Bundle;
 
+import com.example.login_page.Admin.admin;
+import com.example.login_page.Admin.admin_catergory;
 import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
@@ -60,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
     public  void signup(View v)
     {
-        Intent i=new Intent(this, imageupload.class);
+        Intent i=new Intent(this, admin_catergory.class);
         startActivity(i);
 
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, ImagesActivity.class);
+        Intent i=new Intent(this, admin.class);
         startActivity(i);
 
     }

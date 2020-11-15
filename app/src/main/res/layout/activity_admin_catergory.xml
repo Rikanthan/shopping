@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Admin.admin_catergory">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/addnew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add New product" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="50dp"
+        >
+    <ImageView
+        android:layout_width="115dp"
+        android:layout_height="100dp"
+        android:src="@drawable/vegetables"
+        android:layout_marginLeft="20dp"
+        android:onClick="veg"
+        />
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/fruit"
+            android:onClick="fru"
+            />
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/medical"
+            android:layout_marginLeft="10dp"
+            android:onClick="med"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        >
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/paper"
+            android:layout_marginLeft="20dp"
+            android:onClick="pap"/>
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/hygiene"
+            android:onClick="hyg"/>
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/cosmetrics"
+            android:layout_marginLeft="10dp"
+            android:onClick="cos"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        >
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/softdrinks"
+            android:layout_marginLeft="20dp"
+            android:onClick="sof"/>
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/snacks"
+            android:onClick="sna"/>
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/bakery"
+            android:layout_marginLeft="10dp"
+            android:onClick="bak"/>
+    </LinearLayout>
+
+
+</LinearLayout>

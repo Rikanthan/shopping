@@ -68,7 +68,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:src="@drawable/toothpaste" />
+                android:src="@drawable/toothbrush" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:src="@drawable/facewash" />
+                android:src="@drawable/toothbrush" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:src="@drawable/bathroomcleaner" />
+                android:src="@drawable/toothbrush" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -167,13 +167,14 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            tools:targetApi="lollipop">
 
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:src="@drawable/soap" />
+                android:src="@drawable/toothbrush" />
 
             <TextView
                 android:layout_width="wrap_content"

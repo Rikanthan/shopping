@@ -1,6 +1,4 @@
-package com.example.login_page.Images;
-
-
+package com.example.login_page.Holder;
 
 import android.os.Bundle;
 
@@ -12,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.login_page.Images.ImageAdapter;
+import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImagesActivity extends AppCompatActivity {
+public class New_Image_Activity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
 
@@ -49,7 +49,12 @@ public class ImagesActivity extends AppCompatActivity {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
 
-
+     /*   @Override
+                protected void onStart()
+        {
+            super.onStart();
+            FirebaseRecyclerOptions<>
+        }*/
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -58,7 +63,7 @@ public class ImagesActivity extends AppCompatActivity {
                     mUploads.add(upload);
                 }
 
-                mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                //mAdapter = new ImageAdapter(com.example.login_page.Images.ImagesActivity.this, mUploads);
 
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
@@ -66,7 +71,7 @@ public class ImagesActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(com.example.login_page.Images.ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });

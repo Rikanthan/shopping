@@ -59,6 +59,7 @@ public class sign_in extends AppCompatActivity {
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
                 maxid=(snapshot.getChildrenCount());
             }
 
