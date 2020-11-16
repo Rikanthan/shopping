@@ -33,12 +33,15 @@ import com.squareup.picasso.Picasso;
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
     private EditText mTextFileName;
+    private EditText mTextPrice;
+    private EditText mTextQuantity;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private Uri mImageUri;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
+    private String mCatergory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,11 @@ public class imageupload extends AppCompatActivity {
         mImageView=findViewById(R.id.image_view);
         mProgressBar=findViewById(R.id.progress_bar);
         mTextFileName = findViewById(R.id.edit_text_file_name);
+        mTextPrice=findViewById(R.id.edit_text_price);
+        mTextQuantity=findViewById(R.id.edit_text_quantiy);
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef= FirebaseDatabase.getInstance().getReference("uploads");
+        mCatergory=getIntent().getExtras().get("category").toString();
 
 
 
@@ -133,7 +139,7 @@ public class imageupload extends AppCompatActivity {
                 },500);
                 Toast.makeText(imageupload.this,"Upload successfully",Toast.LENGTH_SHORT).show();
 
-                Upload upload=new Upload(mTextFileName.getText().toString().trim(),taskSnapshot.getUploadSessionUri().toString());
+                Upload upload=new Upload(mTextFileName.getText().toString().trim(),taskSnapshot.getUploadSessionUri().toString(),mTextPrice.getText().toString().trim(),mTextQuantity.getText().toString().trim(),mCatergory);
                 String uploadId=mDatabaseRef.push().getKey();
                 mDatabaseRef.child(uploadId).setValue(upload);
 

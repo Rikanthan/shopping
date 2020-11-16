@@ -26,6 +26,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+
         mDrawer=(DrawerLayout)findViewById(R.id.drawer);
         navigation=(NavigationView)findViewById(R.id.navigationview);
         navigation.setNavigationItemSelectedListener(this);
@@ -51,15 +52,15 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
         switch (id)
         {
             case R.id.dashboard:
-                Toast.makeText(getApplicationContext(),"dashboard",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"dashboard",Toast.LENGTH_SHORT).show();
             break;
 
             case R.id.search:
-                Toast.makeText(getApplicationContext(),"search",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"search",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.customer:
-                Toast.makeText(getApplicationContext(),"customer",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"customer",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.salesmen:

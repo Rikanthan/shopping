@@ -10,8 +10,11 @@ import android.widget.EditText;
 
 import android.os.Bundle;
 
+import com.example.login_page.Admin.admin;
+import com.example.login_page.Admin.admin_catergory;
 import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Images.imageupload;
+import com.example.login_page.Login_front.sign_in;
 import com.example.login_page.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -60,13 +63,13 @@ public class MainActivity extends AppCompatActivity {
 
     public  void signup(View v)
     {
-        Intent i=new Intent(this, imageupload.class);
+        Intent i=new Intent(this, admin_catergory.class);
         startActivity(i);
 
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, ImagesActivity.class);
+        Intent i=new Intent(this, admin.class);
         startActivity(i);
 
     }
@@ -76,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        if(!validepass() | !valideusername()){
+      /*  if(!validepass() | !valideusername()){
             return;
-        }
+        }*/
 
-        Intent i=new Intent(this,Home.class);
+        Intent i=new Intent(this,admin_catergory.class);
         startActivity(i);
 
     }
