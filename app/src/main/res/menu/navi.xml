@@ -25,11 +25,7 @@
         android:title="Inventory items"
 
         android:icon="@drawable/inv"/>
-    <item
-        android:id="@+id/product"
-        android:title="Products"
 
-        android:icon="@drawable/pro"/>
     <item
         android:id="@+id/offer"
         android:title="Offers"

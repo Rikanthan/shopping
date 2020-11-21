@@ -42,7 +42,7 @@ public class Upload{
         {
             name="No name";
         }
-        mImageUrl="https://firebasestorage.googleapis.com/v0/b/login-page-7e049.appspot.com/o?name=uploads%2F1603001360565.jpg&uploadType=resumable&upload_id=ABg5-Uxz8hUTlisz5eSmrufHpRkr6jdrRWY_8KxbQrt9tSjRGCsZtkhPYHMey-vOAOUCOcqvg0WoYliOeX4kD4fjv0A&upload_protocol=resumable";
+        mImageUrl=imageUrl;
         mName=name;
         mPrice=price;
         mQuantity=quantity;

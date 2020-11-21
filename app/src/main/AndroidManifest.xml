@@ -10,10 +10,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Admin.admin_catergory"></activity>
+        <activity android:name=".Product.Show_items_Activity"></activity>
+        <activity
+            android:name=".Admin.Admin_New"
+            android:label="@string/title_activity_admin__new"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Admin.admin_catergory" />
         <activity android:name=".Images.imageupload" />
         <activity android:name=".Views.softdrinks" />
-
         <activity android:name=".Quantitysample.mango" />
         <activity android:name=".Admin.admin_products" />
         <activity android:name=".Admin.admin" />

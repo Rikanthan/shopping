@@ -55,7 +55,22 @@ public class ImagesActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Upload upload = postSnapshot.getValue(Upload.class);
-                    mUploads.add(upload);
+                    String Name = upload.getName();
+                    String categoryDescription = upload.getmCatergory();
+                    String categoryPrice = upload.getmPrice();
+                    String categoryImageUrl = upload.getImageUrl();
+                    String quantity=upload.getmQuantity();
+                    upload.setImageUrl(categoryImageUrl);
+                    upload.setmCatergory(categoryDescription);
+                    upload.setmPrice(categoryPrice);
+                    upload.setName(Name);
+                    upload.setmQuantity(quantity);
+
+                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
+
+
+
+                    mUploads.add(uploads);
                 }
 
                 mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);

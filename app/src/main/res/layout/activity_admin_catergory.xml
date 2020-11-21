@@ -27,13 +27,13 @@
         android:orientation="horizontal"
         android:paddingTop="50dp"
         >
-    <ImageView
-        android:layout_width="115dp"
-        android:layout_height="100dp"
-        android:src="@drawable/vegetables"
-        android:layout_marginLeft="20dp"
-        android:onClick="veg"
-        />
+        <ImageView
+            android:layout_width="115dp"
+            android:layout_height="100dp"
+            android:src="@drawable/vegetables"
+            android:layout_marginLeft="20dp"
+            android:onClick="veg"
+            />
         <ImageView
             android:layout_width="115dp"
             android:layout_height="100dp"

@@ -20,46 +20,55 @@ public class admin_catergory extends AppCompatActivity {
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Vegetables");
+        startActivity(i);
     }
     public void fru(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Fruit");
+        startActivity(i);
     }
     public void med(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Medical");
+        startActivity(i);
     }
     public void pap(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Paper");
+        startActivity(i);
     }
     public void hyg(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Hygiene");
+        startActivity(i);
     }
     public void cos(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Cosmetrics");
+        startActivity(i);
     }
     public void sof(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Softdrinks");
+        startActivity(i);
     }
     public void sna(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Snacks");
+        startActivity(i);
     }
     public void bak(View v)
     {
         Intent i=new Intent(this, imageupload.class);
         i.putExtra("category","Bakery");
+        startActivity(i);
     }
 
 

@@ -11,16 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/item_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Item Name"
-            android:gravity="center_horizontal"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            />
+
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="match_parent"
@@ -28,7 +19,52 @@
             android:layout_below="@+id/item_name"
             android:scaleType="centerCrop"
             android:layout_marginTop="2dp"/>
-        
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item Name"
+            android:gravity="center_horizontal"
+            android:textSize="20dp"
+
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:id="@+id/item_Catergory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item Catergory"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/item_image"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:id="@+id/item_Price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item Price"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/item_Catergory"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:id="@+id/item_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item quantity"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/item_Price"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
