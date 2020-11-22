@@ -21,6 +21,7 @@ public class recycler_adapter extends RecyclerView.Adapter<recycler_adapter.View
     private static final String Tag="RecyclerView";
     private Context mContext;
     private ArrayList<Upload> messagesList;
+    public String url[] ={"https://i5.walmartimages.ca/images/Enlarge/094/514/6000200094514.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUWvjiMCFD7nMkFtWIF1WHPlL5IAUgF28H2A&usqp=CAU"}; //"https://s3.amazonaws.com/koya-dev-videos/kindness/8da807aa-1e1e-413d-bf9b-5bb084646593/medialibrary/9456621508/videos/1eb78337-d569-41bd-95ad-153d9098de03.png";
 
 
     public recycler_adapter(Context mContext,ArrayList<Upload> messagesList)
@@ -44,6 +45,7 @@ public class recycler_adapter extends RecyclerView.Adapter<recycler_adapter.View
 
         holder.textView.setText(messagesList.get(position).getName());
         Glide.with(mContext).load(messagesList.get(position).getImageUrl()).into(holder.imageView);
+       // Glide.with(mContext).load(url[position]).into(holder.imageView);
 
 
     }
@@ -53,7 +55,7 @@ public class recycler_adapter extends RecyclerView.Adapter<recycler_adapter.View
         return messagesList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder
     {
         ImageView imageView;
         TextView textView;

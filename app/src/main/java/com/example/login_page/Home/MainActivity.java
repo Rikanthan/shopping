@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     public  void signup(View v)
     {
-        Intent i=new Intent(this, admin_catergory.class);
+        Intent i=new Intent(this, admin.class);
         startActivity(i);
 
     }
@@ -79,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        if(!validepass() | !valideusername()){
+       /* if(!validepass() | !valideusername()){
             return;
-        }
+        }*/
 
-        Intent i=new Intent(this,Home.class);
+        Intent i=new Intent(this,imageupload.class);
         startActivity(i);
 
     }
