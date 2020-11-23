@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }*/
 
-        Intent i=new Intent(this,imageupload.class);
+        Intent i=new Intent(this,Home.class);
         startActivity(i);
 
     }

@@ -61,9 +61,9 @@ public class imageupload extends AppCompatActivity {
         mTextQuantity=findViewById(R.id.edit_text_quantiy);
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef= FirebaseDatabase.getInstance().getReference("uploads");
-//        mCatergory=getIntent().getExtras().get("category").toString();
+        mCatergory=getIntent().getExtras().get("category").toString();
 
-mCatergory="fruit";
+//mCatergory="fruit";
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
