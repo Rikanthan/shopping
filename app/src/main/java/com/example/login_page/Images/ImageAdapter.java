@@ -32,23 +32,37 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         Upload uploadCurrent = mUploads.get(position);
-        holder.textViewName.setText(uploadCurrent.getName());
-        Glide.with(mContext)
-                .load(uploadCurrent.getImageUrl())
-                .placeholder(R.mipmap.ic_launcher)
-                .into(holder.imageView);
+
+
+            holder.textViewName.setText(uploadCurrent.getName());
+            Glide.with(mContext)
+                    .load(uploadCurrent.getImageUrl())
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(holder.imageView);
+        holder.textViewCatergory.setText(uploadCurrent.getmCatergory());
+        holder.textViewPrice.setText(uploadCurrent.getmPrice());
+        holder.textViewQuantity.setText(uploadCurrent.getmQuantity());
+
+
     }
     @Override
     public int getItemCount() {
         return mUploads.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewName;
+        public TextView textViewName,textViewCatergory,textViewPrice,textViewQuantity;
         public ImageView imageView;
         public ImageViewHolder(View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.text_view_name);
             imageView = itemView.findViewById(R.id.image_view_upload);
+            textViewCatergory=itemView.findViewById(R.id.text_view_catergory);
+            textViewPrice=itemView.findViewById(R.id.text_view_price);
+            textViewQuantity=itemView.findViewById(R.id.text_view_quantity);
+
+
+
+
         }
     }
 }

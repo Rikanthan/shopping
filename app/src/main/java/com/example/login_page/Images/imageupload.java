@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login_page.Admin.admin;
+import com.example.login_page.Holder.Items;
 import com.example.login_page.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +35,8 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
     private EditText mTextFileName;
@@ -42,10 +46,11 @@ public class imageupload extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private Uri mImageUri;
     private StorageReference mStorageRef;
+    private String CategoryName, Description, Price, Pname, downloadImageUrl;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
     private String mCatergory;
-    private String productRandomKey, downloadImageUrl;
+    private String productRandomKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +168,7 @@ public class imageupload extends AppCompatActivity {
                                                downloadImageUrl,mTextPrice.getText().toString(),mTextQuantity.getText().toString(),mCatergory);
                                        String uploadId = mDatabaseRef.push().getKey();
                                        mDatabaseRef.child(uploadId).setValue(upload);
+                                       Items items=new Items(downloadImageUrl,mCatergory,mTextQuantity.getText().toString(),mTextFileName.getText().toString(),mTextPrice.getText().toString());
                                    }
                                }
                            });
@@ -187,6 +193,39 @@ public class imageupload extends AppCompatActivity {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void SaveProductInfoToDatabase()
+    {
+        HashMap<String, Object> productMap = new HashMap<>();
+
+        productMap.put("description", Description);
+        productMap.put("image", downloadImageUrl);
+        productMap.put("category", CategoryName);
+        productMap.put("price", Price);
+        productMap.put("pname", Pname);
+
+        mDatabaseRef.updateChildren(productMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            Intent intent = new Intent(imageupload.this, admin.class);
+                            startActivity(intent);
+
+
+                            Toast.makeText(imageupload.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            // loadingBar.dismiss();
+                            String message = task.getException().toString();
+                            Toast.makeText(imageupload.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private  void showimages()

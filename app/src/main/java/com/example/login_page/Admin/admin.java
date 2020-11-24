@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.login_page.Holder.Items;
 import com.example.login_page.Holder.Product_View_holder;
 import com.example.login_page.Home.MainActivity;
@@ -26,16 +27,21 @@ import com.example.login_page.Images.Upload;
 import com.example.login_page.Views.fruit;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 public class admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mToggle;
     private NavigationView navigation;
     private DatabaseReference productref;
+    private String CategoryName, Description, Price, Pname, downloadImageUrl;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
@@ -52,9 +58,9 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
         mToggle=new ActionBarDrawerToggle(this,mDrawer,R.string.open,R.string.close);
         mDrawer.addDrawerListener(mToggle);
         mToggle.syncState();
-        recyclerView.setHasFixedSize(true);
+      recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -92,9 +98,11 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
                         return new Product_View_holder(view);
                     }
                 };
-        recyclerView.setAdapter(adapter);
+      recyclerView.setAdapter(adapter);
         adapter.startListening();
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

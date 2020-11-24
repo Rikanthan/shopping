@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Login_front.forgetpassword;
 import com.example.login_page.R;
 import com.example.login_page.Views.hygiene;
@@ -42,7 +43,7 @@ public class Home extends AppCompatActivity {
 
                     if (i==1)
                     {
-                        Intent intent=new Intent(getApplicationContext(), fruit.class);
+                        Intent intent=new Intent(getApplicationContext(),fruit.class);
                         startActivity(intent);
                     }
                     else if (i==4)
@@ -52,7 +53,7 @@ public class Home extends AppCompatActivity {
                     }
                     else if (i==6)
                     {
-                        Intent intent=new Intent(getApplicationContext(), softdrinks.class);
+                        Intent intent=new Intent(getApplicationContext(), ImagesActivity.class);
                         startActivity(intent);
                     }
                     else
