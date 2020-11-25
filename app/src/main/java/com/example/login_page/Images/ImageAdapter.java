@@ -1,6 +1,7 @@
 package com.example.login_page.Images;
 import android.content.Context;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.login_page.R;
+import com.example.login_page.Views.Individual_items;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -61,8 +63,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             textViewQuantity=itemView.findViewById(R.id.text_view_quantity);
 
 
-
-
         }
     }
+
 }

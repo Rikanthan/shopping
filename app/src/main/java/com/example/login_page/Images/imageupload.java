@@ -64,9 +64,10 @@ public class imageupload extends AppCompatActivity {
         mTextFileName = findViewById(R.id.edit_text_file_name);
         mTextPrice=findViewById(R.id.edit_text_price);
         mTextQuantity=findViewById(R.id.edit_text_quantiy);
-        mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
-        mDatabaseRef= FirebaseDatabase.getInstance().getReference("uploads");
         mCatergory=getIntent().getExtras().get("category").toString();
+        mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
+        mDatabaseRef= FirebaseDatabase.getInstance().getReference(mCatergory);
+
 
 //mCatergory="fruit";
 

@@ -1,8 +1,5 @@
-package com.example.login_page.Images;
+package com.example.login_page.category;
 
-
-
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -13,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.login_page.Images.ImageAdapter;
+import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
-import com.example.login_page.Views.Individual_items;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImagesActivity extends AppCompatActivity {
+public class veg_activity_new extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
 
@@ -34,7 +32,6 @@ public class ImagesActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
     private List<Upload> mUploads;
-    public String pname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +46,7 @@ public class ImagesActivity extends AppCompatActivity {
 
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Fruit");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Vegetables");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
 
 
@@ -59,7 +56,6 @@ public class ImagesActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Upload upload = postSnapshot.getValue(Upload.class);
                     String Name = upload.getName();
-                    pname=Name;
                     String categoryDescription = upload.getmCatergory();
                     String categoryPrice = upload.getmPrice();
                     String categoryImageUrl = upload.getImageUrl();
@@ -77,7 +73,7 @@ public class ImagesActivity extends AppCompatActivity {
                     mUploads.add(uploads);
                 }
 
-                mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                mAdapter = new ImageAdapter(veg_activity_new.this, mUploads);
 
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
@@ -85,15 +81,9 @@ public class ImagesActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(veg_activity_new.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
-    }
-    public void show_img(View v)
-    {
-        Intent i=new Intent(ImagesActivity.this, Individual_items.class);
-         i.putExtra("Category","Fruit");
-         i.putExtra("name",pname);
     }
 }

@@ -16,6 +16,13 @@ import com.example.login_page.Views.hygiene;
 import com.example.login_page.adapter.customAdapter;
 import com.example.login_page.Views.fruit;
 import com.example.login_page.Views.softdrinks;
+import com.example.login_page.category.bakery;
+import com.example.login_page.category.cosmetics_activity;
+import com.example.login_page.category.hygiene_activity;
+import com.example.login_page.category.medical_activity;
+import com.example.login_page.category.snacks_activity;
+import com.example.login_page.category.softdrinks_activity;
+import com.example.login_page.category.veg_activity_new;
 
 public class Home extends AppCompatActivity {
 
@@ -41,24 +48,45 @@ public class Home extends AppCompatActivity {
                 //intent.putExtra("newpage",fruitPages[i]);
                      long viewId = view.getId();
 
+
                     if (i==1)
                     {
-                        Intent intent=new Intent(getApplicationContext(),fruit.class);
+                        Intent intent=new Intent(getApplicationContext(),ImagesActivity.class);
+                        startActivity(intent);
+                    }
+                    else if (i==2)
+                    {
+                        Intent intent=new Intent(getApplicationContext(), medical_activity.class);
                         startActivity(intent);
                     }
                     else if (i==4)
                     {
-                        Intent intent=new Intent(getApplicationContext(), hygiene.class);
+                        Intent intent=new Intent(getApplicationContext(), hygiene_activity.class);
+                        startActivity(intent);
+                    }
+                    else if (i==0)
+                    {
+                        Intent intent=new Intent(getApplicationContext(), veg_activity_new.class);
+                        startActivity(intent);
+                    }
+                    else if (i==5)
+                    {
+                        Intent intent=new Intent(getApplicationContext(), cosmetics_activity.class);
                         startActivity(intent);
                     }
                     else if (i==6)
                     {
-                        Intent intent=new Intent(getApplicationContext(), ImagesActivity.class);
+                        Intent intent=new Intent(getApplicationContext(), softdrinks_activity.class);
+                        startActivity(intent);
+                    }
+                    else if (i==7)
+                    {
+                        Intent intent=new Intent(getApplicationContext(), snacks_activity.class);
                         startActivity(intent);
                     }
                     else
                     {
-                        Intent intent=new Intent(getApplicationContext(), forgetpassword.class);
+                        Intent intent=new Intent(getApplicationContext(), bakery.class);
                         startActivity(intent);
 
                     }
