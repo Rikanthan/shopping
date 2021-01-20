@@ -95,5 +95,6 @@ public class ImagesActivity extends AppCompatActivity {
         Intent i=new Intent(ImagesActivity.this, Individual_items.class);
          i.putExtra("Category","Fruit");
          i.putExtra("name",pname);
+         startActivity(i);
     }
 }

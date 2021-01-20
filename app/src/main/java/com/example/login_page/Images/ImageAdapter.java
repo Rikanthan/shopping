@@ -44,6 +44,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.textViewCatergory.setText(uploadCurrent.getmCatergory());
         holder.textViewPrice.setText(uploadCurrent.getmPrice());
         holder.textViewQuantity.setText(uploadCurrent.getmQuantity());
+        
 
 
     }

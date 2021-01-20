@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/AppTheme2"
-    tools:context=".Home.Home">
+    tools:context=".Home.Home"
+    android:paddingLeft="10dp">
 
     <SearchView
         android:layout_width="match_parent"

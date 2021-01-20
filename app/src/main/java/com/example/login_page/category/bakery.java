@@ -95,5 +95,6 @@ public class bakery extends AppCompatActivity {
         Intent i=new Intent(bakery.this, Individual_items.class);
         i.putExtra("Category","Bakery");
         i.putExtra("name",pname);
+        startActivity(i);
     }
 }

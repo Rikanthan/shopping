@@ -100,10 +100,6 @@ public class imageupload extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
     private void openFileChooser()
     {

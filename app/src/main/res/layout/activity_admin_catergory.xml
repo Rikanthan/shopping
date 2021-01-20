@@ -19,6 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/abril_fatface"
+            android:textColor="@color/black"
+            android:textSize="40sp"
             android:text="Add New product" />
     </LinearLayout>
     <LinearLayout
@@ -26,6 +29,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="50dp"
+        android:paddingLeft="10dp"
         >
         <ImageView
             android:layout_width="100dp"
@@ -54,6 +58,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="20dp"
+        android:paddingLeft="10dp"
         >
         <ImageView
             android:layout_width="100dp"
@@ -79,6 +84,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="20dp"
+        android:paddingLeft="10dp"
         >
         <ImageView
             android:layout_width="100dp"
