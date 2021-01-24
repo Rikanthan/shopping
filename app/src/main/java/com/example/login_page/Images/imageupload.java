@@ -51,6 +51,7 @@ public class imageupload extends AppCompatActivity {
     private StorageTask mUploadTask;
     private String mCatergory;
     private String productRandomKey;
+    long id=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +165,8 @@ public class imageupload extends AppCompatActivity {
                                        Upload upload = new Upload(mTextFileName.getText().toString().trim(),
                                                downloadImageUrl,mTextPrice.getText().toString(),mTextQuantity.getText().toString(),mCatergory);
                                        String uploadId = mDatabaseRef.push().getKey();
-                                       mDatabaseRef.child(uploadId).setValue(upload);
+                                       id++;
+                                       mDatabaseRef.child(String.valueOf(id)).setValue(upload);
                                        Items items=new Items(downloadImageUrl,mCatergory,mTextQuantity.getText().toString(),mTextFileName.getText().toString(),mTextPrice.getText().toString());
                                    }
                                }
@@ -211,8 +213,6 @@ public class imageupload extends AppCompatActivity {
                         {
                             Intent intent = new Intent(imageupload.this, admin.class);
                             startActivity(intent);
-
-
                             Toast.makeText(imageupload.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
                         }
                         else

@@ -72,8 +72,6 @@ public class ImagesActivity extends AppCompatActivity {
 
                     Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
 
-
-
                     mUploads.add(uploads);
                 }
 

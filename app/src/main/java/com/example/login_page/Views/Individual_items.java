@@ -16,6 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class Individual_items extends AppCompatActivity {
 ImageView imageView;
@@ -32,26 +35,41 @@ String productName,productCategory;
         imageView=(ImageView)findViewById(R.id.indi_img);
         textname=(TextView)findViewById(R.id.indi_name);
         textprice=(TextView)findViewById(R.id.indi_price);
-
-        getDetails(productName);
-
+        getDetails(productCategory);
     }
-    private void getDetails(String productName)
+    private void getDetails(String productCategory)
     {
-        DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference().child("Fruit");
-        productsRef.child("pine apple").addValueEventListener(
+        DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference("Fruit");
+        StorageReference storageReference= FirebaseStorage.getInstance().getReference("uploads");
+        productsRef.child(String.valueOf(1)).addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                         if(snapshot.exists())
                         {
                             Upload upload=snapshot.getValue(Upload.class);
-                            textname.setText(upload.getName());
-                            System.out.println(" name is "+ upload.getName());
-                            textprice.setText(upload.getmPrice());
-                            Glide.with(mContext).load(upload.getImageUrl()).into(imageView);
+                            if(upload != null) {
+                                String Name = upload.getName();
+                                String categoryDescription = upload.getmCatergory();
+                                String categoryPrice = upload.getmPrice();
+                                String categoryImageUrl = upload.getImageUrl();
+                                String quantity = upload.getmQuantity();
+                                upload.setImageUrl(categoryImageUrl);
+                                upload.setmCatergory(categoryDescription);
+                                upload.setmPrice(categoryPrice);
+                                upload.setName(Name);
+                                upload.setmQuantity(quantity);
+                                Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
+                                textname.setText(uploads.getName());
+                                textprice.setText(uploads.getmPrice());
+                                Picasso.get().load(uploads.getImageUrl()).into(imageView);
+                            }
                         }
+                        else
+                        {
+                            System.out.println("DAta sNapshoT Not ExiSt");
+                        }
+
                     }
 
                     @Override

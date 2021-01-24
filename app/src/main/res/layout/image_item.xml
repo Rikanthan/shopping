@@ -19,10 +19,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-
             android:text="Name"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
+        <TextView
+            android:id="@+id/text_view_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="price"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
         <TextView
             android:id="@+id/text_view_catergory"
             android:layout_width="wrap_content"
@@ -31,15 +39,7 @@
             android:text="Catergory"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
-        <TextView
-            android:id="@+id/text_view_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
 
-            android:text="price"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
         <TextView
             android:id="@+id/text_view_quantity"
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:onClick="show_img"
+            android:onClick="show_individual"
             android:contentDescription="TODO" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
