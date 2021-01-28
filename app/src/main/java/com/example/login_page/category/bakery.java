@@ -27,7 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class bakery extends AppCompatActivity {
+public class bakery extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     public String pname;
@@ -69,17 +69,12 @@ public class bakery extends AppCompatActivity {
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
-
                     Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
-
-
-
                     mUploads.add(uploads);
                 }
-
                 mAdapter = new ImageAdapter(bakery.this, mUploads);
-
                 mRecyclerView.setAdapter(mAdapter);
+                mAdapter.setOnItemClickListener(bakery.this);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 
@@ -90,11 +85,11 @@ public class bakery extends AppCompatActivity {
             }
         });
     }
-    public void show_img(View v)
-    {
-        Intent i=new Intent(bakery.this, Individual_items.class);
+
+    @Override
+    public void onItemClick(int position) {
+        Intent i=new Intent(this, Individual_items.class);
         i.putExtra("Category","Bakery");
-        i.putExtra("name",pname);
         startActivity(i);
     }
 }

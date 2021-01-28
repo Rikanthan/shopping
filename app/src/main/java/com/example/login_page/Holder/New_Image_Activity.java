@@ -41,11 +41,8 @@ public class New_Image_Activity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        mProgressCircle = findViewById(R.id.progress_circle);
-
+        //mProgressCircle = findViewById(R.id.progress_circle);
         mUploads = new ArrayList<>();
-
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
 
@@ -63,7 +60,7 @@ public class New_Image_Activity extends AppCompatActivity {
                     mUploads.add(upload);
                 }
 
-                //mAdapter = new ImageAdapter(com.example.login_page.Images.ImagesActivity.this, mUploads);
+                mAdapter = new ImageAdapter(New_Image_Activity.this, mUploads);
 
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);

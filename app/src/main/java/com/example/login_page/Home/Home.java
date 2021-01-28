@@ -20,6 +20,7 @@ import com.example.login_page.category.bakery;
 import com.example.login_page.category.cosmetics_activity;
 import com.example.login_page.category.hygiene_activity;
 import com.example.login_page.category.medical_activity;
+import com.example.login_page.category.paper;
 import com.example.login_page.category.snacks_activity;
 import com.example.login_page.category.softdrinks_activity;
 import com.example.login_page.category.veg_activity_new;
@@ -83,6 +84,12 @@ public class Home extends AppCompatActivity {
                     {
                         Intent intent=new Intent(getApplicationContext(), snacks_activity.class);
                         startActivity(intent);
+                    }
+                    else if(i==3)
+                    {
+                        Intent intent=new Intent(getApplicationContext(), paper.class);
+                        startActivity(intent);
+
                     }
                     else
                     {

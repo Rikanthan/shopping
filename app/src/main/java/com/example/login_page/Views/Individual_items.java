@@ -30,16 +30,16 @@ String productName,productCategory;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_items);
-        productName=getIntent().getStringExtra("name");
+        //productName=getIntent().getStringExtra("name");
         productCategory=getIntent().getStringExtra("Category");
         imageView=(ImageView)findViewById(R.id.indi_img);
         textname=(TextView)findViewById(R.id.indi_name);
         textprice=(TextView)findViewById(R.id.indi_price);
         getDetails(productCategory);
     }
-    private void getDetails(String productCategory)
+    private void getDetails(final String productCategory)
     {
-        DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference("Fruit");
+        DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference(productCategory);
         StorageReference storageReference= FirebaseStorage.getInstance().getReference("uploads");
         productsRef.child(String.valueOf(1)).addValueEventListener(
                 new ValueEventListener() {
@@ -49,6 +49,7 @@ String productName,productCategory;
                         {
                             Upload upload=snapshot.getValue(Upload.class);
                             if(upload != null) {
+                                System.out.println(productCategory);
                                 String Name = upload.getName();
                                 String categoryDescription = upload.getmCatergory();
                                 String categoryPrice = upload.getmPrice();

@@ -30,5 +30,15 @@
         android:paddingTop="10dp"
         android:layout_gravity="center"
         />
+    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_gravity="center"
+        android:outlineAmbientShadowColor="@color/lightblue"
+        app:backgroundDrawable="@drawable/button"
+        app:backGroundColor="@color/lightblue"
+        />
+
 
 </LinearLayout>

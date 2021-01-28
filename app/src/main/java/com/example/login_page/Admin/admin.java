@@ -50,7 +50,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        productref= FirebaseDatabase.getInstance().getReference().child("uploads");
+        productref= FirebaseDatabase.getInstance().getReference().child("Paper");
         mDrawer=(DrawerLayout)findViewById(R.id.drawer);
         navigation=(NavigationView)findViewById(R.id.navigationview);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_menu);
@@ -83,12 +83,9 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
                     protected void onBindViewHolder(@NonNull Product_View_holder holder, int position, @NonNull Items model) {
                         holder.txtProductName.setText(model.getPname());
                         Picasso.get().load(model.getPimageurl()).placeholder(R.mipmap.ic_launcher).into(holder.imageView);
-
                         holder.txtProductCategory.setText(model.getPcategory());
                         holder.txtProductPrice.setText(model.getPprice());
                         holder.txtProductQuantity.setText(model.getPquantity());
-
-
                     }
 
                     @NonNull

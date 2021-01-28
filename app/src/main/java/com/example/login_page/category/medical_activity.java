@@ -16,6 +16,7 @@ import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
 import com.example.login_page.Views.Individual_items;
+import com.example.login_page.adapter.recycler_adapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,14 +28,14 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class medical_activity extends AppCompatActivity {
+public class medical_activity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
     private List<Upload> mUploads;
-
+    int count=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +64,18 @@ public class medical_activity extends AppCompatActivity {
                     upload.setmQuantity(quantity);
                     Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
                     mUploads.add(uploads);
+
                 }
                 mAdapter = new ImageAdapter(medical_activity.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);
+                mAdapter.setOnItemClickListener(medical_activity.this);
+                mRecyclerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       count=mUploads.size();
+                       System.out.println(count);
+                    }
+                });
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 
@@ -77,10 +87,13 @@ public class medical_activity extends AppCompatActivity {
         });
 
     }
-    public void show_individual(View v)
-    {
+
+
+    @Override
+    public void onItemClick(int position) {
         Intent i=new Intent(this, Individual_items.class);
-        getIntent().putExtra("Category","Medical");
+        i.putExtra("Category","Medical");
+        i.putExtra("index",position);
         startActivity(i);
     }
 }

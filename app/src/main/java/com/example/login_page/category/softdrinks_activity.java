@@ -1,5 +1,6 @@
 package com.example.login_page.category;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
+import com.example.login_page.Views.Individual_items;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class softdrinks_activity extends AppCompatActivity {
+public class softdrinks_activity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
 
@@ -74,7 +76,7 @@ public class softdrinks_activity extends AppCompatActivity {
                 }
 
                 mAdapter = new ImageAdapter(softdrinks_activity.this, mUploads);
-
+                mAdapter.setOnItemClickListener(softdrinks_activity.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
@@ -85,5 +87,13 @@ public class softdrinks_activity extends AppCompatActivity {
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+
+    @Override
+    public void onItemClick(int position) {
+        Intent i=new Intent(this, Individual_items.class);
+        i.putExtra("Category","Softdrinks");
+        startActivity(i);
     }
 }
