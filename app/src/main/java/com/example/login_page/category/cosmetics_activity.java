@@ -96,6 +96,7 @@ public class cosmetics_activity extends AppCompatActivity implements ImageAdapte
     public void onItemClick(int position) {
         Intent i=new Intent(this, Individual_items.class);
         i.putExtra("Category","Cosmetrics");
+        i.putExtra("index",position);
         startActivity(i);
     }
 }

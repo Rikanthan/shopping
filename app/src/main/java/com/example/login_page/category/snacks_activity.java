@@ -89,6 +89,7 @@ public class snacks_activity extends AppCompatActivity implements ImageAdapter.O
     public void onItemClick(int position) {
         Intent i=new Intent(this, Individual_items.class);
         i.putExtra("Category","Snacks");
+        i.putExtra("index",position);
         startActivity(i);
     }
 }

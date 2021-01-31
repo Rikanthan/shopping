@@ -24,6 +24,7 @@ public class Individual_items extends AppCompatActivity {
 ImageView imageView;
 TextView textname,textprice;
 String productName,productCategory;
+int index;
     Context mContext;
 
     @Override
@@ -31,6 +32,8 @@ String productName,productCategory;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_items);
         //productName=getIntent().getStringExtra("name");
+        index=getIntent().getIntExtra("index",index);
+        System.out.println("index is:"+index);
         productCategory=getIntent().getStringExtra("Category");
         imageView=(ImageView)findViewById(R.id.indi_img);
         textname=(TextView)findViewById(R.id.indi_name);
@@ -41,15 +44,17 @@ String productName,productCategory;
     {
         DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference(productCategory);
         StorageReference storageReference= FirebaseStorage.getInstance().getReference("uploads");
-        productsRef.child(String.valueOf(1)).addValueEventListener(
+        productsRef.child(String.valueOf(index+1)).addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists())
                         {
                             Upload upload=snapshot.getValue(Upload.class);
+
                             if(upload != null) {
                                 System.out.println(productCategory);
+                                System.out.println(index);
                                 String Name = upload.getName();
                                 String categoryDescription = upload.getmCatergory();
                                 String categoryPrice = upload.getmPrice();

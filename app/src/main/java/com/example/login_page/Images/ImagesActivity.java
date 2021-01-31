@@ -26,7 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImagesActivity extends AppCompatActivity {
+public class ImagesActivity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
 
@@ -76,7 +76,7 @@ public class ImagesActivity extends AppCompatActivity {
                 }
 
                 mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
-
+                mAdapter.setOnItemClickListener(ImagesActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
@@ -88,11 +88,12 @@ public class ImagesActivity extends AppCompatActivity {
             }
         });
     }
-    public void show_img(View v)
-    {
+
+    @Override
+    public void onItemClick(int position) {
         Intent i=new Intent(ImagesActivity.this, Individual_items.class);
-         i.putExtra("Category","Fruit");
-         i.putExtra("name",pname);
-         startActivity(i);
+        i.putExtra("Category","Fruit");
+        i.putExtra("name",pname);
+        startActivity(i);
     }
 }

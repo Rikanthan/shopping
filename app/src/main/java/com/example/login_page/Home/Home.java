@@ -26,29 +26,23 @@ import com.example.login_page.category.softdrinks_activity;
 import com.example.login_page.category.veg_activity_new;
 
 public class Home extends AppCompatActivity {
-
     String[] lables;
     String[] fruitPages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         Resources res=getResources();
         lables=res.getStringArray(R.array.headers);
         fruitPages=res.getStringArray(R.array.fruits_page);
-
-
         final GridView grid=(GridView) findViewById(R.id.Items);
         customAdapter myadapter=new customAdapter(getApplicationContext(),lables);
         grid.setAdapter(myadapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 //intent.putExtra("newpage",fruitPages[i]);
                      long viewId = view.getId();
-
 
                     if (i==1)
                     {
@@ -89,16 +83,12 @@ public class Home extends AppCompatActivity {
                     {
                         Intent intent=new Intent(getApplicationContext(), paper.class);
                         startActivity(intent);
-
                     }
                     else
                     {
                         Intent intent=new Intent(getApplicationContext(), bakery.class);
                         startActivity(intent);
-
                     }
-
-
             }
         });
 

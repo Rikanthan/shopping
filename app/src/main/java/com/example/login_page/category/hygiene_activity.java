@@ -89,6 +89,7 @@ public class hygiene_activity extends AppCompatActivity implements ImageAdapter.
     public void onItemClick(int position) {
         Intent i=new Intent(this, Individual_items.class);
         i.putExtra("Category","Hygiene");
+        i.putExtra("index",position);
         startActivity(i);
     }
 }

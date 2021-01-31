@@ -94,6 +94,7 @@ public class softdrinks_activity extends AppCompatActivity implements ImageAdapt
     public void onItemClick(int position) {
         Intent i=new Intent(this, Individual_items.class);
         i.putExtra("Category","Softdrinks");
+        i.putExtra("index",position);
         startActivity(i);
     }
 }

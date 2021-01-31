@@ -26,8 +26,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -68,25 +71,31 @@ public class imageupload extends AppCompatActivity {
         mCatergory=getIntent().getExtras().get("category").toString();
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef= FirebaseDatabase.getInstance().getReference(mCatergory);
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                    id=(snapshot.getChildrenCount());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-//mCatergory="fruit";
-
+            }
+        });
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                openFileChooser();
             }
         });
-
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             if(mUploadTask !=null && mUploadTask.isInProgress()){
                 Toast.makeText(imageupload.this,"Upload in progress",Toast.LENGTH_SHORT).show();
             }
-
-                 else
+            else
                 {
                     uploadFile();
                 }
@@ -137,7 +146,7 @@ public class imageupload extends AppCompatActivity {
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
@@ -165,8 +174,7 @@ public class imageupload extends AppCompatActivity {
                                        Upload upload = new Upload(mTextFileName.getText().toString().trim(),
                                                downloadImageUrl,mTextPrice.getText().toString(),mTextQuantity.getText().toString(),mCatergory);
                                        String uploadId = mDatabaseRef.push().getKey();
-                                       id++;
-                                       mDatabaseRef.child(String.valueOf(id)).setValue(upload);
+                                       mDatabaseRef.child(String.valueOf(id+1)).setValue(upload);
                                        Items items=new Items(downloadImageUrl,mCatergory,mTextQuantity.getText().toString(),mTextFileName.getText().toString(),mTextPrice.getText().toString());
                                    }
                                }

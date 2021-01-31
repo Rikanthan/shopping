@@ -184,12 +184,6 @@ public class sign_in extends AppCompatActivity {
         //conpswd = findViewById(R.id.confirmPassword);
         member.setUserName(username.getText().toString().trim());//username = findViewById(R.id.username);
 
-
-
-
-
-
-
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile() |!valideusername()) {
             return;
         }

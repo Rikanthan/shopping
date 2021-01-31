@@ -90,6 +90,7 @@ public class bakery extends AppCompatActivity implements ImageAdapter.OnItemClic
     public void onItemClick(int position) {
         Intent i=new Intent(this, Individual_items.class);
         i.putExtra("Category","Bakery");
+        i.putExtra("index",position);
         startActivity(i);
     }
 }

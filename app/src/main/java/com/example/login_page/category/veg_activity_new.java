@@ -90,6 +90,7 @@ public class veg_activity_new extends AppCompatActivity implements ImageAdapter.
     public void onItemClick(int position) {
         Intent i=new Intent(this, Individual_items.class);
         i.putExtra("Category","Vegetables");
+        i.putExtra("index",position);
         startActivity(i);
     }
 }
