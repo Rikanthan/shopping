@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Views.Member;
 import com.example.login_page.R;
@@ -15,12 +14,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 import java.util.regex.Pattern;
 
 
 public class sign_in extends AppCompatActivity {
 
     DatabaseReference reff;
+    FirebaseAuth firebaseAuth;
     long maxid=0;
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
@@ -55,7 +62,9 @@ public class sign_in extends AppCompatActivity {
         username = findViewById(R.id.username);
 
         member=new Member();
+
         reff= FirebaseDatabase.getInstance().getReference().child("Member");
+        firebaseAuth=FirebaseAuth.getInstance();
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -191,7 +200,8 @@ public class sign_in extends AppCompatActivity {
         input += "\n";
 
         reff.child(String.valueOf(maxid+1)).setValue(member);
-        Toast.makeText(this, "Data input sucessfully", Toast.LENGTH_SHORT).show();
+        firebaseAuth.createUserWithEmailAndPassword(email.getText().toString().trim(),pswd.toString().trim());
+        Toast.makeText(this, "Data input & user created sucessfully", Toast.LENGTH_SHORT).show();
         Intent i=new Intent(this, MainActivity.class);
         startActivity(i);
     }

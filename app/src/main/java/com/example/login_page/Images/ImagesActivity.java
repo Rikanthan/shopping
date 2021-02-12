@@ -69,9 +69,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
-
                     Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
-
                     mUploads.add(uploads);
                 }
 
@@ -93,7 +91,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     public void onItemClick(int position) {
         Intent i=new Intent(ImagesActivity.this, Individual_items.class);
         i.putExtra("Category","Fruit");
-        i.putExtra("name",pname);
+        i.putExtra("index",position);
         startActivity(i);
     }
 }

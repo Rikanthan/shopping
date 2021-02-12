@@ -14,6 +14,8 @@ import com.example.login_page.Admin.admin;
 import com.example.login_page.Admin.admin_catergory;
 import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Images.imageupload;
+import com.example.login_page.Login_front.forgetpassword;
+import com.example.login_page.Login_front.sign_in;
 import com.example.login_page.Product.Show_items_Activity;
 import com.example.login_page.R;
 import com.google.firebase.database.DatabaseReference;
@@ -63,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
 
     public  void signup(View v)
     {
-        Intent i=new Intent(this, admin.class);
+        Intent i=new Intent(this, sign_in.class);
         startActivity(i);
 
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, admin_catergory.class);
+        Intent i=new Intent(this, forgetpassword.class);
         startActivity(i);
 
     }
