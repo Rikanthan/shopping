@@ -46,7 +46,6 @@ public class sign_in extends AppCompatActivity {
     private EditText location;
     private EditText pswd;
     private EditText conpswd;
-    private EditText username;
     Member member;
 
     @Override
@@ -59,7 +58,6 @@ public class sign_in extends AppCompatActivity {
         location = findViewById(R.id.location);
         pswd = findViewById(R.id.password);
         conpswd = findViewById(R.id.confirmPassword);
-        username = findViewById(R.id.username);
 
         member=new Member();
 
@@ -89,19 +87,6 @@ public class sign_in extends AppCompatActivity {
         if(full.isEmpty())
         {
             fullname.setError("Fullname can't be empty");
-            return false;
-        }
-        return  true;
-
-
-    }
-    private boolean valideusername()
-    {
-        String user=username.getText().toString().trim();
-
-        if(user.isEmpty())
-        {
-             username.setError("username can't be empty");
             return false;
         }
         return  true;
@@ -191,9 +176,9 @@ public class sign_in extends AppCompatActivity {
         member.setLocation(location.getText().toString().trim());//location = findViewById(R.id.location);
         member.setPassword(pswd.getText().toString().trim());//pswd = findViewById(R.id.password);
         //conpswd = findViewById(R.id.confirmPassword);
-        member.setUserName(username.getText().toString().trim());//username = findViewById(R.id.username);
 
-        if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile() |!valideusername()) {
+
+        if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile()) {
             return;
         }
         String input = "Email: " + email.getText().toString();

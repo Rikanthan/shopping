@@ -112,24 +112,6 @@
         android:background="@color/white" />
 
     <EditText
-        android:id="@+id/username"
-        android:layout_width="fill_parent"
-        android:drawableStart="@drawable/ic_baseline_person_24"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/overlay"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="@string/username"
-        android:inputType="textCapWords"
-        android:drawableLeft="@drawable/overlay"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/lightblue"
-        android:textSize="16sp" />
-
-    <EditText
         android:id="@+id/password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

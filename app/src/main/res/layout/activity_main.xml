@@ -54,14 +54,14 @@
             tools:targetApi="p" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint=" User name"
+            android:hint=" Email"
             android:textColorHint="@color/lightblue"
             android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_perm_identity_24"
+            android:drawableLeft="@drawable/ic_baseline_email_24"
             android:background="@drawable/overlay"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
