@@ -67,7 +67,7 @@ int index;
                                 upload.setmQuantity(quantity);
                                 Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
                                 textname.setText(uploads.getName());
-                                textprice.setText(uploads.getmPrice());
+                                textprice.setText(uploads.getmPrice()+" Rs");
                                 Picasso.get().load(uploads.getImageUrl()).into(imageView);
                             }
                         }

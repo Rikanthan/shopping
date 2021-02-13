@@ -88,24 +88,26 @@ public class MainActivity extends AppCompatActivity {
        /* if(!validepass() | !valideusername()){
             return;
         }*/
-        firebaseAuth.signInWithEmailAndPassword(email.getText().toString().trim(),pass.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (!task.isSuccessful()) {
-                    // there was an error
-                    if (pass.length() < 8) {
-                        Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(),"Enter the correct email and password",Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Intent i=new Intent(MainActivity.this,Home.class);
-                    startActivity(i);
-                    finish();
-                }
-
-            }
-        });
+//        firebaseAuth.signInWithEmailAndPassword(email.getText().toString().trim(),pass.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if (!task.isSuccessful()) {
+//                    // there was an error
+//                    if (pass.length() < 8) {
+//                        Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(getApplicationContext(),"Enter the correct email and password",Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Intent i=new Intent(MainActivity.this,Home.class);
+//                    startActivity(i);
+//                    finish();
+//                }
+//
+//            }
+//        });
+        Intent i=new Intent(this,Home.class);
+        startActivity(i);
 
 
     }

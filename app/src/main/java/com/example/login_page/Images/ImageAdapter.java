@@ -45,7 +45,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     .placeholder(R.mipmap.ic_launcher)
                     .into(holder.imageView);
         holder.textViewCatergory.setText(uploadCurrent.getmCatergory());
-        holder.textViewPrice.setText(uploadCurrent.getmPrice());
+        holder.textViewPrice.setText(uploadCurrent.getmPrice()+" Rs");
         holder.textViewQuantity.setText(uploadCurrent.getmQuantity());
 
     }
@@ -88,6 +88,5 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     {
         mListener= listener;
     }
-
 
 }
