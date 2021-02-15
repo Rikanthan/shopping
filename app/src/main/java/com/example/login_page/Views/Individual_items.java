@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +27,11 @@ ImageView imageView;
 TextView textname,textprice;
 String productName,productCategory;
 int index;
-    Context mContext;
+Context mContext;
+ElegantNumberButton elegantNumberButton;
+String showPrice;
+int pPrice=0;
+int quan=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,16 @@ int index;
         imageView=(ImageView)findViewById(R.id.indi_img);
         textname=(TextView)findViewById(R.id.indi_name);
         textprice=(TextView)findViewById(R.id.indi_price);
+        elegantNumberButton=(ElegantNumberButton)findViewById(R.id.ele_button);
         getDetails(productCategory);
+        elegantNumberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quan=Integer.parseInt(elegantNumberButton.getNumber());
+                textprice.setText(String.valueOf(pPrice*quan)+" Rs");
+
+            }
+        });
     }
     private void getDetails(final String productCategory)
     {
@@ -51,7 +66,6 @@ int index;
                         if(snapshot.exists())
                         {
                             Upload upload=snapshot.getValue(Upload.class);
-
                             if(upload != null) {
                                 System.out.println(productCategory);
                                 System.out.println(index);
@@ -67,15 +81,17 @@ int index;
                                 upload.setmQuantity(quantity);
                                 Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
                                 textname.setText(uploads.getName());
-                                textprice.setText(uploads.getmPrice()+" Rs");
-                                Picasso.get().load(uploads.getImageUrl()).into(imageView);
+                                pPrice=Integer.parseInt(uploads.getmPrice());
+                                int newPrice=Integer.parseInt(uploads.getmPrice())*quan;
+                                String showPrice=String.valueOf(newPrice);
+                                textprice.setText(newPrice+" Rs");
+                                Picasso.get().load(uploads.getImageUrl()).placeholder(R.mipmap.loading).into(imageView);
                             }
                         }
                         else
                         {
                             System.out.println("DAta sNapshoT Not ExiSt");
                         }
-
                     }
 
                     @Override

@@ -37,12 +37,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         Upload uploadCurrent = mUploads.get(position);
-
-
             holder.textViewName.setText(uploadCurrent.getName());
             Glide.with(mContext)
                     .load(uploadCurrent.getImageUrl())
-                    .placeholder(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.loading)
                     .into(holder.imageView);
         holder.textViewCatergory.setText(uploadCurrent.getmCatergory());
         holder.textViewPrice.setText(uploadCurrent.getmPrice()+" Rs");

@@ -32,6 +32,7 @@
         android:layout_gravity="center"
         />
     <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+        android:id="@+id/ele_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
@@ -39,6 +40,7 @@
         android:outlineAmbientShadowColor="@color/lightblue"
         app:backgroundDrawable="@drawable/button"
         app:backGroundColor="@color/lightblue"
+        app:initialNumber="1"
         />
     <Button
     android:id="@+id/AddtocartBtn"
