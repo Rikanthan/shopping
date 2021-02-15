@@ -44,13 +44,14 @@
         />
     <Button
     android:id="@+id/AddtocartBtn"
-    android:layout_width="200dp"
+    android:layout_width="350dp"
     android:layout_gravity="center"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
     android:background="@drawable/button"
     android:padding="3dp"
     android:text="ADD TO CART"
+    android:onClick="add_to_cart"
     android:textColor="@color/white"
     android:textSize="17sp"
     android:fontFamily="casual"
