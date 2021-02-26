@@ -39,6 +39,7 @@ String showQuantity;
 int pPrice=0;
 long id=0;
 int quan=1;
+long oid=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +126,7 @@ int quan=1;
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                 {
-                    id=(snapshot.getChildrenCount());
+                    oid=(snapshot.getChildrenCount());
                 }
             }
 
@@ -139,7 +140,8 @@ int quan=1;
         cartMap.put("quantity",quan);
         cartMap.put("date",saveCurrentdate);
         cartMap.put("time",saveCurrentTime);
-        databaseReference.child(String.valueOf(id+1)).setValue(cartMap);
+        databaseReference.child(String.valueOf(oid+1)).setValue(cartMap);
+        // reff.child(String.valueOf(maxid+1)).setValue(member);
 
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
     }
