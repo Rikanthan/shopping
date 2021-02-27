@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.Product.Product;
 import com.example.login_page.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +38,7 @@ int index;
 Context mContext;
 ElegantNumberButton elegantNumberButton;
 String showQuantity;
+FloatingActionButton fab;
 int pPrice=0;
 long id=0;
 int quan=1;
@@ -51,6 +54,7 @@ long oid=0;
         imageView=(ImageView)findViewById(R.id.indi_img);
         textname=(TextView)findViewById(R.id.indi_name);
         textprice=(TextView)findViewById(R.id.indi_price);
+        fab=(FloatingActionButton)findViewById(R.id.cartfab);
         elegantNumberButton=(ElegantNumberButton)findViewById(R.id.ele_button);
         getDetails(productCategory);
         elegantNumberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
@@ -144,6 +148,11 @@ long oid=0;
         // reff.child(String.valueOf(maxid+1)).setValue(member);
 
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
+    }
+    public void show_cart_items(View v)
+    {
+        Intent i=new Intent(this,showorders.class);
+        startActivity(i);
     }
 
 

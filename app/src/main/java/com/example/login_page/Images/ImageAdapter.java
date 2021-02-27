@@ -71,9 +71,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             super(itemView);
             textViewName = itemView.findViewById(R.id.text_view_name);
             imageView = itemView.findViewById(R.id.image_view_upload);
-            textViewCatergory=itemView.findViewById(R.id.text_view_catergory);
-            textViewPrice=itemView.findViewById(R.id.text_view_price);
-            textViewQuantity=itemView.findViewById(R.id.text_view_quantity);
+            textViewCatergory = itemView.findViewById(R.id.text_view_catergory);
+            textViewPrice = itemView.findViewById(R.id.text_view_price);
+            textViewQuantity = itemView.findViewById(R.id.text_view_quantity);
             itemView.setOnClickListener(this);
         }
 
