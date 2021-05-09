@@ -18,6 +18,7 @@ import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +32,8 @@ public class showorders extends AppCompatActivity implements  CartViewHolder.OnI
 RecyclerView recyclerView;
 DatabaseReference databaseReference;
 LinearLayoutManager linearLayoutManager;
+FirebaseAuth firebaseAuth;
+String fuser;
 CartViewHolder mAdapter;
 List<Cart> newcartlist;
     @Override
@@ -42,6 +45,8 @@ List<Cart> newcartlist;
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
+        firebaseAuth=FirebaseAuth.getInstance();
+        fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference=FirebaseDatabase.getInstance().getReference("orders");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -64,50 +69,14 @@ List<Cart> newcartlist;
               recyclerView.setAdapter(mAdapter);
 
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
-
     }
-
     @Override
     public void onItemClick(int position) {
-
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        final DatabaseReference cartRef= FirebaseDatabase.getInstance().getReference("orders");
-//        FirebaseRecyclerOptions<cart> options= new FirebaseRecyclerOptions.Builder<cart>()
-//                .setQuery(cartRef,cart.class).build();
-//
-//        FirebaseRecyclerAdapter<cart, cart_holder> adapter=
-//                new FirebaseRecyclerAdapter<cart, cart_holder>(options) {
-//                    @Override
-//                    protected void onBindViewHolder(@NonNull cart_holder holder, int position, @NonNull cart model) {
-//
-//
-//                        holder.txtCartProductName.setText(model.getCart_name());
-//                        holder.txtCartProductQuantity.setText(model.getCart_quantity());
-//                        holder.txtCartProductPrice.setText(model.getCart_price());
-//                    }
-//
-//                    @NonNull
-//                    @Override
-//                    public cart_holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_items,parent,false);
-//                        cart_holder newholder=new cart_holder(view);
-//                        return newholder;
-//                    }
-//                };
-//        recyclerView.setAdapter(adapter);
-//        adapter.startListening();
-
-
-//    }
 }

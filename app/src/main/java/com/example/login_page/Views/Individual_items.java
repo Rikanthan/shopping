@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.example.login_page.Images.Upload;
 import com.example.login_page.Product.Product;
 import com.example.login_page.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,14 +33,17 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class Individual_items extends AppCompatActivity {
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 ImageView imageView;
 TextView textname,textprice;
 String productName,productCategory;
 int index;
 Context mContext;
+String fuser;
 ElegantNumberButton elegantNumberButton;
 String showQuantity;
 FloatingActionButton fab;
+FirebaseAuth firebaseAuth;
 int pPrice=0;
 long id=0;
 int quan=1;
@@ -57,6 +62,8 @@ long oid=0;
         fab=(FloatingActionButton)findViewById(R.id.cartfab);
         elegantNumberButton=(ElegantNumberButton)findViewById(R.id.ele_button);
         getDetails(productCategory);
+        firebaseAuth=FirebaseAuth.getInstance();
+        fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
         elegantNumberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,10 +140,8 @@ long oid=0;
                     oid=(snapshot.getChildrenCount());
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
         cartMap.put("pname",showQuantity);
@@ -144,9 +149,8 @@ long oid=0;
         cartMap.put("quantity",quan);
         cartMap.put("date",saveCurrentdate);
         cartMap.put("time",saveCurrentTime);
+        assert fuser != null;
         databaseReference.child(String.valueOf(oid+1)).setValue(cartMap);
-        // reff.child(String.valueOf(maxid+1)).setValue(member);
-
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
     }
     public void show_cart_items(View v)
@@ -154,6 +158,4 @@ long oid=0;
         Intent i=new Intent(this,showorders.class);
         startActivity(i);
     }
-
-
 }

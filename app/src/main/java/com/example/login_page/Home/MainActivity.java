@@ -3,7 +3,9 @@ package com.example.login_page.Home;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
    private EditText pass;
    DatabaseReference myRef;
    FirebaseAuth firebaseAuth;
+   FirebaseUser fuser;
 
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         email=findViewById(R.id.editEmail);
         pass=findViewById(R.id.editTextTextPassword);
         firebaseAuth=FirebaseAuth.getInstance();
-
-
+        fuser=FirebaseAuth.getInstance().getCurrentUser();
     }
     private boolean valideemail()
     {
@@ -88,26 +92,35 @@ public class MainActivity extends AppCompatActivity {
        /* if(!validepass() | !valideusername()){
             return;
         }*/
-//        firebaseAuth.signInWithEmailAndPassword(email.getText().toString().trim(),pass.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                if (!task.isSuccessful()) {
-//                    // there was an error
-//                    if (pass.length() < 8) {
-//                        Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        Toast.makeText(getApplicationContext(),"Enter the correct email and password",Toast.LENGTH_SHORT).show();
-//                    }
-//                } else {
-//                    Intent i=new Intent(MainActivity.this,Home.class);
-//                    startActivity(i);
-//                    finish();
-//                }
-//
-//            }
-//        });
-        Intent i=new Intent(this,Home.class);
-        startActivity(i);
+        firebaseAuth.signInWithEmailAndPassword(email.getText().toString().trim(),pass.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()) {
+                    // there was an error
+                    if (pass.length() < 8) {
+                        Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(),"Enter the correct email and password",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(task.isSuccessful()) {
+//                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+//                    String uid= fuser.getUid();
+//                    editor.putString("uid",uid);
+//                    editor.apply();
+
+                    Intent i=new Intent(MainActivity.this,Home.class);
+                    startActivity(i);
+                    //finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Enter the correct email and password",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+//        Intent i=new Intent(this,Home.class);
+//        startActivity(i);
 
 
     }
