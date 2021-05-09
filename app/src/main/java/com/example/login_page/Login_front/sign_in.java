@@ -22,10 +22,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.regex.Pattern;
-
-
 public class sign_in extends AppCompatActivity {
-
     DatabaseReference reff;
     FirebaseAuth firebaseAuth;
     long maxid=0;
@@ -39,7 +36,6 @@ public class sign_in extends AppCompatActivity {
                     ".{8,15}" +
                     "$");
     private static final Pattern EMAIL=Pattern.compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
-
     private EditText fullname;
     private EditText email;
     private EditText mobile;
@@ -58,9 +54,7 @@ public class sign_in extends AppCompatActivity {
         location = findViewById(R.id.location);
         pswd = findViewById(R.id.password);
         conpswd = findViewById(R.id.confirmPassword);
-
         member=new Member();
-
         reff= FirebaseDatabase.getInstance().getReference().child("Member");
         firebaseAuth=FirebaseAuth.getInstance();
         reff.addValueEventListener(new ValueEventListener() {
@@ -69,16 +63,10 @@ public class sign_in extends AppCompatActivity {
                 if(snapshot.exists())
                 maxid=(snapshot.getChildrenCount());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
-
-
-
     }
     private boolean validefullname()
     {
@@ -90,25 +78,19 @@ public class sign_in extends AppCompatActivity {
             return false;
         }
         return  true;
-
-
     }
     private boolean validelocation()
     {
         String place=location.getText().toString().trim();
-
         if(place.isEmpty())
         {
             location.setError("location can't be empty");
             return false;
         }
         return  true;
-
-
     }
     private boolean validemobile()
     {
-
         String mob=mobile.getText().toString().trim();
         if(mob.isEmpty())
         {
@@ -116,11 +98,9 @@ public class sign_in extends AppCompatActivity {
             return false;
         }
         return  true;
-
     }
     private boolean validecon()
     {
-
         String con=conpswd.getText().toString().trim();
         String ps=pswd.getText().toString().trim();
         if(con.isEmpty())
@@ -134,10 +114,7 @@ public class sign_in extends AppCompatActivity {
             return  false;
         }
         return  true;
-
-
     }
-
 
     private boolean valideEmail() {
         String emailinput = email.getText().toString().trim();

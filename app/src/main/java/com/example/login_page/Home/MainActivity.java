@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean valideemail()
     {
         String user=email.getText().toString().trim();
-
         if(user.isEmpty())
         {
             email.setError("username can't be empty");
@@ -70,21 +69,17 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return  true;
-
-
     }
 
     public  void signup(View v)
     {
         Intent i=new Intent(this, sign_in.class);
         startActivity(i);
-
     }
     public  void forgetpassword(View v)
     {
         Intent i=new Intent(this, forgetpassword.class);
         startActivity(i);
-
     }
     public  void login(View v)
     {
@@ -104,11 +99,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else if(task.isSuccessful()) {
-//                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-//                    String uid= fuser.getUid();
-//                    editor.putString("uid",uid);
-//                    editor.apply();
-
                     Intent i=new Intent(MainActivity.this,Home.class);
                     startActivity(i);
                     //finish();
@@ -116,12 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(getApplicationContext(),"Enter the correct email and password",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-//        Intent i=new Intent(this,Home.class);
-//        startActivity(i);
-
-
     }
 }

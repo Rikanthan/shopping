@@ -123,7 +123,7 @@ long oid=0;
     }
     public void add_to_cart(View v)
     {
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("orders");
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("orders").child(fuser);
         String saveCurrentTime,saveCurrentdate;
         Calendar calendar=Calendar.getInstance();
         SimpleDateFormat currentDate=new SimpleDateFormat("dd MMM, yyyy");
@@ -149,7 +149,7 @@ long oid=0;
         cartMap.put("date",saveCurrentdate);
         cartMap.put("time",saveCurrentTime);
         assert fuser != null;
-        databaseReference.child(fuser).child(String.valueOf(oid+1)).setValue(cartMap);
+        databaseReference.child(String.valueOf(oid+1)).setValue(cartMap);
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
     }
     public void show_cart_items(View v)
