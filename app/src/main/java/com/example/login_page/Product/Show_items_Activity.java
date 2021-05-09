@@ -1,5 +1,4 @@
 package com.example.login_page.Product;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,9 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
 public class Show_items_Activity extends AppCompatActivity {
-
     RecyclerView recyclerView;
     private DatabaseReference myRef;
     private ArrayList<Upload> messagesList;
@@ -33,22 +30,14 @@ public class Show_items_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_items_);
-
         recyclerView=findViewById(R.id.new_recycler);
-
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
         myRef= FirebaseDatabase.getInstance().getReference();
-
         messagesList=new ArrayList<>();
         ClearAll();
         GetDataFromFirebase();
-
-
-
-
     }
 
     private void GetDataFromFirebase()
@@ -88,7 +77,6 @@ public class Show_items_Activity extends AppCompatActivity {
                 recyclerAdapter.notifyDataSetChanged();
             }
         }
-
         messagesList=new ArrayList<>();
     }
 }

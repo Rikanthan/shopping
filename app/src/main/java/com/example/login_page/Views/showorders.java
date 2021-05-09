@@ -1,5 +1,4 @@
 package com.example.login_page.Views;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class showorders extends AppCompatActivity implements  CartViewHolder.OnItemClickListener {
 RecyclerView recyclerView;
 DatabaseReference databaseReference;
@@ -47,8 +45,7 @@ List<Cart> newcartlist;
         newcartlist=new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference=FirebaseDatabase.getInstance().getReference("orders");
-
+        databaseReference=FirebaseDatabase.getInstance().getReference("orders").child(fuser);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
