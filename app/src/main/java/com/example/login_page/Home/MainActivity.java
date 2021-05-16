@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i=new Intent(this, forgetpassword.class);
         startActivity(i);
     }
-    public  void login(View v)
+    public void login (View v)
     {
         myRef=FirebaseDatabase.getInstance().getReference().child("Member");
        /* if(!validepass() | !valideusername()){
@@ -99,8 +99,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else if(task.isSuccessful()) {
-                    Intent i=new Intent(MainActivity.this,Home.class);
-                    startActivity(i);
+                    String uid=firebaseAuth.getCurrentUser().getUid();
+                    System.out.println(uid);
+                    boolean admin = false;
+                    System.out.println(email.getText().toString());
+                    if(uid.contains("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2"))
+                    {
+                        admin = true;
+                        Intent i=new Intent(MainActivity.this,admin_catergory.class);
+                        startActivity(i);
+                    }
+                    else if(!admin)
+                    {
+                        Intent i=new Intent(MainActivity.this,Home.class);
+                        startActivity(i);
+                    }
+
                     //finish();
                 }
                 else {

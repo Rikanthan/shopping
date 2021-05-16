@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.login_page.Holder.CartViewHolder;
@@ -32,14 +35,18 @@ DatabaseReference databaseReference;
 LinearLayoutManager linearLayoutManager;
 FirebaseAuth firebaseAuth;
 String fuser;
+Button deletebutton;
 CartViewHolder mAdapter;
 List<Cart> newcartlist;
+String del="";
+int pos=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showorders);
         recyclerView=findViewById(R.id.show_cart);
         recyclerView.setHasFixedSize(true);
+        deletebutton=findViewById(R.id.idelete);
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
@@ -74,6 +81,93 @@ List<Cart> newcartlist;
         });
     }
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position)
+    {
+        pos=position+1;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure , You wanted to remove the item from cart");
+        alertDialogBuilder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+//                                Toast.makeText(showorders.this,"You clicked yes button",
+//                                        Toast.LENGTH_LONG).show();
+                        databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
+                                    appleSnapshot.getRef().removeValue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+    }
+//    public void confirm(View v)
+//    {
+//        databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
+//                    appleSnapshot.getRef().removeValue();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+    public void delete(View view){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure , You wanted to remove the item from cart");
+                alertDialogBuilder.setPositiveButton("yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+//                                Toast.makeText(showorders.this,"You clicked yes button",
+//                                        Toast.LENGTH_LONG).show();
+                                databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
+                                            appleSnapshot.getRef().removeValue();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
