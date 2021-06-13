@@ -40,6 +40,7 @@ CartViewHolder mAdapter;
 List<Cart> newcartlist;
 String del="";
 int pos=0;
+Long totalPrice = Long.valueOf(0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,7 @@ int pos=0;
                     String Name=mycart.getPname();
                     Long quantity=mycart.getQuantity();
                     Long price=mycart.getPrice();
+                    totalPrice = totalPrice + price*quantity;
                     mycart.setPname(Name);
                     mycart.setQuantity(quantity);
                     mycart.setPrice(price);
@@ -119,22 +121,7 @@ int pos=0;
         alertDialog.show();
 
     }
-//    public void confirm(View v)
-//    {
-//        databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
-//                    appleSnapshot.getRef().removeValue();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+
     public void delete(View view){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure , You wanted to remove the item from cart");
@@ -170,4 +157,10 @@ int pos=0;
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+    public void confirm(View v)
+    {
+        Toast.makeText(showorders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
+    }
+
 }
