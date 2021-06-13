@@ -42,9 +42,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     .load(uploadCurrent.getImageUrl())
                     .placeholder(R.mipmap.loading)
                     .into(holder.imageView);
-        holder.textViewCatergory.setText(uploadCurrent.getmCatergory());
+        holder.textViewCatergory.setText("Product catergory: "+uploadCurrent.getmCatergory());
         holder.textViewPrice.setText(uploadCurrent.getmPrice()+" Rs");
-        holder.textViewQuantity.setText(uploadCurrent.getmQuantity());
+        holder.textViewQuantity.setText("Available items:"+uploadCurrent.getmQuantity());
 
     }
     @Override

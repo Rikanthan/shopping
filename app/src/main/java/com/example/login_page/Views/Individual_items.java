@@ -100,7 +100,7 @@ long oid=0;
                                 upload.setmQuantity(quantity);
                                 Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
                                 textname.setText(uploads.getName());
-                                showQuantity=uploads.getName();
+                                showQuantity= uploads.getName();
                                 pPrice=Integer.parseInt(uploads.getmPrice());
                                 int newPrice=Integer.parseInt(uploads.getmPrice())*quan;
                                 textprice.setText(newPrice+" Rs");
