@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customer.get_booking">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="154dp">
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmation"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textFontWeight="30"
+            android:textSize="40sp"
+            android:textColor="@color/lightblue"
+            tools:targetApi="p" />
+        <EditText
+            android:id="@+id/customer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Name"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+        <EditText
+            android:id="@+id/customer_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" phone"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+
+            tools:ignore="TextFields" />
+        <EditText
+            android:id="@+id/customer_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Address"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_location_on_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
+            android:gravity="center_horizontal"
+            android:text="Total ="
+            android:textAlignment="center"
+            android:textColor="@color/lightblue"
+            android:textFontWeight="30"
+            android:textSize="25sp"
+            tools:targetApi="p" />
+
+        <Button
+            android:id="@+id/book"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:background="@drawable/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:textColor="@color/white"
+            android:onClick="book"
+            android:text="Confirm" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

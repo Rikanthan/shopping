@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
+import com.example.login_page.customer.get_booking;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -161,6 +163,9 @@ Long totalPrice = Long.valueOf(0);
     public void confirm(View v)
     {
         Toast.makeText(showorders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
+        Intent i=new Intent(showorders.this, get_booking.class);
+        i.putExtra("total",totalPrice.toString());
+        startActivity(i);
     }
 
 }
