@@ -71,11 +71,14 @@
 
             />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="@color/white" />
-
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColorHint="@color/lightblue"
+            app:passwordToggleTint="@color/lightblue"
+            app:passwordToggleEnabled="true">
 
         <EditText
             android:id="@+id/editPassword"
@@ -95,7 +98,7 @@
             android:paddingBottom="10dp"
             android:background="@drawable/overlay"
             android:drawableStart="@drawable/ic_baseline_lock_24" />
-
+        </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
                 android:layout_below="@+id/passwordview"
