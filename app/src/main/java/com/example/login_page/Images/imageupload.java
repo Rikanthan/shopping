@@ -51,11 +51,12 @@ public class imageupload extends AppCompatActivity {
     private Uri mImageUri;
     private StorageReference mStorageRef;
     private String CategoryName, Description, Price, Pname, downloadImageUrl;
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef, adminDatabaseRef;
     private StorageTask mUploadTask;
     private String mCatergory;
     private String productRandomKey;
-    long id=0;
+    long id = 0;
+    long adminId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,19 @@ public class imageupload extends AppCompatActivity {
         mCatergory=getIntent().getExtras().get("category").toString();
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef= FirebaseDatabase.getInstance().getReference(mCatergory);
+        adminDatabaseRef = FirebaseDatabase.getInstance().getReference("Uploads");
+        adminDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                    adminId = snapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -176,6 +190,7 @@ public class imageupload extends AppCompatActivity {
                                                downloadImageUrl,mTextPrice.getText().toString(),mTextQuantity.getText().toString(),mCatergory);
                                        String uploadId = mDatabaseRef.push().getKey();
                                        mDatabaseRef.child(String.valueOf(id+1)).setValue(upload);
+                                       adminDatabaseRef.child(String.valueOf(adminId+1)).setValue(upload);
                                        Items items=new Items(downloadImageUrl,mCatergory,mTextQuantity.getText().toString(),mTextFileName.getText().toString(),mTextPrice.getText().toString());
                                    }
                                }

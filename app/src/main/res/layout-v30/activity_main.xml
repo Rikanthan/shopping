@@ -53,7 +53,7 @@
             tools:targetApi="p" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -66,25 +66,24 @@
             android:paddingTop="10dp"
             android:paddingStart="10dp"
             android:layout_margin="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
 
             />
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
-            android:textColorHint="@color/lightblue"
 
-            app:passwordToggleEnabled="true"
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="@color/white" />
 
-            app:passwordToggleTint="@color/lightblue">
+
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/editPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_baseline_lock_24"
             android:ems="10"
+            app:passwordToggleEnabled="true"
             android:hint=" Password"
             android:textColor="@color/black"
             android:padding="10dp"
@@ -97,30 +96,36 @@
             android:paddingBottom="10dp"
             android:background="@drawable/overlay"
             android:drawableStart="@drawable/ic_baseline_lock_24" />
-        </com.google.android.material.textfield.TextInputLayout>
 
-
-            <TextView
-                android:id="@+id/forgot_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:padding="5dp"
-                android:text="@string/forgot"
-                android:onClick="forgetpassword"
-                android:textColor="@color/blue"
-                android:textSize="14sp" />
+        <CheckBox
+            android:layout_below="@+id/passwordview"
+            android:layout_width="wrap_content"
+            android:text="Remember Password!"
+            android:layout_height="wrap_content"
+            android:id="@+id/rempasswordcheckbox"
+            android:layout_x="23dp"
+            android:layout_y="200dp" />
+        <TextView
+            android:id="@+id/forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:padding="5dp"
+            android:text="@string/forgot"
+            android:onClick="forgetpassword"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
 
 
         <Button
+            android:id="@+id/userlogin"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Login"
             android:fontFamily="casual"
-            android:onClick="login"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:background="@drawable/button"
