@@ -49,7 +49,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
 
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Fruit");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Fruits");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
 
 

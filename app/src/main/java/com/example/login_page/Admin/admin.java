@@ -119,9 +119,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
                 Toast.makeText(getApplicationContext(),"customer",Toast.LENGTH_LONG).show();
                 break;
 
-            case R.id.salesmen:
-                Toast.makeText(getApplicationContext(),"salesmen",Toast.LENGTH_LONG).show();
-                break;
+
 
             case R.id.inventory:
 
@@ -135,13 +133,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
                 startActivity(intent3);
                 break;
 
-            case R.id.offer:
-                Toast.makeText(getApplicationContext(),"offer",Toast.LENGTH_LONG).show();
-                break;
 
-            case R.id.setting:
-                Toast.makeText(getApplicationContext(),"setting",Toast.LENGTH_LONG).show();
-                break;
 
             case R.id.logout:
 

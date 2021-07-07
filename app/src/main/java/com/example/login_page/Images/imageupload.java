@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.login_page.Admin.admin;
 import com.example.login_page.Holder.Items;
+import com.example.login_page.Holder.New_Image_Activity;
 import com.example.login_page.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -235,7 +236,7 @@ public class imageupload extends AppCompatActivity {
 
     private  void showimages()
     {
-        Intent i=new Intent(this,ImagesActivity.class);
+        Intent i=new Intent(this, New_Image_Activity.class);
         startActivity(i);
 
     }

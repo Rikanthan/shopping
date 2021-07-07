@@ -39,6 +39,19 @@
             android:textSize="33dp"
             android:textColor="@color/lightblue"/>
 
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/eshopping"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textFontWeight="30"
+            android:textSize="40sp"
+            android:textColor="@color/lightblue"
+            tools:targetApi="p" />
+
         <EditText
             android:id="@+id/editTextTextPersonName"
             android:layout_width="match_parent"

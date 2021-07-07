@@ -37,6 +37,8 @@
         <activity android:name=".Login_front.sign_in" />
         <activity android:name=".Login_front.forgetpassword" />
         <activity android:name=".Images.ImagesActivity" />
+        <activity android:name=".Holder.New_Image_Activity"/>
+        <activity android:name=".Admin.ui.EditItems"/>
         <activity android:name=".Home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

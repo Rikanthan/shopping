@@ -20,8 +20,6 @@ import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
 import com.example.login_page.customer.get_booking;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
