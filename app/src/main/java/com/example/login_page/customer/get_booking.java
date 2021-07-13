@@ -13,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.login_page.R;
+import com.example.login_page.Views.ShowBookings;
 import com.example.login_page.Views.showorders;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +34,8 @@ EditText name;
 EditText phone;
 EditText location;
 String price;
+String userId;
+FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,8 @@ String price;
         location=(EditText)findViewById(R.id.customer_location);
         price =getIntent().getStringExtra("total");
         total.setText("Total : "+ price +"Rs");
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getUid();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void book(View v)
@@ -73,14 +78,16 @@ String price;
 //            public void onCancelled(@NonNull DatabaseError error) {
 //            }
 //        });
+        cartMap.put("id",userId);
         cartMap.put("name",name.getText().toString().trim());
         cartMap.put("phone",phone.getText().toString().trim());
         cartMap.put("location",location.getText().toString().trim());
         cartMap.put("price",price);
         cartMap.put("date",date);
-
        // assert fuser != null;
         databaseReference.child(date).setValue(cartMap);
         Toast.makeText(this,"Your items booked successfully",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, ShowBookings.class);
+        startActivity(intent);
     }
 }

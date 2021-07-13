@@ -79,22 +79,4 @@ public class CartViewHolder extends RecyclerView.Adapter<CartViewHolder.ImageVie
     }
 
 }
-//public class cart_holder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//    public TextView txtCartProductName,txtCartProductQuantity,txtCartProductPrice;
-//    private ItemClickListner itemClickListner;
-//    public cart_holder(@NonNull View itemView) {
-//        super(itemView);
-//        txtCartProductName=itemView.findViewById(R.id.cart_product_name);
-//        txtCartProductQuantity=itemView.findViewById(R.id.cart_product_quantity);
-//        txtCartProductPrice=itemView.findViewById(R.id.cart_product_price);
-//    }
-//
-//    @Override
-//    public void onClick(View v) {
-//        itemClickListner.onClick(v,getAdapterPosition(),false);
-//    }
-//
-//    public void setItemClickListner(ItemClickListner itemClickListner) {
-//        this.itemClickListner = itemClickListner;
-//    }
-//}
+
