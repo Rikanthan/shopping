@@ -26,6 +26,7 @@ import com.example.login_page.Login_front.sign_in;
 import com.example.login_page.Product.Show_items_Activity;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
+import com.example.login_page.customer.customer_view_booking;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, ShowBookings.class);
+        Intent i=new Intent(this, customer_view_booking.class);
         startActivity(i);
     }
     public void setValidLogin()

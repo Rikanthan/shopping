@@ -1,4 +1,4 @@
-package com.example.login_page.Views;
+package com.example.login_page.customer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -6,19 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.example.login_page.Holder.BookingHolder;
 import com.example.login_page.Holder.Bookings;
 import com.example.login_page.R;
+import com.example.login_page.Views.ShowBookings;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,36 +31,31 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ShowBookings extends AppCompatActivity implements  BookingHolder.OnItemClickListener {
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
+
+public class customer_view_booking extends AppCompatActivity implements  BookingHolder.OnItemClickListener {
     RecyclerView recyclerView;
     DatabaseReference databaseReference;
     LinearLayoutManager linearLayoutManager;
     FirebaseAuth firebaseAuth;
-    String fuser;
-    Button deletebutton;
+    FirebaseUser fuser;
     BookingHolder mAdapter;
-    List<String> checkTime;
     List<Bookings> newcartlist;
-    Bookings _bookings;
-    EditText time;
-    String preDate="";
-    int pos=0;
-    Long totalPrice = Long.valueOf(0);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_bookings);
+        setContentView(R.layout.activity_customer_view_booking);
         recyclerView=findViewById(R.id.show_bookings);
-        time = findViewById(R.id.setTime);
         recyclerView.setHasFixedSize(true);
-        _bookings = new Bookings();
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
-        fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference= FirebaseDatabase.getInstance().getReference("booking");
+        fuser=FirebaseAuth.getInstance().getCurrentUser();
 
+        databaseReference= FirebaseDatabase.getInstance().getReference("Confirmedbooking");
+        process();
 
     }
     @Override
@@ -72,76 +66,48 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
     }
     public void process()
     {
+        final String uid=firebaseAuth.getCurrentUser().getUid();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
-                    System.out.println("data snapshot length "+snapshot.getChildrenCount());
-                    if(pos < snapshot.getChildrenCount())
-                    {
+                        boolean itsMe = false;
                         Bookings mycart = dataSnapshot.getValue(Bookings.class);
                         String name=mycart.getName();
                         String phone = mycart.getPhone();
-                        String userId = mycart.getId();
                         String location = mycart.getLocation();
                         String price = mycart.getPrice();
                         String date = mycart.getDate();
-                        preDate = date;
-
-                        System.out.println(userId);
+                        String userId = mycart.getId();
                         mycart.setDate(date);
                         mycart.setPhone(phone);
                         mycart.setLocation(location);
                         mycart.setId(userId);
                         mycart.setName(name);
                         mycart.setPrice(price);
-                        Calendar calendar = Calendar.getInstance();
-                        String s = "2021-07-14 09:00:00 am";
-                        try {
-                            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").parse(s);
-                            calendar.setTime(date2);
-                            calendar.add(Calendar.MINUTE ,pos*5);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        if(userId.contains(uid))
+                        {
+                            itsMe = true;
+                            Bookings mybookings = new Bookings(userId,price,name,phone,location,date);
+                            newcartlist.add(mybookings);
                         }
-                        Date currentDate = calendar.getTime();
-                        String pickupTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(currentDate);
-
-                        Bookings mybookings = new Bookings(userId,price,name,phone,location,pickupTime);
-                        newcartlist.add(mybookings);
-                        FirebaseDatabase.getInstance().getReference().child("Confirmedbooking").child(pickupTime).setValue(mybookings);
-                        pos++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
 
                 }
 
-                mAdapter = new BookingHolder(ShowBookings.this, newcartlist);
-                mAdapter.setOnItemClickListener(ShowBookings.this);
+                mAdapter = new BookingHolder(customer_view_booking.this, newcartlist);
+                mAdapter.setOnItemClickListener(customer_view_booking.this);
                 recyclerView.setAdapter(mAdapter);
 
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ShowBookings.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(customer_view_booking.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
-    }
-
-
-    public void setTime(View v)
-    {
-        Toast.makeText(ShowBookings.this,"Time setted successfully" , Toast.LENGTH_SHORT).show();
-        process();
-
     }
 
 }

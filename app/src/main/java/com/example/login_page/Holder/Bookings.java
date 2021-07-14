@@ -58,11 +58,11 @@ public class Bookings {
     String location;
     String date;
 
-    public String getUserId() {
+    public String getId() {
         return id;
     }
 
-    public void setUserId(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
