@@ -162,14 +162,20 @@ long oid = 0;
         String pName = uploads.getName();
         String price = uploads.getmPrice();
         int reducedQuantity = Integer.parseInt(quantity) - quan;
-        final HashMap<String,Object> cartMap2=new HashMap<>();
-        cartMap2.put("imageUrl",imageUrl);
-        cartMap2.put("mCatergory",productCategory);
-        cartMap2.put("mPrice", price);
-        cartMap2.put("mQuantity", reducedQuantity);
-        cartMap2.put("name",pName);
-        System.out.println(index);
-      changeReference.child(String.valueOf(getIndex+1)).setValue(cartMap2);
+        Upload changeUploads =new Upload();
+        changeUploads.setImageUrl(imageUrl);
+        changeUploads.setmCatergory(productCategory);
+        changeUploads.setmPrice(price);
+        changeUploads.setName(pName);
+        changeUploads.setmQuantity(String.valueOf(reducedQuantity));
+//        final HashMap<String,Object> cartMap2=new HashMap<>();
+//        cartMap2.put("imageUrl",imageUrl);
+//        cartMap2.put("mCatergory",productCategory);
+//        cartMap2.put("mPrice", price);
+//        cartMap2.put("mQuantity", reducedQuantity);
+//        cartMap2.put("name",pName);
+//        System.out.println(index);
+      changeReference.child(String.valueOf(getIndex+1)).setValue(changeUploads);
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
 
     }
