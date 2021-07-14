@@ -53,7 +53,6 @@ public class customer_view_booking extends AppCompatActivity implements  Booking
         newcartlist=new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser();
-
         databaseReference= FirebaseDatabase.getInstance().getReference("Confirmedbooking");
         process();
 

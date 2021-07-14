@@ -16,7 +16,7 @@ import androidx.cardview.widget.CardView;
 
 import com.example.login_page.R;
 
-public class hygiene extends AppCompatActivity {
+public class Hygiene extends AppCompatActivity {
 
     GridLayout mainGrid;
     @Override

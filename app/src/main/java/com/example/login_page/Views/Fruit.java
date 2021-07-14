@@ -16,7 +16,7 @@ import com.example.login_page.Quantitysample.mango;
 import com.example.login_page.R;
 import com.example.login_page.adapter.fruitAdapter;
 
-public class fruit extends AppCompatActivity {
+public class Fruit extends AppCompatActivity {
     String [] fruitLabels;
 
     @Override
@@ -46,7 +46,7 @@ public class fruit extends AppCompatActivity {
                 }
                 else if (i==4)
                 {
-                    Intent intent=new Intent(getApplicationContext(), hygiene.class);
+                    Intent intent=new Intent(getApplicationContext(), Hygiene.class);
                     startActivity(intent);
                 }
                 else

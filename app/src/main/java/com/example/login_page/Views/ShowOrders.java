@@ -8,15 +8,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.login_page.Holder.CartViewHolder;
-import com.example.login_page.Images.ImageAdapter;
-import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
 import com.example.login_page.customer.get_booking;
@@ -29,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-public class showorders extends AppCompatActivity implements  CartViewHolder.OnItemClickListener {
+public class ShowOrders extends AppCompatActivity implements  CartViewHolder.OnItemClickListener {
 RecyclerView recyclerView;
 DatabaseReference databaseReference;
 LinearLayoutManager linearLayoutManager;
@@ -39,7 +35,7 @@ Button deletebutton;
 CartViewHolder mAdapter;
 List<Cart> newcartlist;
 String del="";
-int pos=0;
+int pos = 0;
 Long totalPrice = Long.valueOf(0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,41 +66,46 @@ Long totalPrice = Long.valueOf(0);
                     Cart showcart=new Cart(Name,quantity,price);
                     newcartlist.add(showcart);
                 }
-                mAdapter = new CartViewHolder(showorders.this, newcartlist);
-                mAdapter.setOnItemClickListener(showorders.this);
+                mAdapter = new CartViewHolder(ShowOrders.this, newcartlist);
+                mAdapter.setOnItemClickListener(ShowOrders.this);
               recyclerView.setAdapter(mAdapter);
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShowOrders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
     }
     @Override
-    public void onItemClick(int position)
+    public void onItemClick(final int position)
     {
-        pos=position+1;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure , You wanted to remove the item from cart");
         alertDialogBuilder.setPositiveButton("yes",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-//                                Toast.makeText(showorders.this,"You clicked yes button",
-//                                        Toast.LENGTH_LONG).show();
-                        databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
+                        databaseReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
-                                    appleSnapshot.getRef().removeValue();
+                                for (DataSnapshot uselessSnapshot: snapshot.getChildren()) {
+                                    if(pos == position)
+                                    {
+                                        uselessSnapshot.getRef().removeValue();
+                                        pos = 0;
+                                        Intent intent = new Intent(ShowOrders.this,ShowOrders.class);
+                                        startActivity(intent);
+                                        break;
+                                    }
+                                    pos++;
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ShowOrders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -129,8 +130,6 @@ Long totalPrice = Long.valueOf(0);
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-//                                Toast.makeText(showorders.this,"You clicked yes button",
-//                                        Toast.LENGTH_LONG).show();
                                 databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -141,7 +140,7 @@ Long totalPrice = Long.valueOf(0);
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
-                                        Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ShowOrders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -160,8 +159,8 @@ Long totalPrice = Long.valueOf(0);
 
     public void confirm(View v)
     {
-        Toast.makeText(showorders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
-        Intent i=new Intent(showorders.this, get_booking.class);
+        Toast.makeText(ShowOrders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
+        Intent i=new Intent(ShowOrders.this, get_booking.class);
         i.putExtra("total",totalPrice.toString());
         startActivity(i);
     }

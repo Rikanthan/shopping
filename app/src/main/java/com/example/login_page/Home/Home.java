@@ -10,12 +10,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.login_page.Images.ImagesActivity;
-import com.example.login_page.Login_front.forgetpassword;
 import com.example.login_page.R;
-import com.example.login_page.Views.hygiene;
 import com.example.login_page.adapter.customAdapter;
-import com.example.login_page.Views.fruit;
-import com.example.login_page.Views.softdrinks;
 import com.example.login_page.category.bakery;
 import com.example.login_page.category.cosmetics_activity;
 import com.example.login_page.category.hygiene_activity;

@@ -9,7 +9,7 @@ import android.widget.GridView;
 import com.example.login_page.R;
 import com.example.login_page.adapter.softdrinks_Adapter;
 
-public class softdrinks extends AppCompatActivity {
+public class Softdrinks extends AppCompatActivity {
     String softdrinksLabels[];
     String softdrinksPrices[];
 

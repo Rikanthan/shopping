@@ -15,7 +15,7 @@
         <activity android:name=".customer.customer_view_booking"></activity>
         <activity android:name=".Views.ShowBookings" />
         <activity android:name=".customer.get_booking" />
-        <activity android:name=".Views.showorders" />
+        <activity android:name=".Views.ShowOrders" />
         <activity android:name=".Views.Individual_items" />
         <activity android:name=".customer.customer" />
         <activity android:name=".Product.Show_items_Activity" />
@@ -29,12 +29,12 @@
         <activity android:name=".category.softdrinks_activity" />
         <activity android:name=".Admin.admin_catergory" />
         <activity android:name=".Images.imageupload" />
-        <activity android:name=".Views.softdrinks" />
+        <activity android:name=".Views.Softdrinks" />
         <activity android:name=".Quantitysample.mango" />
         <activity android:name=".Admin.admin_products" />
         <activity android:name=".Admin.admin" />
-        <activity android:name=".Views.hygiene" />
-        <activity android:name=".Views.fruit" />
+        <activity android:name=".Views.Hygiene" />
+        <activity android:name=".Views.Fruit" />
         <activity android:name=".Home.Home" />
         <activity android:name=".Login_front.sign_in" />
         <activity android:name=".Login_front.forgetpassword" />

@@ -2,20 +2,17 @@ package com.example.login_page.Views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.UUID;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.login_page.Images.Upload;
-import com.example.login_page.Product.Product;
 import com.example.login_page.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -44,26 +40,28 @@ ElegantNumberButton elegantNumberButton;
 String showQuantity;
 FloatingActionButton fab;
 FirebaseAuth firebaseAuth;
-int pPrice=0;
+Upload uploads;
+int pPrice  =   0;
 long id=0;
 int quan=1;
-long oid=0;
+long oid = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_items);
-        index=getIntent().getIntExtra("index",index);
+        index   =   getIntent().getIntExtra("index",index);
         System.out.println("index is:"+index);
-        productCategory=getIntent().getStringExtra("Category");
-        imageView=(ImageView)findViewById(R.id.indi_img);
-        textname=(TextView)findViewById(R.id.indi_name);
-        textprice=(TextView)findViewById(R.id.indi_price);
-        fab=(FloatingActionButton)findViewById(R.id.cartfab);
-        elegantNumberButton=(ElegantNumberButton)findViewById(R.id.ele_button);
+        productCategory =   getIntent().getStringExtra("Category");
+        imageView   =   (ImageView)findViewById(R.id.indi_img);
+        textname    =   (TextView)findViewById(R.id.indi_name);
+        textprice   =   (TextView)findViewById(R.id.indi_price);
+        fab =   (FloatingActionButton)findViewById(R.id.cartfab);
+        elegantNumberButton =   (ElegantNumberButton)findViewById(R.id.ele_button);
         getDetails(productCategory);
         firebaseAuth=FirebaseAuth.getInstance();
-        fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        uploads = new Upload();
+        fuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         elegantNumberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +75,6 @@ long oid=0;
     private void getDetails(final String productCategory)
     {
         DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference(productCategory);
-        StorageReference storageReference= FirebaseStorage.getInstance().getReference("uploads");
         productsRef.child(String.valueOf(index+1)).addValueEventListener(
                 new ValueEventListener() {
                     @Override
@@ -98,7 +95,7 @@ long oid=0;
                                 upload.setmPrice(categoryPrice);
                                 upload.setName(Name);
                                 upload.setmQuantity(quantity);
-                                Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
+                                 uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
                                 textname.setText(uploads.getName());
                                 showQuantity= uploads.getName();
                                 pPrice=Integer.parseInt(uploads.getmPrice());
@@ -121,9 +118,17 @@ long oid=0;
         );
 
     }
+
+
     public void add_to_cart(View v)
     {
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("orders").child(fuser);
+        DatabaseReference databaseReference =   FirebaseDatabase
+                                                    .getInstance()
+                                                        .getReference("orders")
+                                                            .child(fuser);
+        DatabaseReference changeReference = FirebaseDatabase
+                                                        .getInstance()
+                                                        .getReference(productCategory);
         String saveCurrentTime,saveCurrentdate;
         Calendar calendar=Calendar.getInstance();
         SimpleDateFormat currentDate=new SimpleDateFormat("dd MMM, yyyy");
@@ -148,13 +153,29 @@ long oid=0;
         cartMap.put("quantity",quan);
         cartMap.put("date",saveCurrentdate);
         cartMap.put("time",saveCurrentTime);
+        String uniqueID = UUID.randomUUID().toString();
         assert fuser != null;
-        databaseReference.child(String.valueOf(oid+1)).setValue(cartMap);
+        databaseReference.child(uniqueID).setValue(cartMap);
+        int getIndex = index;
+        String imageUrl = uploads.getImageUrl();
+        String quantity = uploads.getmQuantity();
+        String pName = uploads.getName();
+        String price = uploads.getmPrice();
+        int reducedQuantity = Integer.parseInt(quantity) - quan;
+        final HashMap<String,Object> cartMap2=new HashMap<>();
+        cartMap2.put("imageUrl",imageUrl);
+        cartMap2.put("mCatergory",productCategory);
+        cartMap2.put("mPrice", price);
+        cartMap2.put("mQuantity", reducedQuantity);
+        cartMap2.put("name",pName);
+        System.out.println(index);
+      changeReference.child(String.valueOf(getIndex+1)).setValue(cartMap2);
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
+
     }
     public void show_cart_items(View v)
     {
-        Intent i=new Intent(this,showorders.class);
+        Intent i=new Intent(this, ShowOrders.class);
         startActivity(i);
     }
 }

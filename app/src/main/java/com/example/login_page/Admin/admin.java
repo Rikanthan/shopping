@@ -9,7 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,23 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.login_page.Holder.Items;
 import com.example.login_page.Holder.Product_View_holder;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.R;
-import com.example.login_page.Images.Upload;
-import com.example.login_page.Views.fruit;
+import com.example.login_page.Views.Fruit;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
 
 public class admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawer;
@@ -123,7 +116,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
 
             case R.id.inventory:
 
-                Intent intent2=new Intent(getApplicationContext(), fruit.class);
+                Intent intent2=new Intent(getApplicationContext(), Fruit.class);
                 startActivity(intent2);
                 break;
 

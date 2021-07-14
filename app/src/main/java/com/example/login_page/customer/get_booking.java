@@ -1,6 +1,5 @@
 package com.example.login_page.customer;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,13 +13,9 @@ import android.widget.Toast;
 
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
-import com.example.login_page.Views.showorders;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
