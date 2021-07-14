@@ -58,7 +58,6 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
-        checkTime = new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference= FirebaseDatabase.getInstance().getReference("booking");
