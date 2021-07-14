@@ -44,20 +44,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
         holder.customerlocation.setText("   Customer location : "+BookingsCurrent.getLocation());
         holder.customerphone.setText("   Customer phone :  "+BookingsCurrent.getPhone());
         holder.totalprice.setText("   Total Price :  "+BookingsCurrent.getPrice() + " Rs");
-        Calendar calendar = Calendar.getInstance();
-        String s = BookingsCurrent.getDate();
-        try {
-            Date date = new SimpleDateFormat("YYYYMMdd_hhmmss a").parse(s);
-            calendar.setTime(date);
-            calendar.add(Calendar.MINUTE ,5);
-
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date currentDate = calendar.getTime();
-        String pickupTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss a").format(currentDate);
-        holder.customerpickuptime.setText("  Customer pickup Time : "+pickupTime);
+        holder.customerpickuptime.setText("  Customer pickup Time : "+BookingsCurrent.getDate());
 
     }
     @Override

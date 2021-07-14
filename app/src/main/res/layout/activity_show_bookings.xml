@@ -16,16 +16,31 @@
         android:background="@drawable/overlay"
         android:drawableLeft="@drawable/ic_baseline_access_time_24"
         android:ems="10"
-        android:hint=" Set Time"
-        android:inputType="time"
+        android:hint="   yyyy-mm-dd hh:mm:ss a"
+        android:inputType="text"
         android:paddingStart="10dp"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textColorHint="@color/lightblue"
         />
+    <Button
+        android:layout_width="200dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:padding="3dp"
+        android:onClick="setTime"
+        android:text="set"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:fontFamily="casual"
+        android:textStyle="bold" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_bookings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

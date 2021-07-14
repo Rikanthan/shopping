@@ -55,7 +55,7 @@ FirebaseAuth firebaseAuth;
 
         String saveCurrentTime,saveCurrentdate;
         Calendar calendar=Calendar.getInstance();
-        DateFormat format = new SimpleDateFormat("YYYYMMdd_hhmmss a");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
         String date = format.format(new Date());
 
        // long d = System.currentTimeMillis();
@@ -65,7 +65,7 @@ FirebaseAuth firebaseAuth;
         SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime=currentTime.format(calendar.getTime());
         final HashMap<String,Object> cartMap=new HashMap<>();
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("bookings");//.child(currentDate.toString());
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("booking");//.child(currentDate.toString());
 //        databaseReference.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {

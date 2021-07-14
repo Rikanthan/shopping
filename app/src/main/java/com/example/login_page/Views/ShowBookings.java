@@ -1,6 +1,7 @@
 package com.example.login_page.Views;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.example.login_page.Holder.BookingHolder;
 import com.example.login_page.Holder.Bookings;
@@ -21,7 +24,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ShowBookings extends AppCompatActivity implements  BookingHolder.OnItemClickListener {
@@ -32,8 +40,11 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
     String fuser;
     Button deletebutton;
     BookingHolder mAdapter;
+    List<String> checkTime;
     List<Bookings> newcartlist;
-    String del="";
+    Bookings _bookings;
+    EditText time;
+    String preDate="";
     int pos=0;
     Long totalPrice = Long.valueOf(0);
     @Override
@@ -41,37 +52,79 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_bookings);
         recyclerView=findViewById(R.id.show_bookings);
+        time = findViewById(R.id.setTime);
         recyclerView.setHasFixedSize(true);
+        _bookings = new Bookings();
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
+        checkTime = new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference= FirebaseDatabase.getInstance().getReference("bookings");
+        databaseReference= FirebaseDatabase.getInstance().getReference("booking");
+
+
+    }
+    @Override
+    public void onItemClick(int position)
+    {
+
+
+    }
+    public void process()
+    {
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
-                    Bookings mycart = dataSnapshot.getValue(Bookings.class);
-                    String name=mycart.getName();
-                    String phone = mycart.getPhone();
-                    String location = mycart.getLocation();
-                    String price = mycart.getPrice();
-                    String date = mycart.getDate();
-                    String userId = mycart.getUserId();
-                    mycart.setDate(date);
-                    mycart.setPhone(phone);
-                    mycart.setLocation(location);
-                    mycart.setUserId(userId);
-                    mycart.setName(name);
-                    mycart.setPrice(price);
-                    Bookings showcart=new Bookings(userId,price,name,phone,location,date);
-                    newcartlist.add(showcart);
+                    System.out.println("data snapshot length "+snapshot.getChildrenCount());
+                    if(pos < snapshot.getChildrenCount())
+                    {
+                        Bookings mycart = dataSnapshot.getValue(Bookings.class);
+                        String name=mycart.getName();
+                        String phone = mycart.getPhone();
+                        String location = mycart.getLocation();
+                        String price = mycart.getPrice();
+                        String date = mycart.getDate();
+                        preDate = date;
+                        String userId = mycart.getUserId();
+                        mycart.setDate(date);
+                        mycart.setPhone(phone);
+                        mycart.setLocation(location);
+                        mycart.setUserId(userId);
+                        mycart.setName(name);
+                        mycart.setPrice(price);
+                        Calendar calendar = Calendar.getInstance();
+                        String s = "2021-07-14 09:00:00 am";
+                        try {
+                            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").parse(s);
+                            calendar.setTime(date2);
+                            calendar.add(Calendar.MINUTE ,pos*5);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Date currentDate = calendar.getTime();
+                        String pickupTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(currentDate);
+
+                        Bookings mybookings = new Bookings(userId,price,name,phone,location,pickupTime);
+                        newcartlist.add(mybookings);
+                        FirebaseDatabase.getInstance().getReference().child("Confirmedbooking").child(pickupTime).setValue(mybookings);
+                        pos++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+
                 }
+
                 mAdapter = new BookingHolder(ShowBookings.this, newcartlist);
                 mAdapter.setOnItemClickListener(ShowBookings.this);
                 recyclerView.setAdapter(mAdapter);
+
 
             }
             @Override
@@ -81,55 +134,13 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
             }
         });
     }
-    @Override
-    public void onItemClick(int position)
-    {
 
+
+    public void setTime(View v)
+    {
+        Toast.makeText(ShowBookings.this,"Time setted successfully" , Toast.LENGTH_SHORT).show();
+        process();
 
     }
-
-//    public void delete(View view){
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//        alertDialogBuilder.setMessage("Are you sure , You wanted to remove the item from cart");
-//        alertDialogBuilder.setPositiveButton("yes",
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface arg0, int arg1) {
-////                                Toast.makeText(showorders.this,"You clicked yes button",
-////                                        Toast.LENGTH_LONG).show();
-//                        databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
-//                                    appleSnapshot.getRef().removeValue();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {
-//                                Toast.makeText(showorders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                });
-//
-//        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                finish();
-//            }
-//        });
-//
-//        AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
-//    }
-
-//    public void confirm(View v)
-//    {
-//        Toast.makeText(showorders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
-//        Intent i=new Intent(showorders.this, get_booking.class);
-//        i.putExtra("total",totalPrice.toString());
-//        startActivity(i);
-//    }
 
 }
