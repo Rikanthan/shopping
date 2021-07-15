@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/dashboard"
+        android:id="@+id/addNewProducts"
         android:title="Add new Products"
        android:icon="@drawable/ic_baseline_dashboard_24"/>
     <item
-        android:id="@+id/search"
+        android:id="@+id/customerBookings"
         android:title="Current bookings"
 
         android:icon="@drawable/ic_baseline_search_24"/>

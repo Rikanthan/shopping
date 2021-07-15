@@ -3,9 +3,13 @@ package com.example.login_page.Home;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import android.view.inputmethod.InputMethodManager;
@@ -28,6 +32,7 @@ import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
 import com.example.login_page.customer.customer_view_booking;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
@@ -35,8 +40,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String CHANNEL_ID = "100 " ;
     EditText email,pass;
     Button login;
    DatabaseReference myRef;
@@ -51,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
+        onTokenRefresh();
         setContentView(R.layout.activity_main);
         email=(EditText) findViewById(R.id.editEmail);
         pass=(EditText) findViewById(R.id.editPassword);
@@ -91,6 +101,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return  true;
     }
 
+    private void onTokenRefresh() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                   Log.e("Token",instanceIdResult.getToken());
+                    }
+                });
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "NotificationChannel";
+            String description = "New Booking receive";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
     public  void signup(View v)
     {
         Intent i=new Intent(this, sign_in.class);
