@@ -39,7 +39,10 @@ String fuser;
 ElegantNumberButton elegantNumberButton;
 String showQuantity;
 FloatingActionButton fab;
+int itemIndex = 1;
+boolean findItem = false;
 FirebaseAuth firebaseAuth;
+DatabaseReference adminReference;
 Upload uploads;
 int pPrice  =   0;
 long id=0;
@@ -74,6 +77,7 @@ long oid = 0;
     }
     private void getDetails(final String productCategory)
     {
+
         DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference(productCategory);
         productsRef.child(String.valueOf(index+1)).addValueEventListener(
                 new ValueEventListener() {
@@ -119,7 +123,6 @@ long oid = 0;
 
     }
 
-
     public void add_to_cart(View v)
     {
         DatabaseReference databaseReference =   FirebaseDatabase
@@ -136,18 +139,7 @@ long oid = 0;
         SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime=currentTime.format(calendar.getTime());
         final HashMap<String,Object> cartMap=new HashMap<>();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                {
-                    oid=(snapshot.getChildrenCount());
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+
         cartMap.put("pname",showQuantity);
         cartMap.put("price",pPrice);
         cartMap.put("quantity",quan);
@@ -155,11 +147,11 @@ long oid = 0;
         cartMap.put("time",saveCurrentTime);
         String uniqueID = UUID.randomUUID().toString();
         assert fuser != null;
-        databaseReference.child(uniqueID).setValue(cartMap);
+
         int getIndex = index;
-        String imageUrl = uploads.getImageUrl();
+        final String imageUrl = uploads.getImageUrl();
         String quantity = uploads.getmQuantity();
-        String pName = uploads.getName();
+        final String pName = uploads.getName();
         String price = uploads.getmPrice();
         int reducedQuantity = Integer.parseInt(quantity) - quan;
         Upload changeUploads =new Upload();
@@ -168,14 +160,37 @@ long oid = 0;
         changeUploads.setmPrice(price);
         changeUploads.setName(pName);
         changeUploads.setmQuantity(String.valueOf(reducedQuantity));
-//        final HashMap<String,Object> cartMap2=new HashMap<>();
-//        cartMap2.put("imageUrl",imageUrl);
-//        cartMap2.put("mCatergory",productCategory);
-//        cartMap2.put("mPrice", price);
-//        cartMap2.put("mQuantity", reducedQuantity);
-//        cartMap2.put("name",pName);
-//        System.out.println(index);
-      changeReference.child(String.valueOf(getIndex+1)).setValue(changeUploads);
+
+        adminReference = FirebaseDatabase.getInstance().getReference("Uploads");
+//        for(int i = 0 ; i<1000 ; i++)
+//        {
+//            adminReference.child(String.valueOf(itemIndex)).addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            for(DataSnapshot snapshot1: snapshot.getChildren())
+//                            {
+//                                Upload upload=snapshot1.getValue(Upload.class);
+//                                String name = upload.getName();
+//                                if(name.contains(pName))
+//                                {
+//                                    break;
+//                                }
+//                                itemIndex++;
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//                            System.out.println(error);
+//                        }
+//                    }
+//            );
+//        }
+
+        System.out.println(itemIndex);
+        databaseReference.child(uniqueID).setValue(cartMap);
+        changeReference.child(String.valueOf(getIndex+1)).setValue(changeUploads);
+      //  adminReference.child(String.valueOf(itemIndex)).setValue(changeUploads);
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
 
     }

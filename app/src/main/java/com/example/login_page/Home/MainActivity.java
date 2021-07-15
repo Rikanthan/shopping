@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, customer_view_booking.class);
+        Intent i=new Intent(this, ShowBookings.class);
         startActivity(i);
     }
     public void setValidLogin()

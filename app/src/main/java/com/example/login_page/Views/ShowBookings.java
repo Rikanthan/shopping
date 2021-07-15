@@ -45,7 +45,9 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
     Bookings _bookings;
     EditText time;
     String preDate="";
-    int pos=0;
+    String userId = "";
+    int pos =  0;
+    int clickPosition = 0;
     Long totalPrice = Long.valueOf(0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +67,35 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
 
     }
     @Override
-    public void onItemClick(int position)
+    public void onItemClick(final int position)
     {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                {
+                    Bookings mycart = dataSnapshot.getValue(Bookings.class);
+                    if(clickPosition == position)
+                    {
+                       userId = mycart.getId();
+                       clickPosition = 0;
+                        break;
+                    }
+                    else
+                    {
+                        clickPosition ++;
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Intent intent = new Intent(ShowBookings.this,ShowOrders.class);
+        intent.putExtra("id",userId);
+        startActivity(intent);
 
     }
     public void process()
@@ -98,7 +126,7 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
                         mycart.setName(name);
                         mycart.setPrice(price);
                         Calendar calendar = Calendar.getInstance();
-                        String s = "2021-07-14 09:00:00 am";
+                        String s = "2021-07-14 09:00:00 AM";
                         try {
                             Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").parse(s);
                             calendar.setTime(date2);

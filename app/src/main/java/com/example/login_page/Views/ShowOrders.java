@@ -31,6 +31,7 @@ DatabaseReference databaseReference;
 LinearLayoutManager linearLayoutManager;
 FirebaseAuth firebaseAuth;
 String fuser;
+String customer;
 Button deletebutton;
 CartViewHolder mAdapter;
 List<Cart> newcartlist;
@@ -48,7 +49,15 @@ Long totalPrice = Long.valueOf(0);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
-        fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        customer   =   getIntent().getStringExtra("id");
+        if( customer == null)
+        {
+            fuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        else
+        {
+            fuser = customer;
+        }
         databaseReference=FirebaseDatabase.getInstance().getReference("orders").child(fuser);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
