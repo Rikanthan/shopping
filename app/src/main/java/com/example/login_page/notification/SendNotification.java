@@ -51,7 +51,7 @@ public class SendNotification extends AppCompatActivity {
         });
         UpdateToken();
     }
-    private void UpdateToken(){
+    public void UpdateToken(){
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         String refreshToken= FirebaseInstanceId.getInstance().getToken();
         Token token= new Token(refreshToken);
@@ -78,7 +78,7 @@ public class SendNotification extends AppCompatActivity {
             }
         });
     }
-    private void createNotificationChannel() {
+    public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "NotificationChannel";
             String description = "New Booking receive";

@@ -168,12 +168,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     if(uid.contains("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2"))
                                     {
                                         admin = true;
-                                        Intent i=new Intent(MainActivity.this, SendNotification.class);
+                                        Intent i=new Intent(MainActivity.this, admin_catergory.class);
                                         startActivity(i);
                                     }
                                     else if(!admin)
                                     {
-                                        Intent i=new Intent(MainActivity.this,SendNotification.class);
+                                        Intent i=new Intent(MainActivity.this,Home.class);
                                         startActivity(i);
                                     }
 

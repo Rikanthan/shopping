@@ -17,8 +17,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        title= "New booking";
-        message= "My booking";
+        title=remoteMessage.getData().get("Title");
+        message=remoteMessage.getData().get("Message");
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(MyFireBaseMessagingService.this,CHANNEL_ID)
