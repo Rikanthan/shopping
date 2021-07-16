@@ -3,8 +3,13 @@ package com.example.login_page.Views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.UUID;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,13 +19,22 @@ import android.widget.Toast;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
+import com.example.login_page.customer.get_booking;
+import com.example.login_page.notification.APIService;
+import com.example.login_page.notification.Client;
+import com.example.login_page.notification.Data;
+import com.example.login_page.notification.MyResponse;
+import com.example.login_page.notification.NotificationSender;
+import com.example.login_page.notification.Token;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -28,26 +42,32 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Individual_items extends AppCompatActivity {
     public static final String MY_PREFS_NAME = "MyPrefsFile";
-ImageView imageView;
-TextView textname,textprice;
-String productName,productCategory;
-int index;
-Context mContext;
-String fuser;
-ElegantNumberButton elegantNumberButton;
-String showQuantity;
-FloatingActionButton fab;
-int itemIndex = 1;
-boolean findItem = false;
-FirebaseAuth firebaseAuth;
-DatabaseReference adminReference;
-Upload uploads;
-int pPrice  =   0;
-long id=0;
-int quan=1;
-long oid = 0;
+    private static final String CHANNEL_ID = "100 " ;
+    private APIService apiService;
+    ImageView imageView;
+    TextView textname,textprice;
+    String productName,productCategory;
+    int index;
+    Context mContext;
+    String fuser;
+    ElegantNumberButton elegantNumberButton;
+    String showQuantity;
+    FloatingActionButton fab;
+    int itemIndex = 1;
+    boolean findItem = false;
+    FirebaseAuth firebaseAuth;
+    DatabaseReference adminReference;
+    Upload uploads;
+    int pPrice  =   0;
+    long id=0;
+    int quan=1;
+    long oid = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +80,7 @@ long oid = 0;
         textname    =   (TextView)findViewById(R.id.indi_name);
         textprice   =   (TextView)findViewById(R.id.indi_price);
         fab =   (FloatingActionButton)findViewById(R.id.cartfab);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         elegantNumberButton =   (ElegantNumberButton)findViewById(R.id.ele_button);
         getDetails(productCategory);
         firebaseAuth=FirebaseAuth.getInstance();
@@ -160,7 +181,23 @@ long oid = 0;
         changeUploads.setmPrice(price);
         changeUploads.setName(pName);
         changeUploads.setmQuantity(String.valueOf(reducedQuantity));
+        if(reducedQuantity < 5)
+        {
+            FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
+                    .child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String usertoken = dataSnapshot.getValue(String.class);
+                    sendNotifications(usertoken, "Items alert!", pName+" counts getting low");
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            UpdateToken();
+        }
         adminReference = FirebaseDatabase.getInstance().getReference("Uploads");
 //        for(int i = 0 ; i<1000 ; i++)
 //        {
@@ -198,5 +235,46 @@ long oid = 0;
     {
         Intent i=new Intent(this, ShowOrders.class);
         startActivity(i);
+    }
+    public void UpdateToken(){
+        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token= new Token(refreshToken);
+        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
+    }
+
+    public void sendNotifications(String usertoken, String title, String message) {
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().success != 1) {
+                        Toast.makeText(Individual_items.this, "Failed ", Toast.LENGTH_LONG);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
+            }
+        });
+    }
+    public void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "NotificationChannel";
+            String description = "New Booking receive";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.setLightColor(Color.CYAN);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
