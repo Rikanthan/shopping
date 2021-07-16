@@ -17,6 +17,7 @@ import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
+import com.example.login_page.notification.SendNotification;
 import com.google.firebase.database.annotations.NotNull;
 
 public class admin_catergory extends AppCompatActivity {
@@ -107,6 +108,10 @@ public class admin_catergory extends AppCompatActivity {
             case R.id.inventory:
                 Intent i2 = new Intent(this, New_Image_Activity.class);
                 startActivity(i2);
+                return true;
+            case R.id.addNewProducts:
+                Intent i3 = new Intent(this, SendNotification.class);
+                startActivity(i3);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

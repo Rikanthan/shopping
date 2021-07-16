@@ -8,6 +8,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +33,7 @@ import com.example.login_page.Product.Show_items_Activity;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
 import com.example.login_page.customer.customer_view_booking;
+import com.example.login_page.notification.SendNotification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -119,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
+            channel.setLightColor(Color.CYAN);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -164,12 +168,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     if(uid.contains("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2"))
                                     {
                                         admin = true;
-                                        Intent i=new Intent(MainActivity.this,admin_catergory.class);
+                                        Intent i=new Intent(MainActivity.this, SendNotification.class);
                                         startActivity(i);
                                     }
                                     else if(!admin)
                                     {
-                                        Intent i=new Intent(MainActivity.this,Home.class);
+                                        Intent i=new Intent(MainActivity.this,SendNotification.class);
                                         startActivity(i);
                                     }
 
