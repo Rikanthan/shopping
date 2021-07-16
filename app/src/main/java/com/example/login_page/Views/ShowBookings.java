@@ -1,6 +1,7 @@
 package com.example.login_page.Views;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,12 +12,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.login_page.Holder.BookingHolder;
 import com.example.login_page.Holder.Bookings;
+import com.example.login_page.Interface.ItemClickListner;
 import com.example.login_page.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,7 +49,7 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
     Bookings _bookings;
     EditText time;
     String preDate="";
-    String userId = "";
+    String userId ;
     int pos =  0;
     int clickPosition = 0;
     Long totalPrice = Long.valueOf(0);
@@ -64,44 +68,12 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
         fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference= FirebaseDatabase.getInstance().getReference("booking");
 
-
     }
-    @Override
-    public void onItemClick(final int position)
-    {
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                {
-                    Bookings mycart = dataSnapshot.getValue(Bookings.class);
-                    if(clickPosition == position)
-                    {
-                       userId = mycart.getId();
-                       clickPosition = 0;
-                        break;
-                    }
-                    else
-                    {
-                        clickPosition ++;
-                    }
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-        Intent intent = new Intent(ShowBookings.this,ShowOrders.class);
-        intent.putExtra("id",userId);
-        startActivity(intent);
-
-    }
     public void process()
     {
         databaseReference.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
@@ -161,7 +133,9 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
                 Toast.makeText(ShowBookings.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
+
         });
+
     }
 
 
@@ -169,6 +143,42 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
     {
         Toast.makeText(ShowBookings.this,"Time setted successfully" , Toast.LENGTH_SHORT).show();
         process();
+
+    }
+    @Override
+    public void onItemClick(final int position)
+    {
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                {
+                        if(position == clickPosition)
+                        {
+                            Bookings mybookings = dataSnapshot.getValue(Bookings.class);
+                            userId = mybookings.getId();
+                            clickPosition = 0;
+                            break;
+                        }
+                        else
+                        {
+                            clickPosition ++;
+                        }
+                    }
+
+                }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println(error);
+            }
+        });
+        System.out.println("id : "+userId);
+        Intent intent = new Intent(ShowBookings.this,ShowOrders.class);
+        intent.putExtra("id",userId);
+        startActivity(intent);
 
     }
 

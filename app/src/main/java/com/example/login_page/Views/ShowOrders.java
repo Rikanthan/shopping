@@ -58,6 +58,7 @@ Long totalPrice = Long.valueOf(0);
         {
             fuser = customer;
         }
+        System.out.println(fuser);
         databaseReference=FirebaseDatabase.getInstance().getReference("orders").child(fuser);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
