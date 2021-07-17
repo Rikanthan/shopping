@@ -64,12 +64,14 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
                     String categoryPrice = upload.getmPrice();
                     String categoryImageUrl = upload.getImageUrl();
                     String quantity=upload.getmQuantity();
+                    String uploadId = upload.getmuploadId();
+                    upload.setmuploadId(uploadId);
                     upload.setImageUrl(categoryImageUrl);
                     upload.setmCatergory(categoryDescription);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
+                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId);
                     mUploads.add(uploads);
                 }
 

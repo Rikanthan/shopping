@@ -78,12 +78,14 @@ public class EditItems extends AppCompatActivity {
                                 String categoryPrice = upload.getmPrice();
                                 String categoryImageUrl = upload.getImageUrl();
                                 String quantity = upload.getmQuantity();
+                                String uploadId = upload.getmuploadId();
                                 upload.setImageUrl(categoryImageUrl);
                                 upload.setmCatergory(categoryDescription);
                                 upload.setmPrice(categoryPrice);
                                 upload.setName(Name);
                                 upload.setmQuantity(quantity);
-                                Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
+                                upload.setmuploadId(uploadId);
+                                Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription, uploadId);
                                 editname.setText(uploads.getName());
                                 editprice.setText(uploads.getmPrice());
                                 editquantity.setText(uploads.getmQuantity());
@@ -134,7 +136,6 @@ public class EditItems extends AppCompatActivity {
                         {
                             if(snapshot1.exists() && !findCatergory)
                             {
-
                                 Upload upload=snapshot1.getValue(Upload.class);
                                 if(upload != null)
                                 {

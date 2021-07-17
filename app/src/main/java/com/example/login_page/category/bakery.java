@@ -63,13 +63,15 @@ public class bakery extends AppCompatActivity implements ImageAdapter.OnItemClic
                     String categoryDescription = upload.getmCatergory();
                     String categoryPrice = upload.getmPrice();
                     String categoryImageUrl = upload.getImageUrl();
+                    String uploadId = upload.getmuploadId();
                     String quantity=upload.getmQuantity();
                     upload.setImageUrl(categoryImageUrl);
                     upload.setmCatergory(categoryDescription);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
+                    upload.setmuploadId(uploadId);
+                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId);
                     mUploads.add(uploads);
                 }
                 mAdapter = new ImageAdapter(bakery.this, mUploads);

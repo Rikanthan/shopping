@@ -3,6 +3,32 @@ package com.example.login_page.Images;
 public class Upload{
     private String mName;
     private String mImageUrl;
+    private String mPrice;
+    private String mQuantity;
+    private String mCatergory;
+
+
+
+    private String muploadId;
+    public Upload(String name, String imageUrl,String price,String quantity,String catergory,String uploadId)
+    {
+        if(name.trim().equals(""))
+        {
+            name="No name";
+        }
+        mImageUrl  =  imageUrl;
+        mName  =  name;
+        mPrice  =  price;
+        mQuantity  =  quantity;
+        mCatergory  = catergory;
+        muploadId  =  uploadId;
+    }
+
+    public Upload()
+    {
+
+    }
+
 
     public String getmPrice() {
         return mPrice;
@@ -20,9 +46,6 @@ public class Upload{
         this.mQuantity = mQuantity;
     }
 
-    private String mPrice;
-    private String mQuantity;
-
     public String getmCatergory() {
         return mCatergory;
     }
@@ -30,30 +53,6 @@ public class Upload{
     public void setmCatergory(String mCatergory) {
         this.mCatergory = mCatergory;
     }
-
-    private String mCatergory;
-    public Upload()
-    {
-
-    }
-    public Upload(String name, String imageUrl,String price,String quantity,String catergory)
-    {
-        if(name.trim().equals(""))
-        {
-            name="No name";
-        }
-        mImageUrl=imageUrl;
-        mName=name;
-        mPrice=price;
-        mQuantity=quantity;
-        mCatergory=catergory;
-
-
-       // mImageUrl=imageUrl;
-    }
-
-
-
 
     public String getName() {
         return mName;
@@ -63,8 +62,6 @@ public class Upload{
         this.mName = mName;
     }
 
-
-
     public String getImageUrl() {
         return mImageUrl;
     }
@@ -73,7 +70,12 @@ public class Upload{
         this.mImageUrl = mImageUrl;
     }
 
+    public String getmuploadId() {
+        return muploadId;
+    }
 
-
+    public void setmuploadId(String muploadId) {
+        this.muploadId = muploadId;
+    }
 
 }

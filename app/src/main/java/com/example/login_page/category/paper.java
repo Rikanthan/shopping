@@ -58,12 +58,14 @@ public class paper extends AppCompatActivity implements ImageAdapter.OnItemClick
                     String categoryPrice = upload.getmPrice();
                     String categoryImageUrl = upload.getImageUrl();
                     String quantity=upload.getmQuantity();
+                    String uploadId = upload.getmuploadId();
                     upload.setImageUrl(categoryImageUrl);
                     upload.setmCatergory(categoryDescription);
+                    upload.setmuploadId(uploadId);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
+                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId);
                     mUploads.add(uploads);
                 }
                 mAdapter = new ImageAdapter(paper.this, mUploads);

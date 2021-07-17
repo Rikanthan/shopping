@@ -187,7 +187,7 @@ public class imageupload extends AppCompatActivity {
                                    {
                                        downloadImageUrl=task.getResult().toString();
                                        Upload upload = new Upload(mTextFileName.getText().toString().trim(),
-                                               downloadImageUrl,mTextPrice.getText().toString(),mTextQuantity.getText().toString(),mCatergory);
+                                               downloadImageUrl,mTextPrice.getText().toString(),mTextQuantity.getText().toString(),mCatergory,String.valueOf(adminId+1));
                                        String uploadId = mDatabaseRef.push().getKey();
                                        mDatabaseRef.child(String.valueOf(id+1)).setValue(upload);
                                        adminDatabaseRef.child(String.valueOf(adminId+1)).setValue(upload);

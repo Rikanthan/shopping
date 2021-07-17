@@ -67,12 +67,14 @@ public class New_Image_Activity extends AppCompatActivity implements ImageAdapte
                     String categoryPrice = upload.getmPrice();
                     String categoryImageUrl = upload.getImageUrl();
                     String quantity=upload.getmQuantity();
+                    String uploadId = upload.getmuploadId();
                     upload.setImageUrl(categoryImageUrl);
                     upload.setmCatergory(categoryDescription);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription);
+                    upload.setmuploadId(uploadId);
+                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId);
                     mUploads.add(uploads);
                 }
 

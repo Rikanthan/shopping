@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -56,16 +57,17 @@ public class Individual_items extends AppCompatActivity {
     int index;
     Context mContext;
     String fuser;
+    String uploadId = "";
     ElegantNumberButton elegantNumberButton;
     String showQuantity;
     FloatingActionButton fab;
-    int itemIndex = 1;
+    int itemIndex;
     boolean findItem = false;
     FirebaseAuth firebaseAuth;
     DatabaseReference adminReference;
     Upload uploads;
     int pPrice  =   0;
-    long id=0;
+    int checkIndex;
     int quan=1;
     long oid = 0;
 
@@ -111,6 +113,7 @@ public class Individual_items extends AppCompatActivity {
                                 System.out.println(productCategory);
                                 System.out.println(index);
                                 String Name = upload.getName();
+                                 uploadId = upload.getmuploadId();
                                 String categoryDescription = upload.getmCatergory();
                                 String categoryPrice = upload.getmPrice();
                                 String categoryImageUrl = upload.getImageUrl();
@@ -120,7 +123,8 @@ public class Individual_items extends AppCompatActivity {
                                 upload.setmPrice(categoryPrice);
                                 upload.setName(Name);
                                 upload.setmQuantity(quantity);
-                                 uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription);
+                                upload.setmuploadId(uploadId);
+                                 uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription ,uploadId);
                                 textname.setText(uploads.getName());
                                 showQuantity= uploads.getName();
                                 pPrice=Integer.parseInt(uploads.getmPrice());
@@ -146,6 +150,7 @@ public class Individual_items extends AppCompatActivity {
 
     public void add_to_cart(View v)
     {
+        itemIndex = 1;
         DatabaseReference databaseReference =   FirebaseDatabase
                                                     .getInstance()
                                                         .getReference("orders")
@@ -199,35 +204,10 @@ public class Individual_items extends AppCompatActivity {
             UpdateToken();
         }
         adminReference = FirebaseDatabase.getInstance().getReference("Uploads");
-//        for(int i = 0 ; i<1000 ; i++)
-//        {
-//            adminReference.child(String.valueOf(itemIndex)).addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for(DataSnapshot snapshot1: snapshot.getChildren())
-//                            {
-//                                Upload upload=snapshot1.getValue(Upload.class);
-//                                String name = upload.getName();
-//                                if(name.contains(pName))
-//                                {
-//                                    break;
-//                                }
-//                                itemIndex++;
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            System.out.println(error);
-//                        }
-//                    }
-//            );
-//        }
-
-        System.out.println(itemIndex);
+        System.out.println(uploadId);
         databaseReference.child(uniqueID).setValue(cartMap);
         changeReference.child(String.valueOf(getIndex+1)).setValue(changeUploads);
-      //  adminReference.child(String.valueOf(itemIndex)).setValue(changeUploads);
+        adminReference.child(uploadId).setValue(changeUploads);
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
 
     }
