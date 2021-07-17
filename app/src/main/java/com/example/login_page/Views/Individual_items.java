@@ -58,6 +58,7 @@ public class Individual_items extends AppCompatActivity {
     Context mContext;
     String fuser;
     String uploadId = "";
+    String catergoryId ="";
     ElegantNumberButton elegantNumberButton;
     String showQuantity;
     FloatingActionButton fab;
@@ -118,13 +119,15 @@ public class Individual_items extends AppCompatActivity {
                                 String categoryPrice = upload.getmPrice();
                                 String categoryImageUrl = upload.getImageUrl();
                                 String quantity = upload.getmQuantity();
+                                 catergoryId = upload.getmCatergoryId();
                                 upload.setImageUrl(categoryImageUrl);
                                 upload.setmCatergory(categoryDescription);
                                 upload.setmPrice(categoryPrice);
                                 upload.setName(Name);
                                 upload.setmQuantity(quantity);
                                 upload.setmuploadId(uploadId);
-                                 uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription ,uploadId);
+                                upload.setmCatergoryId(catergoryId);
+                                 uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription ,uploadId ,catergoryId);
                                 textname.setText(uploads.getName());
                                 showQuantity= uploads.getName();
                                 pPrice=Integer.parseInt(uploads.getmPrice());
@@ -186,6 +189,8 @@ public class Individual_items extends AppCompatActivity {
         changeUploads.setmPrice(price);
         changeUploads.setName(pName);
         changeUploads.setmQuantity(String.valueOf(reducedQuantity));
+        changeUploads.setmCatergoryId(catergoryId);
+        changeUploads.setmuploadId(uploadId);
         if(reducedQuantity < 5)
         {
             FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")

@@ -45,6 +45,7 @@ public class EditItems extends AppCompatActivity {
     int catergoryIndex = 1;
     boolean findCatergory = false;
     DatabaseReference catergoryReference;
+    String catergoryId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +80,15 @@ public class EditItems extends AppCompatActivity {
                                 String categoryImageUrl = upload.getImageUrl();
                                 String quantity = upload.getmQuantity();
                                 String uploadId = upload.getmuploadId();
+                                catergoryId = upload.getmCatergoryId();
                                 upload.setImageUrl(categoryImageUrl);
                                 upload.setmCatergory(categoryDescription);
                                 upload.setmPrice(categoryPrice);
                                 upload.setName(Name);
                                 upload.setmQuantity(quantity);
-                                upload.setmuploadId(uploadId);
-                                Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription, uploadId);
+                                upload.setmuploadId(uploadId);                              
+                                upload.setmCatergoryId(catergoryId);
+                                Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription, uploadId ,catergoryId);
                                 editname.setText(uploads.getName());
                                 editprice.setText(uploads.getmPrice());
                                 editquantity.setText(uploads.getmQuantity());
@@ -125,44 +128,14 @@ public class EditItems extends AppCompatActivity {
         cartMap.put("mPrice",productPrice);
         cartMap.put("mQuantity",productQuantity);
         cartMap.put("name",productName);
+        cartMap.put("mCatergoryId",catergoryId);
+        cartMap.put("muploadId",String.valueOf(index+1));
         databaseReference.setValue(cartMap);
         catergoryReference = FirebaseDatabase.getInstance()
                 .getReference(productCategory);
-        catergoryReference.addValueEventListener(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot snapshot1: snapshot.getChildren())
-                        {
-                            if(snapshot1.exists() && !findCatergory)
-                            {
-                                Upload upload=snapshot1.getValue(Upload.class);
-                                if(upload != null)
-                                {
-                                    String url = upload.getImageUrl();
-                                    if(url.contains(productImage))
-                                    {
-                                        findCatergory = true;
-                                    }
-                                    else if(!findCatergory)
-                                    {
-                                        catergoryIndex ++;
-                                    }
-                                }
 
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                }
-        );
         System.out.println("Index is:"+catergoryIndex);
-        catergoryReference.child(String.valueOf(catergoryIndex)).setValue(cartMap);
+        catergoryReference.child(catergoryId).setValue(cartMap);
 
         Toast.makeText(EditItems.this,"Update successfully",Toast.LENGTH_SHORT).show();
     }

@@ -63,14 +63,15 @@ public class softdrinks_activity extends AppCompatActivity implements ImageAdapt
                     String categoryImageUrl = upload.getImageUrl();
                     String quantity=upload.getmQuantity();
                     String uploadId = upload.getmuploadId();
+                                String catergoryId = upload.getmCatergoryId();
                     upload.setImageUrl(categoryImageUrl);
-                    upload.setmuploadId(uploadId);
+                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
                     upload.setmCatergory(categoryDescription);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
 
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId);
+                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
 
 
 

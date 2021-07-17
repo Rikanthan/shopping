@@ -6,11 +6,12 @@ public class Upload{
     private String mPrice;
     private String mQuantity;
     private String mCatergory;
-
-
-
+    private String mCatergoryId;
     private String muploadId;
-    public Upload(String name, String imageUrl,String price,String quantity,String catergory,String uploadId)
+
+
+
+    public Upload(String name, String imageUrl, String price, String quantity, String catergory, String uploadId, String catergoryId)
     {
         if(name.trim().equals(""))
         {
@@ -22,6 +23,7 @@ public class Upload{
         mQuantity  =  quantity;
         mCatergory  = catergory;
         muploadId  =  uploadId;
+        mCatergoryId = catergoryId;
     }
 
     public Upload()
@@ -76,6 +78,13 @@ public class Upload{
 
     public void setmuploadId(String muploadId) {
         this.muploadId = muploadId;
+    }
+    public String getmCatergoryId() {
+        return mCatergoryId;
+    }
+
+    public void setmCatergoryId(String mCatergoryId) {
+        this.mCatergoryId = mCatergoryId;
     }
 
 }

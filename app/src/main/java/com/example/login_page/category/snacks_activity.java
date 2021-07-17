@@ -63,13 +63,14 @@ public class snacks_activity extends AppCompatActivity implements ImageAdapter.O
                     String categoryImageUrl = upload.getImageUrl();
                     String quantity=upload.getmQuantity();
                     String uploadId = upload.getmuploadId();
-                    upload.setmuploadId(uploadId);
+                                String catergoryId = upload.getmCatergoryId();
+                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
                     upload.setImageUrl(categoryImageUrl);
                     upload.setmCatergory(categoryDescription);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
                     upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId);
+                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
                     mUploads.add(uploads);
                 }
 
