@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +25,13 @@ import com.example.login_page.Holder.BookingHolder;
 import com.example.login_page.Holder.Bookings;
 import com.example.login_page.Interface.ItemClickListner;
 import com.example.login_page.R;
+import com.example.login_page.customer.get_booking;
+import com.example.login_page.notification.APIService;
+import com.example.login_page.notification.Client;
+import com.example.login_page.notification.Data;
+import com.example.login_page.notification.MyResponse;
+import com.example.login_page.notification.NotificationSender;
+import com.example.login_page.notification.SendNotification;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +47,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ShowBookings extends AppCompatActivity implements  BookingHolder.OnItemClickListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ShowBookings extends AppCompatActivity
+        implements  BookingHolder.OnItemClickListener {
+    private static final String CHANNEL_ID = "100 " ;
+    private APIService apiService;
+    SendNotification sendNotification;
     RecyclerView recyclerView;
     DatabaseReference databaseReference;
     LinearLayoutManager linearLayoutManager;
@@ -73,6 +91,7 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
         newcartlist=new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         databaseReference= FirebaseDatabase.getInstance().getReference("booking");
 
     }
@@ -187,6 +206,40 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
         intent.putExtra("id",userId);
         startActivity(intent);
 
+    }
+    public void sendNotifications(String usertoken, String title, String message) {
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().success != 1) {
+                        Toast.makeText(ShowBookings.this, "Failed ", Toast.LENGTH_LONG);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
+            }
+        });
+    }
+    public void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "NotificationChannel";
+            String description = "New Booking receive";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.setLightColor(Color.CYAN);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 }

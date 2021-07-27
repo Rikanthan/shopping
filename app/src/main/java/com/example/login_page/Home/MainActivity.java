@@ -27,6 +27,7 @@ import com.example.login_page.Admin.admin_catergory;
 import com.example.login_page.Login_front.SignIn;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
+import com.example.login_page.notification.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -159,12 +160,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     boolean admin = false;
                                     if(uid.contains("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2"))
                                     {
+                                        UpdateToken();
                                         admin = true;
                                         Intent i=new Intent(MainActivity.this, admin_catergory.class);
                                         startActivity(i);
                                     }
                                     else if(!admin)
                                     {
+                                        UpdateToken();
                                         Intent i=new Intent(MainActivity.this,Home.class);
                                         startActivity(i);
                                     }
@@ -197,5 +200,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             loginPrefsEditor.commit();
         }
         setValidLogin();
+    }
+    public void UpdateToken(){
+        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token= new Token(refreshToken);
+        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
     }
 }

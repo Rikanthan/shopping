@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,7 +78,7 @@ public class get_booking extends AppCompatActivity {
         String saveCurrentTime,saveCurrentdate;
         Calendar calendar=Calendar.getInstance();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-        String date = format.format(new Date());
+        final String date = format.format(new Date());
 
        // long d = System.currentTimeMillis();
        // String date = format.format(new Date(d));
@@ -95,13 +96,20 @@ public class get_booking extends AppCompatActivity {
         cartMap.put("date",date);
        // assert fuser != null;
         databaseReference.child(date).setValue(cartMap);
+        UpdateToken();
         Toast.makeText(this,"Your items booked successfully",Toast.LENGTH_LONG).show();
         FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
                 .child("token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String usertoken = dataSnapshot.getValue(String.class);
-                sendNotifications(usertoken, "New Booking", "Customer arrived");
+                if(dataSnapshot.exists())
+                {
+                    //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                   // String userToken = (String)map.get("token");
+                    String userToken = dataSnapshot.getValue(String.class);
+                    sendNotifications(userToken, "New Booking", "Customer arrived");
+                }
+
             }
 
             @Override
@@ -109,9 +117,9 @@ public class get_booking extends AppCompatActivity {
 
             }
         });
-        UpdateToken();
-        Intent intent = new Intent(this, ShowBookings.class);
-        startActivity(intent);
+
+       // Intent intent = new Intent(this, ShowBookings.class);
+       // startActivity(intent);
 
     }
     public void UpdateToken(){
