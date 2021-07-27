@@ -75,17 +75,8 @@ public class get_booking extends AppCompatActivity {
     public void book(View v)
     {
 
-        String saveCurrentTime,saveCurrentdate;
-        Calendar calendar=Calendar.getInstance();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         final String date = format.format(new Date());
-
-       // long d = System.currentTimeMillis();
-       // String date = format.format(new Date(d));
-        SimpleDateFormat currentDate=new SimpleDateFormat("dd MMM, yyyy");
-        saveCurrentdate=currentDate.format(calendar.getTime());
-        SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
-        saveCurrentTime=currentTime.format(calendar.getTime());
         final HashMap<String,Object> cartMap=new HashMap<>();
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("booking");//.child(currentDate.toString());
         cartMap.put("id",userId);
@@ -107,7 +98,7 @@ public class get_booking extends AppCompatActivity {
                     //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                    // String userToken = (String)map.get("token");
                     String userToken = dataSnapshot.getValue(String.class);
-                    sendNotifications(userToken, "New Booking", "Customer arrived");
+                    sendNotifications(userToken, "New Booking", "Customer booked items");
                 }
 
             }

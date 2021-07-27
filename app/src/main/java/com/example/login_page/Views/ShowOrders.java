@@ -46,9 +46,10 @@ RecyclerView recyclerView;
 DatabaseReference databaseReference;
 LinearLayoutManager linearLayoutManager;
 FirebaseAuth firebaseAuth;
+boolean isAdmin = false;
 String fuser;
 String customer;
-Button deletebutton;
+Button deletebutton, confirmButton;
 CartViewHolder mAdapter;
 List<Cart> newcartlist;
 private static final String CHANNEL_ID = "100 " ;
@@ -61,13 +62,14 @@ Long totalPrice = Long.valueOf(0);
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showorders);
-        recyclerView=findViewById(R.id.show_cart);
+        recyclerView   =  findViewById(R.id.show_cart);
         recyclerView.setHasFixedSize(true);
-        deletebutton=findViewById(R.id.idelete);
-        linearLayoutManager=new LinearLayoutManager(this);
+        deletebutton = findViewById(R.id.idelete);
+        confirmButton = findViewById(R.id.confirmOrder);
+        linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        newcartlist=new ArrayList<>();
-        firebaseAuth=FirebaseAuth.getInstance();
+        newcartlist = new ArrayList<>();
+        firebaseAuth = FirebaseAuth.getInstance();
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         customer   =   getIntent().getStringExtra("id");
         if( customer == null)
@@ -79,6 +81,12 @@ Long totalPrice = Long.valueOf(0);
             fuser = customer;
         }
         System.out.println(fuser);
+        if(!FirebaseAuth.getInstance().getUid().contains(fuser))
+        {
+            isAdmin = true;
+            confirmButton.setText("Confirmation");
+            confirmButton.setBackgroundColor(Color.GREEN);
+        }
         databaseReference=FirebaseDatabase.getInstance().getReference("orders").child(fuser);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -189,7 +197,7 @@ Long totalPrice = Long.valueOf(0);
 
     public void confirm(View v)
     {
-        if(!FirebaseAuth.getInstance().getUid().contains(fuser))
+        if(isAdmin)
         {
             FirebaseDatabase.getInstance().getReference("Tokens")
                     .child(fuser).addListenerForSingleValueEvent(new ValueEventListener() {

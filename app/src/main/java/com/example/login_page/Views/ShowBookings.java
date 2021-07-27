@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -134,7 +135,7 @@ public class ShowBookings extends AppCompatActivity
                         }
                         Date currentDate = calendar.getTime();
                         String pickupTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(currentDate);
-
+                        sentNotificationToAll(userId,pickupTime);
                         Bookings mybookings = new Bookings(userId,price,name,phone,location,pickupTime);
                         newcartlist.add(mybookings);
                         FirebaseDatabase.getInstance().getReference().child("Confirmedbooking").child(pickupTime).setValue(mybookings);
@@ -163,7 +164,26 @@ public class ShowBookings extends AppCompatActivity
         });
 
     }
+    public void sentNotificationToAll(String id, final String time)
+    {
+        FirebaseDatabase.getInstance().getReference("Tokens")
+                .child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                    String userToken = (String)map.get("token");
+                    sendNotifications(userToken,"Booking confirmed!","Your time is :"+time);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public void setDateTime(View v)
     {
