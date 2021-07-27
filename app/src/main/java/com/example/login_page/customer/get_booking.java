@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login_page.Images.Upload;
+import com.example.login_page.Views.Member;
 import com.example.login_page.notification.Data;
 import com.example.login_page.notification.MyResponse;
 import com.example.login_page.notification.NotificationSender;
@@ -70,6 +72,7 @@ public class get_booking extends AppCompatActivity {
         total.setText("Total : "+ price +"Rs");
         firebaseAuth = FirebaseAuth.getInstance();
         userId = firebaseAuth.getUid();
+        getUserDetails();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void book(View v)
@@ -95,8 +98,6 @@ public class get_booking extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists())
                 {
-                    //Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                   // String userToken = (String)map.get("token");
                     String userToken = dataSnapshot.getValue(String.class);
                     sendNotifications(userToken, "New Booking", "Customer booked items");
                 }
@@ -153,6 +154,29 @@ public class get_booking extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+    public void getUserDetails()
+    {
+        FirebaseDatabase.getInstance().getReference("Member")
+                .child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists())
+                        {
+                           Member member = snapshot.getValue(Member.class);
+                           name.setText(member.getName());
+                           location.setText(member.getLocation());
+                           phone.setText(String.valueOf(member.getMobile()));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
     }
 
 }
