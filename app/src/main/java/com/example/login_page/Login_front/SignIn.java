@@ -9,20 +9,18 @@ import android.widget.Toast;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Views.Member;
 import com.example.login_page.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
+
 import java.util.regex.Pattern;
-public class sign_in extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
     DatabaseReference reff;
     FirebaseAuth firebaseAuth;
     long maxid=0;
@@ -161,10 +159,27 @@ public class sign_in extends AppCompatActivity {
         String input = "Email: " + email.getText().toString();
         input += "\n";
 
-        reff.child(String.valueOf(maxid+1)).setValue(member);
-        firebaseAuth.createUserWithEmailAndPassword(email.getText().toString().trim(),pswd.toString().trim());
-        Toast.makeText(this, "Data input & user created sucessfully", Toast.LENGTH_SHORT).show();
-        Intent i=new Intent(this, MainActivity.class);
-        startActivity(i);
+
+        firebaseAuth.createUserWithEmailAndPassword(email.getText().toString().trim(),pswd.getText().toString().trim())
+                .addOnCompleteListener(
+                        new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful())
+                                {
+                                    String uid = task.getResult().getUser().getUid();
+                                    reff.child(uid).setValue(member);
+                                    Toast.makeText(SignIn.this, "Data input & user created successfully", Toast.LENGTH_SHORT).show();
+                                    Intent i=new Intent(SignIn.this, MainActivity.class);
+                                    startActivity(i);
+                                }
+                                else if(!task.isSuccessful())
+                                {
+                                    Toast.makeText(SignIn.this,"Email id already exists",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                );
+
     }
 }

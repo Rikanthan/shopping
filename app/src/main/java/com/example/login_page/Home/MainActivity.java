@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -23,21 +22,14 @@ import android.widget.EditText;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.login_page.Admin.admin;
+import com.example.login_page.Admin.SetDateActivity;
 import com.example.login_page.Admin.admin_catergory;
-import com.example.login_page.Images.ImagesActivity;
-import com.example.login_page.Images.imageupload;
-import com.example.login_page.Login_front.forgetpassword;
-import com.example.login_page.Login_front.sign_in;
-import com.example.login_page.Product.Show_items_Activity;
+import com.example.login_page.Login_front.SignIn;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
-import com.example.login_page.customer.customer_view_booking;
-import com.example.login_page.notification.SendNotification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -131,12 +123,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public  void signup(View v)
     {
-        Intent i=new Intent(this, sign_in.class);
+        Intent i=new Intent(this, SignIn.class);
         startActivity(i);
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, ShowBookings.class);
+        Intent i=new Intent(this, SetDateActivity.class);
         startActivity(i);
     }
     public void setValidLogin()

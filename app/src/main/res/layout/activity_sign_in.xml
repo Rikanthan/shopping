@@ -185,7 +185,7 @@
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="already_user"
+        android:text="Already user"
         android:textColor="@color/lightblue"
         android:textSize="15sp" />
 

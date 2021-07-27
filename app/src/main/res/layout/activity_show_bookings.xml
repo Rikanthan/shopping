@@ -7,8 +7,8 @@
     android:orientation="vertical"
     tools:context=".Views.ShowBookings">
 
-    <EditText
-        android:id="@+id/setTime"
+    <TextView
+        android:id="@+id/showDateandTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -31,7 +31,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/button"
         android:padding="3dp"
-        android:onClick="setTime"
+        android:onClick="setDateTime"
         android:text="set"
         android:textColor="@color/white"
         android:textSize="17sp"

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.login_page.Holder.BookingHolder;
 import com.example.login_page.Holder.Bookings;
@@ -47,8 +48,9 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
     List<String> checkTime;
     List<Bookings> newcartlist;
     Bookings _bookings;
-    EditText time;
+    TextView showTime;
     String preDate="";
+    String settedDate = "";
     String userId ;
     int pos =  0;
     int clickPosition = 0;
@@ -58,11 +60,16 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_bookings);
         recyclerView=findViewById(R.id.show_bookings);
-        time = findViewById(R.id.setTime);
+        showTime = findViewById(R.id.showDateandTime);
         recyclerView.setHasFixedSize(true);
         _bookings = new Bookings();
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        settedDate = getIntent().getStringExtra("datetime");
+        if(!settedDate.isEmpty() || settedDate != null)
+        {
+            showTime.setText(settedDate);
+        }
         newcartlist=new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -98,7 +105,7 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
                         mycart.setName(name);
                         mycart.setPrice(price);
                         Calendar calendar = Calendar.getInstance();
-                        String s = "2021-07-14 09:00:00 AM";
+                        String s = settedDate;
                         try {
                             Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").parse(s);
                             calendar.setTime(date2);
@@ -139,7 +146,7 @@ public class ShowBookings extends AppCompatActivity implements  BookingHolder.On
     }
 
 
-    public void setTime(View v)
+    public void setDateTime(View v)
     {
         Toast.makeText(ShowBookings.this,"Time setted successfully" , Toast.LENGTH_SHORT).show();
         process();
