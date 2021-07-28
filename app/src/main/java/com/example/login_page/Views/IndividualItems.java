@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
-import com.example.login_page.customer.get_booking;
 import com.example.login_page.notification.APIService;
 import com.example.login_page.notification.Client;
 import com.example.login_page.notification.Data;
@@ -34,10 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,15 +42,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Individual_items extends AppCompatActivity {
-    public static final String MY_PREFS_NAME = "MyPrefsFile";
+public class IndividualItems extends AppCompatActivity {
     private static final String CHANNEL_ID = "100 " ;
     private APIService apiService;
     ImageView imageView;
     TextView textname,textprice;
-    String productName,productCategory;
+    String productCategory;
     int index;
-    Context mContext;
     String fuser;
     String uploadId = "";
     String catergoryId ="";
@@ -63,14 +56,12 @@ public class Individual_items extends AppCompatActivity {
     String showQuantity;
     FloatingActionButton fab;
     int itemIndex;
-    boolean findItem = false;
     FirebaseAuth firebaseAuth;
     DatabaseReference adminReference;
     Upload uploads;
     int pPrice  =   0;
-    int checkIndex;
     int quan=1;
-    long oid = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +129,7 @@ public class Individual_items extends AppCompatActivity {
                         }
                         else
                         {
-                            System.out.println("DAta sNapshoT Not ExiSt");
+                            System.out.println("Data snap doesn't exists");
                         }
                     }
 
@@ -188,7 +179,14 @@ public class Individual_items extends AppCompatActivity {
         changeUploads.setmCatergory(productCategory);
         changeUploads.setmPrice(price);
         changeUploads.setName(pName);
-        changeUploads.setmQuantity(String.valueOf(reducedQuantity));
+        if(reducedQuantity < 0)
+        {
+            changeUploads.setmQuantity("0");
+        }
+        else
+        {
+            changeUploads.setmQuantity(String.valueOf(reducedQuantity));
+        }
         changeUploads.setmCatergoryId(catergoryId);
         changeUploads.setmuploadId(uploadId);
         if(reducedQuantity < 5)
@@ -214,6 +212,8 @@ public class Individual_items extends AppCompatActivity {
         changeReference.child(String.valueOf(getIndex+1)).setValue(changeUploads);
         adminReference.child(uploadId).setValue(changeUploads);
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, IndividualItems.class);
+        startActivity(intent);
 
     }
     public void show_cart_items(View v)
@@ -237,7 +237,7 @@ public class Individual_items extends AppCompatActivity {
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 if (response.code() == 200) {
                     if (response.body().success != 1) {
-                        Toast.makeText(Individual_items.this, "Failed ", Toast.LENGTH_LONG);
+                        Toast.makeText(IndividualItems.this, "Failed ", Toast.LENGTH_LONG);
                     }
                 }
             }

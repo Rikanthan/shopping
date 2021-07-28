@@ -9,7 +9,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context=".Admin.admin"
+    tools:context=".Admin.Admin"
     >
 
     <include layout="@layout/content_main" />

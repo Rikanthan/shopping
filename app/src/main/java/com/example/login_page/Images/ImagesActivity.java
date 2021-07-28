@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login_page.R;
-import com.example.login_page.Views.Individual_items;
+import com.example.login_page.Views.IndividualItems;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -92,7 +92,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
 
     @Override
     public void onItemClick(int position) {
-        Intent i=new Intent(ImagesActivity.this, Individual_items.class);
+        Intent i=new Intent(ImagesActivity.this, IndividualItems.class);
         i.putExtra("Category","Fruit");
         i.putExtra("index",position);
         startActivity(i);

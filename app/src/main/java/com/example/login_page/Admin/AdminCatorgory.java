@@ -12,17 +12,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.login_page.Holder.New_Image_Activity;
+import com.example.login_page.Holder.NewImageActivity;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
-import com.example.login_page.Views.Member;
-import com.example.login_page.Views.ShowBookings;
 import com.example.login_page.notification.SendNotification;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 
-public class admin_catergory extends AppCompatActivity {
+public class AdminCatorgory extends AppCompatActivity {
     Toolbar tool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +101,11 @@ public class admin_catergory extends AppCompatActivity {
                 startActivity(i);
                 return true;
             case R.id.customerBookings:
-                Intent i1 = new Intent(this, ShowBookings.class);
+                Intent i1 = new Intent(this, AdminViewConfirmBookings.class);
                 startActivity(i1);
                 return true;
             case R.id.inventory:
-                Intent i2 = new Intent(this, New_Image_Activity.class);
+                Intent i2 = new Intent(this, NewImageActivity.class);
                 startActivity(i2);
                 return true;
             case R.id.addNewProducts:

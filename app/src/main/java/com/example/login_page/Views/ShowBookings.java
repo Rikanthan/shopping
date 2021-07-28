@@ -1,37 +1,27 @@
 package com.example.login_page.Views;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.login_page.Holder.BookingHolder;
 import com.example.login_page.Holder.Bookings;
-import com.example.login_page.Interface.ItemClickListner;
 import com.example.login_page.R;
-import com.example.login_page.customer.get_booking;
 import com.example.login_page.notification.APIService;
 import com.example.login_page.notification.Client;
 import com.example.login_page.notification.Data;
 import com.example.login_page.notification.MyResponse;
 import com.example.login_page.notification.NotificationSender;
-import com.example.login_page.notification.SendNotification;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,24 +46,20 @@ public class ShowBookings extends AppCompatActivity
         implements  BookingHolder.OnItemClickListener {
     private static final String CHANNEL_ID = "100 " ;
     private APIService apiService;
-    SendNotification sendNotification;
     RecyclerView recyclerView;
     DatabaseReference databaseReference;
     LinearLayoutManager linearLayoutManager;
     FirebaseAuth firebaseAuth;
+    boolean isDuplicate = false;
     String fuser;
-    Button deletebutton;
     BookingHolder mAdapter;
-    List<String> checkTime;
     List<Bookings> newcartlist;
     Bookings _bookings;
     TextView showTime;
-    String preDate="";
     String settedDate = "";
     String userId ;
     int pos =  0;
     int clickPosition = 0;
-    Long totalPrice = Long.valueOf(0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,9 +101,6 @@ public class ShowBookings extends AppCompatActivity
                         String location = mycart.getLocation();
                         String price = mycart.getPrice();
                         String date = mycart.getDate();
-                        preDate = date;
-
-                        System.out.println(userId);
                         mycart.setDate(date);
                         mycart.setPhone(phone);
                         mycart.setLocation(location);
@@ -135,10 +118,14 @@ public class ShowBookings extends AppCompatActivity
                         }
                         Date currentDate = calendar.getTime();
                         String pickupTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(currentDate);
+                        String checkDate = new SimpleDateFormat("yyyy-MM-dd").format(currentDate);
                         sentNotificationToAll(userId,pickupTime);
                         Bookings mybookings = new Bookings(userId,price,name,phone,location,pickupTime);
                         newcartlist.add(mybookings);
-                        FirebaseDatabase.getInstance().getReference().child("Confirmedbooking").child(pickupTime).setValue(mybookings);
+                        if(settedDate.contains(checkDate))
+                        {
+                            FirebaseDatabase.getInstance().getReference().child("Confirmedbooking").child(pickupTime).setValue(mybookings);
+                        }
                         pos++;
                     }
                     else
@@ -174,7 +161,7 @@ public class ShowBookings extends AppCompatActivity
                 {
                     Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
                     String userToken = (String)map.get("token");
-                    sendNotifications(userToken,"Booking confirmed!","Your time is :"+time);
+                    sendNotifications(userToken,"Booking confirmed!","Your time is : "+time);
                 }
             }
 
@@ -221,7 +208,6 @@ public class ShowBookings extends AppCompatActivity
                 System.out.println(error);
             }
         });
-        System.out.println("id : "+userId);
         Intent intent = new Intent(ShowBookings.this,ShowOrders.class);
         intent.putExtra("id",userId);
         startActivity(intent);

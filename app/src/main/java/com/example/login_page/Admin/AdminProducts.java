@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.login_page.R;
 
-public class admin_products extends AppCompatActivity {
+public class AdminProducts extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

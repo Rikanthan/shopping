@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.example.login_page.Holder.CartViewHolder;
 import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
-import com.example.login_page.customer.get_booking;
+import com.example.login_page.customer.GetBookings;
 import com.example.login_page.notification.APIService;
 import com.example.login_page.notification.Client;
 import com.example.login_page.notification.Data;
@@ -220,7 +220,7 @@ Long totalPrice = Long.valueOf(0);
         else
         {
             Toast.makeText(ShowOrders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
-            Intent i=new Intent(ShowOrders.this, get_booking.class);
+            Intent i=new Intent(ShowOrders.this, GetBookings.class);
             i.putExtra("total",totalPrice.toString());
             startActivity(i);
         }

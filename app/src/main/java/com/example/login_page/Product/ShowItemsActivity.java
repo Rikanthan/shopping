@@ -19,7 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-public class Show_items_Activity extends AppCompatActivity {
+public class ShowItemsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private DatabaseReference myRef;
     private ArrayList<Upload> messagesList;

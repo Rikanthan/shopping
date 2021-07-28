@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".customer.customer_view_booking">
+    tools:context=".customer.CustomerViewBookings">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_bookings"
         android:layout_width="match_parent"

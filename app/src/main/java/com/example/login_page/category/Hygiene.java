@@ -1,23 +1,27 @@
-package com.example.login_page.Holder;
-
-
+package com.example.login_page.category;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.login_page.Admin.ui.EditItems;
+import com.example.login_page.Home.Home;
+import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
-import com.example.login_page.Views.Individual_items;
+import com.example.login_page.Views.IndividualItems;
+import com.example.login_page.Views.ShowOrders;
+import com.example.login_page.customer.CustomerViewBookings;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class New_Image_Activity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
+public class Hygiene extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
 
@@ -37,7 +41,6 @@ public class New_Image_Activity extends AppCompatActivity implements ImageAdapte
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
     private List<Upload> mUploads;
-    public String pname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class New_Image_Activity extends AppCompatActivity implements ImageAdapte
 
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Hygiene");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
 
 
@@ -62,7 +65,6 @@ public class New_Image_Activity extends AppCompatActivity implements ImageAdapte
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Upload upload = postSnapshot.getValue(Upload.class);
                     String Name = upload.getName();
-                    pname=Name;
                     String categoryDescription = upload.getmCatergory();
                     String categoryPrice = upload.getmPrice();
                     String categoryImageUrl = upload.getImageUrl();
@@ -73,21 +75,21 @@ public class New_Image_Activity extends AppCompatActivity implements ImageAdapte
                     upload.setmCatergory(categoryDescription);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
-                    upload.setmQuantity(quantity);
                     upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
+                    upload.setmQuantity(quantity);
                     Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
                     mUploads.add(uploads);
                 }
 
-                mAdapter = new ImageAdapter(New_Image_Activity.this, mUploads);
-                mAdapter.setOnItemClickListener(New_Image_Activity.this);
+                mAdapter = new ImageAdapter(Hygiene.this, mUploads);
+                mAdapter.setOnItemClickListener(Hygiene.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(New_Image_Activity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Hygiene.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
@@ -95,8 +97,37 @@ public class New_Image_Activity extends AppCompatActivity implements ImageAdapte
 
     @Override
     public void onItemClick(int position) {
-        Intent i=new Intent(New_Image_Activity.this, EditItems.class);
+        Intent i=new Intent(this, IndividualItems.class);
+        i.putExtra("Category","Hygiene");
         i.putExtra("index",position);
         startActivity(i);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.customer_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.customer_home:
+                Intent intent = new Intent(this, Home.class);
+                startActivity(intent);
+                return true;
+            case R.id.show_cart:
+                Intent i = new Intent(this, ShowOrders.class);
+                startActivity(i);
+                return true;
+            case R.id.cust_bookings:
+                Intent i1 = new Intent(this, CustomerViewBookings.class);
+                startActivity(i1);
+                return true;
+            case R.id.customer_logout:
+                Intent i2 = new Intent(this, MainActivity.class);
+                startActivity(i2);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

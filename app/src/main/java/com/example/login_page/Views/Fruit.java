@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.example.login_page.Login_front.forgetpassword;
+import com.example.login_page.Login_front.ForgetPassword;
 import com.example.login_page.Quantitysample.mango;
 import com.example.login_page.R;
 import com.example.login_page.adapter.fruitAdapter;
@@ -51,7 +51,7 @@ public class Fruit extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent intent=new Intent(getApplicationContext(), forgetpassword.class);
+                    Intent intent=new Intent(getApplicationContext(), ForgetPassword.class);
                     startActivity(intent);
 
                 }

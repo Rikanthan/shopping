@@ -9,13 +9,13 @@ import com.example.login_page.Interface.ItemClickListner;
 import com.example.login_page.R;
 
 
-public class Product_View_holder extends RecyclerView.ViewHolder implements View.OnClickListener
+public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
     public TextView txtProductName,txtProductPrice,txtProductCategory,txtProductQuantity;
     public ImageView imageView;
     public ItemClickListner listner;
 
-    public Product_View_holder(View itemView)
+    public ProductViewHolder(View itemView)
     {
         super(itemView);
         txtProductName=(TextView)itemView.findViewById(R.id.item_name);

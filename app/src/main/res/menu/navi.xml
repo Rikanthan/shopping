@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/addNewProducts"
-        android:title="Add new Products"
-       android:icon="@drawable/ic_baseline_dashboard_24"/>
+        android:title="Add new products"
+        android:icon="@drawable/ic_baseline_add_shopping_cart_24"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/customerBookings"
-        android:title="Current bookings"
-
-        android:icon="@drawable/ic_baseline_search_24"/>
+        android:title=""
+        android:icon="@drawable/ic_baseline_book_online_24"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/customer"
-        android:title="Customers"
-        android:icon="@drawable/customer"/>
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/cust"/>
 
     <item
         android:id="@+id/inventory"
         android:title="Inventory items"
-
-        android:icon="@drawable/inv"/>
+        android:icon="@drawable/product"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/logout"
         android:title="Logout"
-
+        app:showAsAction="never"
         android:icon="@drawable/logout"/>
 </menu>

@@ -23,10 +23,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.login_page.Admin.SetDateActivity;
-import com.example.login_page.Admin.admin_catergory;
+import com.example.login_page.Admin.AdminCatorgory;
 import com.example.login_page.Login_front.SignIn;
 import com.example.login_page.R;
-import com.example.login_page.Views.ShowBookings;
 import com.example.login_page.notification.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     {
                                         UpdateToken();
                                         admin = true;
-                                        Intent i=new Intent(MainActivity.this, admin_catergory.class);
+                                        Intent i=new Intent(MainActivity.this, AdminCatorgory.class);
                                         startActivity(i);
                                     }
                                     else if(!admin)

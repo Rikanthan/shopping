@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,14 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.login_page.Images.Upload;
 import com.example.login_page.Views.Member;
 import com.example.login_page.notification.Data;
 import com.example.login_page.notification.MyResponse;
 import com.example.login_page.notification.NotificationSender;
 import com.example.login_page.notification.SendNotification;
 import com.example.login_page.R;
-import com.example.login_page.Views.ShowBookings;
 import com.example.login_page.notification.APIService;
 import com.example.login_page.notification.Client;
 import com.example.login_page.notification.Token;
@@ -37,16 +34,14 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class get_booking extends AppCompatActivity {
+public class GetBookings extends AppCompatActivity {
     private static final String CHANNEL_ID = "100 " ;
     private APIService apiService;
     TextView total;
@@ -69,7 +64,7 @@ public class get_booking extends AppCompatActivity {
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         location=(EditText)findViewById(R.id.customer_location);
         price =getIntent().getStringExtra("total");
-        total.setText("Total : "+ price +"Rs");
+        total.setText("Total : Rs"+ price);
         firebaseAuth = FirebaseAuth.getInstance();
         userId = firebaseAuth.getUid();
         getUserDetails();
@@ -99,7 +94,7 @@ public class get_booking extends AppCompatActivity {
                 if(dataSnapshot.exists())
                 {
                     String userToken = dataSnapshot.getValue(String.class);
-                    sendNotifications(userToken, "New Booking", "Customer booked items");
+                    sendNotifications(userToken, "New Booking", name.getText().toString()+" booked items");
                 }
 
             }
@@ -130,7 +125,7 @@ public class get_booking extends AppCompatActivity {
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 if (response.code() == 200) {
                     if (response.body().success != 1) {
-                        Toast.makeText(get_booking.this, "Failed ", Toast.LENGTH_LONG);
+                        Toast.makeText(GetBookings.this, "Failed ", Toast.LENGTH_LONG);
                     }
                 }
             }

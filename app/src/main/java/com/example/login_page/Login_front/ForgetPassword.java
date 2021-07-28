@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 
-public class forgetpassword extends AppCompatActivity {
+public class ForgetPassword extends AppCompatActivity {
     Toolbar toolbar;
     ProgressBar progressBar;
     EditText email;

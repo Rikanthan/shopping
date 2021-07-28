@@ -18,9 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.login_page.Admin.admin;
+import com.example.login_page.Admin.Admin;
 import com.example.login_page.Holder.Items;
-import com.example.login_page.Holder.New_Image_Activity;
+import com.example.login_page.Holder.NewImageActivity;
 import com.example.login_page.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -235,7 +235,7 @@ public class imageupload extends AppCompatActivity {
                     {
                         if (task.isSuccessful())
                         {
-                            Intent intent = new Intent(imageupload.this, admin.class);
+                            Intent intent = new Intent(imageupload.this, Admin.class);
                             startActivity(intent);
                             Toast.makeText(imageupload.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
                         }
@@ -251,7 +251,7 @@ public class imageupload extends AppCompatActivity {
 
     private  void showimages()
     {
-        Intent i=new Intent(this, New_Image_Activity.class);
+        Intent i=new Intent(this, NewImageActivity.class);
         startActivity(i);
 
     }

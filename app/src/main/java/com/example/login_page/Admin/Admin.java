@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.login_page.Holder.Items;
-import com.example.login_page.Holder.Product_View_holder;
+import com.example.login_page.Holder.ProductViewHolder;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.R;
 import com.example.login_page.Views.Fruit;
@@ -29,7 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-public class admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Admin extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mToggle;
     private NavigationView navigation;
@@ -70,10 +70,10 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
         super.onStart();
         FirebaseRecyclerOptions<Items> options=new FirebaseRecyclerOptions.Builder<Items>().setQuery(productref,Items.class).build();
 
-        FirebaseRecyclerAdapter<Items, Product_View_holder> adapter=
-                new FirebaseRecyclerAdapter<Items, Product_View_holder>(options) {
+        FirebaseRecyclerAdapter<Items, ProductViewHolder> adapter=
+                new FirebaseRecyclerAdapter<Items, ProductViewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull Product_View_holder holder, int position, @NonNull Items model) {
+                    protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Items model) {
                         holder.txtProductName.setText(model.getPname());
                         Picasso.get().load(model.getPimageurl()).placeholder(R.mipmap.ic_launcher).into(holder.imageView);
                         holder.txtProductCategory.setText(model.getPcategory());
@@ -83,9 +83,9 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
 
                     @NonNull
                     @Override
-                    public Product_View_holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.product_items_layout,parent ,false);
-                        return new Product_View_holder(view);
+                        return new ProductViewHolder(view);
                     }
                 };
       recyclerView.setAdapter(adapter);
@@ -122,7 +122,7 @@ public class admin extends AppCompatActivity implements NavigationView.OnNavigat
 
 
             case R.id.product:
-                Intent intent3=new Intent(getApplicationContext(),admin_products.class);
+                Intent intent3=new Intent(getApplicationContext(), AdminProducts.class);
                 startActivity(intent3);
                 break;
 

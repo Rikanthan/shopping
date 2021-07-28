@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Admin.admin_catergory">
+    tools:context=".Admin.AdminCatorgory">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/adminHome"

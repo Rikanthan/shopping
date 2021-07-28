@@ -1,4 +1,6 @@
-package com.example.login_page.category;
+package com.example.login_page.Holder;
+
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.login_page.Admin.ui.EditItems;
 import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
-import com.example.login_page.Views.Individual_items;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class hygiene_activity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
+public class NewImageActivity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
 
@@ -34,6 +36,7 @@ public class hygiene_activity extends AppCompatActivity implements ImageAdapter.
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
     private List<Upload> mUploads;
+    public String pname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class hygiene_activity extends AppCompatActivity implements ImageAdapter.
 
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Hygiene");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Uploads");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
 
 
@@ -58,6 +61,7 @@ public class hygiene_activity extends AppCompatActivity implements ImageAdapter.
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Upload upload = postSnapshot.getValue(Upload.class);
                     String Name = upload.getName();
+                    pname=Name;
                     String categoryDescription = upload.getmCatergory();
                     String categoryPrice = upload.getmPrice();
                     String categoryImageUrl = upload.getImageUrl();
@@ -68,21 +72,21 @@ public class hygiene_activity extends AppCompatActivity implements ImageAdapter.
                     upload.setmCatergory(categoryDescription);
                     upload.setmPrice(categoryPrice);
                     upload.setName(Name);
-                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
                     upload.setmQuantity(quantity);
+                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
                     Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
                     mUploads.add(uploads);
                 }
 
-                mAdapter = new ImageAdapter(hygiene_activity.this, mUploads);
-                mAdapter.setOnItemClickListener(hygiene_activity.this);
+                mAdapter = new ImageAdapter(NewImageActivity.this, mUploads);
+                mAdapter.setOnItemClickListener(NewImageActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(hygiene_activity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewImageActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
@@ -90,8 +94,7 @@ public class hygiene_activity extends AppCompatActivity implements ImageAdapter.
 
     @Override
     public void onItemClick(int position) {
-        Intent i=new Intent(this, Individual_items.class);
-        i.putExtra("Category","Hygiene");
+        Intent i=new Intent(NewImageActivity.this, EditItems.class);
         i.putExtra("index",position);
         startActivity(i);
     }
