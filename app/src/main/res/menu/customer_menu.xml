@@ -11,6 +11,7 @@
     <item
         android:id="@+id/show_cart"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:actionLayout="@layout/update_count"
         android:orderInCategory="100"
         android:title=""
         app:showAsAction="always" />

@@ -57,16 +57,32 @@
     android:fontFamily="casual"
     android:textStyle="bold" />
 
+
+    <TextView
+        android:id="@+id/update_cart_count"
+        android:layout_width="wrap_content"
+        android:minWidth="17sp"
+        android:textSize="12sp"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:gravity="center"
+        android:text="0"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="150dp"
+        android:paddingBottom="1dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:background="@drawable/notification_count"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cartfab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="-15dp"
         android:layout_marginRight="16dp"
         android:onClick="show_cart_items"
         app:srcCompat="@drawable/ic_baseline_shopping_cart_24"
         tools:ignore="VectorDrawableCompat" />
-
-
 </LinearLayout>

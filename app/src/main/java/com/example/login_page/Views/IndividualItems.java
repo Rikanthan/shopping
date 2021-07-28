@@ -46,7 +46,7 @@ public class IndividualItems extends AppCompatActivity {
     private static final String CHANNEL_ID = "100 " ;
     private APIService apiService;
     ImageView imageView;
-    TextView textname,textprice;
+    TextView textname,textprice,updateCount;
     String productCategory;
     int index;
     String fuser;
@@ -74,9 +74,11 @@ public class IndividualItems extends AppCompatActivity {
         textname    =   (TextView)findViewById(R.id.indi_name);
         textprice   =   (TextView)findViewById(R.id.indi_price);
         fab =   (FloatingActionButton)findViewById(R.id.cartfab);
+        updateCount = (TextView) findViewById(R.id.update_cart_count);
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         elegantNumberButton =   (ElegantNumberButton)findViewById(R.id.ele_button);
         getDetails(productCategory);
+        setCount();
         firebaseAuth=FirebaseAuth.getInstance();
         uploads = new Upload();
         fuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -212,8 +214,7 @@ public class IndividualItems extends AppCompatActivity {
         changeReference.child(String.valueOf(getIndex+1)).setValue(changeUploads);
         adminReference.child(uploadId).setValue(changeUploads);
         Toast.makeText(this,"The Item added to cart successfully",Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, IndividualItems.class);
-        startActivity(intent);
+        setCount();
 
     }
     public void show_cart_items(View v)
@@ -261,5 +262,27 @@ public class IndividualItems extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+    public void setCount()
+    {
+        String id = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance().getReference("orders").child(id).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists())
+                        {
+                            long count = snapshot.getChildrenCount();
+                            updateCount.setText(String.valueOf(count));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
+
     }
 }
