@@ -5,21 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.example.login_page.Admin.AdminViewProducts;
 import com.example.login_page.Images.Upload;
-import com.example.login_page.Product.Product;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowOrders;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +24,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class EditItems extends AppCompatActivity {
@@ -138,6 +131,8 @@ public class EditItems extends AppCompatActivity {
         catergoryReference.child(catergoryId).setValue(cartMap);
 
         Toast.makeText(EditItems.this,"Update successfully",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EditItems.this, AdminViewProducts.class);
+        startActivity(intent);
     }
     public void show_cart_items(View v)
     {

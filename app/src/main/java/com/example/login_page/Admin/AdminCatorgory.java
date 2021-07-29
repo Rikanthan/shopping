@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.login_page.Holder.NewImageActivity;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
@@ -105,7 +104,7 @@ public class AdminCatorgory extends AppCompatActivity {
                 startActivity(i1);
                 return true;
             case R.id.inventory:
-                Intent i2 = new Intent(this, NewImageActivity.class);
+                Intent i2 = new Intent(this, AdminViewProducts.class);
                 startActivity(i2);
                 return true;
             case R.id.addNewProducts:

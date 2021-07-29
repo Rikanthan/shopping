@@ -56,6 +56,7 @@ public class ShowBookings extends AppCompatActivity
     List<Bookings> newcartlist;
     Bookings _bookings;
     TextView showTime;
+    String bookedDate = "";
     String settedDate = "";
     String userId ;
     int pos =  0;
@@ -80,7 +81,6 @@ public class ShowBookings extends AppCompatActivity
         fuser=FirebaseAuth.getInstance().getCurrentUser().getUid();
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         databaseReference= FirebaseDatabase.getInstance().getReference("booking");
-
     }
 
 
@@ -120,7 +120,7 @@ public class ShowBookings extends AppCompatActivity
                         String pickupTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(currentDate);
                         String checkDate = new SimpleDateFormat("yyyy-MM-dd").format(currentDate);
                         sentNotificationToAll(userId,pickupTime);
-                        Bookings mybookings = new Bookings(userId,price,name,phone,location,pickupTime);
+                        Bookings mybookings = new Bookings(userId,price,name,phone,location,date);
                         newcartlist.add(mybookings);
                         if(settedDate.contains(checkDate))
                         {
@@ -181,35 +181,10 @@ public class ShowBookings extends AppCompatActivity
     @Override
     public void onItemClick(final int position)
     {
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-
-                for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                {
-                        if(position == clickPosition)
-                        {
-                            Bookings mybookings = dataSnapshot.getValue(Bookings.class);
-                            userId = mybookings.getId();
-                            clickPosition = 0;
-                            break;
-                        }
-                        else
-                        {
-                            clickPosition ++;
-                        }
-                    }
-
-                }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println(error);
-            }
-        });
-        Intent intent = new Intent(ShowBookings.this,ShowOrders.class);
-        intent.putExtra("id",userId);
+        Bookings myBookings = newcartlist.get(position);
+        Intent intent = new Intent(ShowBookings.this,ShowConfirmOrders.class);
+        intent.putExtra("id",myBookings.getId());
+        intent.putExtra("date",myBookings.getDate());
         startActivity(intent);
 
     }

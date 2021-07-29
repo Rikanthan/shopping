@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login_page.Product.Cart;
 import com.example.login_page.Views.Member;
 import com.example.login_page.notification.Data;
 import com.example.login_page.notification.MyResponse;
@@ -34,8 +35,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,6 +89,13 @@ public class GetBookings extends AppCompatActivity {
        // assert fuser != null;
         databaseReference.child(date).setValue(cartMap);
         UpdateToken();
+        getBackup(date);
+        int i = 0;
+//        for(Cart cart: backupCart)
+//        {
+//            FirebaseDatabase.getInstance().getReference("orders").child(date).child(String.valueOf(i)).setValue(cart);
+//            i++;
+//        }
         Toast.makeText(this,"Your items booked successfully",Toast.LENGTH_LONG).show();
         FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
                 .child("token").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -172,6 +182,36 @@ public class GetBookings extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public List<Cart> getBackup(final String date)
+    {
+        final List<Cart> cartList = new ArrayList<>();
+
+        FirebaseDatabase.getInstance().getReference("orders")
+                .child(userId).addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                        {
+                            if(dataSnapshot.exists())
+                            {
+                                Cart myCart = dataSnapshot.getValue(Cart.class);
+                                FirebaseDatabase.getInstance().getReference("ordersBackup")
+                                        .child(userId).child(date).child(dataSnapshot.getKey()).setValue(myCart);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
+        FirebaseDatabase.getInstance().getReference("orders").child(userId).getRef().removeValue();
+        return cartList;
     }
 
 }

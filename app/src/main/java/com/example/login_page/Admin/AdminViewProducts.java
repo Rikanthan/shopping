@@ -1,4 +1,4 @@
-package com.example.login_page.Holder;
+package com.example.login_page.Admin;
 
 
 
@@ -28,7 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewImageActivity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
+public class AdminViewProducts extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
 
@@ -78,15 +78,15 @@ public class NewImageActivity extends AppCompatActivity implements ImageAdapter.
                     mUploads.add(uploads);
                 }
 
-                mAdapter = new ImageAdapter(NewImageActivity.this, mUploads);
-                mAdapter.setOnItemClickListener(NewImageActivity.this);
+                mAdapter = new ImageAdapter(AdminViewProducts.this, mUploads);
+                mAdapter.setOnItemClickListener(AdminViewProducts.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(NewImageActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminViewProducts.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
@@ -94,7 +94,7 @@ public class NewImageActivity extends AppCompatActivity implements ImageAdapter.
 
     @Override
     public void onItemClick(int position) {
-        Intent i=new Intent(NewImageActivity.this, EditItems.class);
+        Intent i=new Intent(AdminViewProducts.this, EditItems.class);
         i.putExtra("index",position);
         startActivity(i);
     }

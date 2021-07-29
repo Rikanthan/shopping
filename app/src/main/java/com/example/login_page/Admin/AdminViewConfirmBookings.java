@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.Holder.BookingHolder;
 import com.example.login_page.Holder.Bookings;
+import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowBookings;
+import com.example.login_page.Views.ShowConfirmOrders;
 import com.example.login_page.Views.ShowOrders;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,17 +29,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminViewConfirmBookings extends AppCompatActivity implements  BookingHolder.OnItemClickListener {
-        RecyclerView recyclerView;
-        DatabaseReference databaseReference;
-        LinearLayoutManager linearLayoutManager;
-        FirebaseAuth firebaseAuth;
-        FirebaseUser fuser;
-        BookingHolder mAdapter;
-        List<Bookings> newcartlist;
-        int clickPosition = 0;
-        String userId;
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
+    RecyclerView recyclerView;
+    DatabaseReference databaseReference;
+    LinearLayoutManager linearLayoutManager;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser fuser;
+    BookingHolder mAdapter;
+    List<Bookings> newcartlist;
+    List<Bookings> myCartList;
+    int clickPosition = 0;
+    int position = 0;
+    String userId;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_view_booking);
         recyclerView  =  findViewById(R.id.show_bookings);
@@ -45,57 +49,36 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
+        myCartList = new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference= FirebaseDatabase.getInstance().getReference("Confirmedbooking");
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("Confirmedbooking");
         process();
 
-        }
-        @Override
-        public void onItemClick(final int position)
-        {
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+    }
+    @Override
+    public void onItemClick(final int position)
+    {
+        Bookings myRefBookings = myCartList.get(position);
+        String id = myRefBookings.getId();
+        String date = myRefBookings.getDate();
+        Intent intent = new Intent(AdminViewConfirmBookings.this, ShowConfirmOrders.class);
+        intent.putExtra("id",id);
+        intent.putExtra("date",date);
+        startActivity(intent);
 
-                    for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                    {
-                        if(position == clickPosition)
-                        {
-                            Bookings mybookings = dataSnapshot.getValue(Bookings.class);
-                            userId = mybookings.getId();
-                            clickPosition = 0;
-                            break;
-                        }
-                        else
-                        {
-                            clickPosition ++;
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    System.out.println(error);
-                }
-            });
-            Intent intent = new Intent(AdminViewConfirmBookings.this, ShowOrders.class);
-            intent.putExtra("id",userId);
-            startActivity(intent);
-
-        }
-        public void process()
-        {
+    }
+    public void process()
+    {
         final String uid    =   firebaseAuth.getCurrentUser().getUid();
-                databaseReference.addValueEventListener(new ValueEventListener() {
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
-                        if(dataSnapshot.exists())
-                        {
+                    if(dataSnapshot.exists())
+                    {
 
                         Bookings mycart = dataSnapshot.getValue(Bookings.class);
                         String name=mycart.getName();
@@ -110,12 +93,15 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
                         mycart.setId(userId);
                         mycart.setName(name);
                         mycart.setPrice(price);
-                        Bookings mybookings = new Bookings(userId,price,name,phone,location,date);
+                        String pickUpDate = dataSnapshot.getKey();
+                        Bookings mybookings = new Bookings(userId,price,name,phone,location,pickUpDate);
+                        Bookings refBookings = new Bookings(userId,price,name,price,location,date);
+                        myCartList.add(refBookings);
                         newcartlist.add(mybookings);
 
-                        }
-
                     }
+
+                }
                 mAdapter = new BookingHolder(AdminViewConfirmBookings.this, newcartlist);
                 mAdapter.setOnItemClickListener(AdminViewConfirmBookings.this);
                 recyclerView.setAdapter(mAdapter);
@@ -124,9 +110,8 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(AdminViewConfirmBookings.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
-                }
+            }
         });
     }
-
 
 }
