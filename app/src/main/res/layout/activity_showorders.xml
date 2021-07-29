@@ -20,6 +20,7 @@
         android:layout_marginRight="100dp"
         android:layout_gravity="fill_horizontal"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:onClick="confirm"
         android:text="Confirm order"
         android:textColor="@color/white"/>

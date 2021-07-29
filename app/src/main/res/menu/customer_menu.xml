@@ -10,14 +10,15 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/show_cart"
+        app:actionLayout="@layout/update_count"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
-        android:actionLayout="@layout/update_count"
         android:orderInCategory="100"
         android:title=""
         app:showAsAction="always" />
     <item
         android:id="@+id/cust_bookings"
-        android:icon="@drawable/ic_baseline_book_24"
+        app:actionLayout="@layout/update_bookings"
+        android:icon="@drawable/ic_baseline_book_online_24"
         android:orderInCategory="100"
         android:title=""
         app:showAsAction="always"/>

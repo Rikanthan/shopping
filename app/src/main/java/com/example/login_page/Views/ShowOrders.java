@@ -75,6 +75,7 @@ Long totalPrice = Long.valueOf(0);
         if( customer == null)
         {
             fuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            confirmButton.setVisibility(View.VISIBLE);
         }
         else
         {

@@ -1,17 +1,22 @@
 package com.example.login_page.Home;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
+import com.example.login_page.Holder.Bookings;
 import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowOrders;
@@ -25,19 +30,29 @@ import com.example.login_page.category.Snacks;
 import com.example.login_page.category.Softdrinks;
 import com.example.login_page.category.Vegetables;
 import com.example.login_page.customer.CustomerViewBookings;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home extends AppCompatActivity {
     String[] lables;
     String[] fruitPages;
+    Layout updateCart;
+    TextView cartText,bookingText;
+    CustomerViewBookings _customer;
+    long cartCount = 0;
+    long bookingCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         Resources res=getResources();
         lables=res.getStringArray(R.array.headers);
         fruitPages=res.getStringArray(R.array.fruits_page);
         final GridView grid=(GridView) findViewById(R.id.Items);
+        _customer = new CustomerViewBookings();
         customAdapter myadapter=new customAdapter(getApplicationContext(),lables);
         grid.setAdapter(myadapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,6 +115,22 @@ public class Home extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.customer_menu, menu);
+        final View showCart = menu.findItem(R.id.show_cart).getActionView();
+        cartText = (TextView) showCart.findViewById(R.id.update_cart);
+        long cart = getCartItem();
+        if(cart > 0)
+        {
+            cartText.setText(String.valueOf(getCartItem()));
+            cartText.setVisibility(View.VISIBLE);
+        }
+        final View showBooking = menu.findItem(R.id.cust_bookings).getActionView();
+        bookingText = (TextView) showBooking.findViewById(R.id.update_bookings_text);
+        long bookings = getBookingCount();
+        if(bookings > 0)
+       {
+            bookingText.setText(String.valueOf(bookings));
+            bookingText.setVisibility(View.VISIBLE);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -124,5 +155,59 @@ public class Home extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public long getCartItem()
+    {
+        String uid = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance()
+                .getReference("orders")
+                .child(uid).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists())
+                        {
+                            cartCount = snapshot.getChildrenCount();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
+        return cartCount;
+    }
+    public long getBookingCount()
+    {
+        final String uid = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance()
+                .getReference("booking")
+                .addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                        {
+                            if(dataSnapshot.exists())
+                            {
+                                Bookings getBooking = dataSnapshot.getValue(Bookings.class);
+                                if(getBooking.getId().contains(uid))
+                                {
+                                    bookingCount++;
+                                }
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
+
+        return bookingCount;
     }
 }

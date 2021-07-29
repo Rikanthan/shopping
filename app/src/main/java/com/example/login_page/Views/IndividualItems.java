@@ -48,6 +48,7 @@ public class IndividualItems extends AppCompatActivity {
     private APIService apiService;
     ImageView imageView;
     TextView textname,textprice,updateCount;
+
     String productCategory;
     int index;
     String fuser;

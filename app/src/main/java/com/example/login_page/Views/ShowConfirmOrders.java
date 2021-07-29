@@ -87,7 +87,7 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
         {
             isAdmin = true;
             confirmButton.setText("Confirmation");
-            confirmButton.setBackgroundColor(Color.GREEN);
+            confirmButton.setVisibility(View.VISIBLE);
         }
         databaseReference= FirebaseDatabase.getInstance()
                 .getReference("ordersBackup")

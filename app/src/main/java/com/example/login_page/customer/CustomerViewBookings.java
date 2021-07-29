@@ -34,15 +34,17 @@ import java.util.List;
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 public class CustomerViewBookings extends AppCompatActivity implements  BookingHolder.OnItemClickListener {
-    RecyclerView recyclerView;
-    DatabaseReference databaseReference;
-    LinearLayoutManager linearLayoutManager;
-    String date = "";
-    FirebaseAuth firebaseAuth;
-    FirebaseUser fuser;
-    BookingHolder mAdapter;
-    List<Bookings> newcartlist;
+  public   RecyclerView recyclerView;
+  private    DatabaseReference databaseReference;
+  public   LinearLayoutManager linearLayoutManager;
+  public   String date = "";
+  public   FirebaseAuth firebaseAuth;
+  public   FirebaseUser fuser;
+  public   BookingHolder mAdapter;
+  public  List<Bookings> newcartlist;
+    public CustomerViewBookings(){
 
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,51 +73,57 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
     }
     public int process(String getBooking)
     {
-        final String uid    =   firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child(getBooking).addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                {
-                    if(dataSnapshot.exists())
-                    {
-                        boolean itsMe = false;
-                        Bookings mycart = dataSnapshot.getValue(Bookings.class);
-                        String name=mycart.getName();
-                        String phone = mycart.getPhone();
-                        String location = mycart.getLocation();
-                        String price = mycart.getPrice();
-                        date = mycart.getDate();
-                        String userId = mycart.getId();
-                        mycart.setDate(date);
-                        mycart.setPhone(phone);
-                        mycart.setLocation(location);
-                        mycart.setId(userId);
-                        mycart.setName(name);
-                        mycart.setPrice(price);
-                        if(userId.contains(uid))
-                        {
-                            itsMe = true;
-                            Bookings mybookings = new Bookings(userId,price,name,phone,location,dataSnapshot.getKey());
-                            newcartlist.add(mybookings);
+        final String uid    =   FirebaseAuth.getInstance().getUid();
+        if(getBooking != null)
+        {
+            FirebaseDatabase.getInstance().getReference()
+                    .child("booking")
+                    .addValueEventListener(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                            {
+                                if(dataSnapshot.exists())
+                                {
+                                    boolean itsMe = false;
+                                    Bookings mycart = dataSnapshot.getValue(Bookings.class);
+                                    String name=mycart.getName();
+                                    String phone = mycart.getPhone();
+                                    String location = mycart.getLocation();
+                                    String price = mycart.getPrice();
+                                    date = mycart.getDate();
+                                    String userId = mycart.getId();
+                                    mycart.setDate(date);
+                                    mycart.setPhone(phone);
+                                    mycart.setLocation(location);
+                                    mycart.setId(userId);
+                                    mycart.setName(name);
+                                    mycart.setPrice(price);
+                                    if(userId.contains(uid))
+                                    {
+                                        itsMe = true;
+                                        Bookings mybookings = new Bookings(userId,price,name,phone,location,dataSnapshot.getKey());
+                                        newcartlist.add(mybookings);
+                                    }
+                                }
+
+                            }
+
+                            mAdapter = new BookingHolder(CustomerViewBookings.this, newcartlist);
+                            mAdapter.setOnItemClickListener(CustomerViewBookings.this);
+                            recyclerView.setAdapter(mAdapter);
+
+
                         }
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(CustomerViewBookings.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
-                }
+                        }
+                    });
+        }
 
-                mAdapter = new BookingHolder(CustomerViewBookings.this, newcartlist);
-                mAdapter.setOnItemClickListener(CustomerViewBookings.this);
-                recyclerView.setAdapter(mAdapter);
-
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(CustomerViewBookings.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
      return newcartlist.size();
     }
     @Override
