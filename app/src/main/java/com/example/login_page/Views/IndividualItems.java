@@ -279,9 +279,11 @@ public class IndividualItems extends AppCompatActivity {
                         if(snapshot.exists())
                         {
                             long count = snapshot.getChildrenCount();
-                            updateCount.setText(String.valueOf(count));
-                            updateCount.setBackground(getDrawable(R.drawable.normalmode));
-                            updateCount.setVisibility(View.INVISIBLE);
+                            if(count > 0)
+                            {
+                                updateCount.setText(String.valueOf(count));
+                                updateCount.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
 

@@ -72,6 +72,7 @@
         android:layout_marginTop="150dp"
         android:paddingBottom="1dp"
         android:paddingRight="4dp"
+        android:visibility="invisible"
         android:paddingLeft="4dp"
         android:background="@drawable/notification_count"/>
 
