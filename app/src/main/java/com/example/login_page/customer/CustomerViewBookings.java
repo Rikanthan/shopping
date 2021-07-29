@@ -18,6 +18,7 @@ import com.example.login_page.Holder.Bookings;
 import com.example.login_page.Home.Home;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.R;
+import com.example.login_page.Views.ShowConfirmOrders;
 import com.example.login_page.Views.ShowOrders;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +37,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
     RecyclerView recyclerView;
     DatabaseReference databaseReference;
     LinearLayoutManager linearLayoutManager;
+    String date = "";
     FirebaseAuth firebaseAuth;
     FirebaseUser fuser;
     BookingHolder mAdapter;
@@ -52,20 +54,25 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         newcartlist=new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference= FirebaseDatabase.getInstance().getReference("Confirmedbooking");
-        process();
-
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+        if(process("Confirmedbooking") == 0)
+        {
+            process("booking");
+        }
     }
     @Override
     public void onItemClick(int position)
     {
-
-
+        Bookings myBookings = newcartlist.get(position);
+        Intent intent = new Intent(this, ShowConfirmOrders.class);
+        intent.putExtra("id",myBookings.getId());
+        intent.putExtra("date",myBookings.getDate());
+        startActivity(intent);
     }
-    public void process()
+    public int process(String getBooking)
     {
         final String uid    =   firebaseAuth.getCurrentUser().getUid();
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child(getBooking).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -79,7 +86,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                         String phone = mycart.getPhone();
                         String location = mycart.getLocation();
                         String price = mycart.getPrice();
-                        String date = mycart.getDate();
+                        date = mycart.getDate();
                         String userId = mycart.getId();
                         mycart.setDate(date);
                         mycart.setPhone(phone);
@@ -90,7 +97,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                         if(userId.contains(uid))
                         {
                             itsMe = true;
-                            Bookings mybookings = new Bookings(userId,price,name,phone,location,date);
+                            Bookings mybookings = new Bookings(userId,price,name,phone,location,dataSnapshot.getKey());
                             newcartlist.add(mybookings);
                         }
                     }
@@ -109,6 +116,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
 
             }
         });
+     return newcartlist.size();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

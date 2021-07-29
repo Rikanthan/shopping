@@ -1,6 +1,7 @@
 package com.example.login_page.Views;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.UUID;
 
@@ -51,7 +52,7 @@ public class IndividualItems extends AppCompatActivity {
     int index;
     String fuser;
     String uploadId = "";
-    String catergoryId ="";
+    String catergoryId = "";
     ElegantNumberButton elegantNumberButton;
     String showQuantity;
     FloatingActionButton fab;
@@ -94,7 +95,6 @@ public class IndividualItems extends AppCompatActivity {
     }
     private void getDetails(final String productCategory)
     {
-
         DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference(productCategory);
         productsRef.child(String.valueOf(index+1)).addValueEventListener(
                 new ValueEventListener() {
@@ -226,7 +226,12 @@ public class IndividualItems extends AppCompatActivity {
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         String refreshToken= FirebaseInstanceId.getInstance().getToken();
         Token token= new Token(refreshToken);
-        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
+        FirebaseDatabase.getInstance().getReference("Tokens")
+                .child(FirebaseAuth
+                        .getInstance()
+                        .getCurrentUser()
+                        .getUid()
+                ).setValue(token);
     }
 
     public void sendNotifications(String usertoken, String title, String message) {
@@ -268,12 +273,15 @@ public class IndividualItems extends AppCompatActivity {
         String id = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase.getInstance().getReference("orders").child(id).addListenerForSingleValueEvent(
                 new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists())
                         {
                             long count = snapshot.getChildrenCount();
                             updateCount.setText(String.valueOf(count));
+                            updateCount.setBackground(getDrawable(R.drawable.normalmode));
+                            updateCount.setVisibility(View.INVISIBLE);
                         }
                     }
 
