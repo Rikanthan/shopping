@@ -102,6 +102,13 @@ public class AdminCatorgory extends AppCompatActivity {
         final View showBooking = menu.findItem(R.id.customerBookings).getActionView();
         bookingText = (TextView) showBooking.findViewById(R.id.update_bookings_text);
         getBookingCount();
+        showBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i1 = new Intent(AdminCatorgory.this, AdminViewConfirmBookings.class);
+                startActivity(i1);
+            }
+        });
         return true ;
     }
 
@@ -138,10 +145,8 @@ public class AdminCatorgory extends AppCompatActivity {
         }
 
     }
-
     public void getBookingCount()
     {
-        String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase.getInstance()
                 .getReference("booking")
                 .addListenerForSingleValueEvent(

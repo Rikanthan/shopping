@@ -59,7 +59,8 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         databaseReference= FirebaseDatabase.getInstance().getReference();
         if(process("Confirmedbooking") == 0)
         {
-            process("booking");
+            newcartlist.clear();
+         System.out.println( process("booking"));
         }
     }
     @Override
@@ -77,7 +78,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         if(getBooking != null)
         {
             FirebaseDatabase.getInstance().getReference()
-                    .child("booking")
+                    .child(getBooking)
                     .addValueEventListener(new ValueEventListener() {
                         @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
@@ -94,17 +95,14 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                                     String price = mycart.getPrice();
                                     date = mycart.getDate();
                                     String userId = mycart.getId();
-                                    mycart.setDate(date);
-                                    mycart.setPhone(phone);
-                                    mycart.setLocation(location);
-                                    mycart.setId(userId);
-                                    mycart.setName(name);
-                                    mycart.setPrice(price);
                                     if(userId.contains(uid))
                                     {
-                                        itsMe = true;
+
                                         Bookings mybookings = new Bookings(userId,price,name,phone,location,dataSnapshot.getKey());
-                                        newcartlist.add(mybookings);
+                                        if(!newcartlist.contains(mybookings))
+                                        {
+                                            newcartlist.add(mybookings);
+                                        }
                                     }
                                 }
 

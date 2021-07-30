@@ -117,20 +117,24 @@ public class Home extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.customer_menu, menu);
         final View showCart = menu.findItem(R.id.show_cart).getActionView();
         cartText = (TextView) showCart.findViewById(R.id.update_cart);
-        long cart = getCartItem();
-        if(cart > 0)
-        {
-            cartText.setText(String.valueOf(getCartItem()));
-            cartText.setVisibility(View.VISIBLE);
-        }
+        getCartItem();
+        showCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Home.this, ShowOrders.class);
+                startActivity(i);
+            }
+        });
         final View showBooking = menu.findItem(R.id.cust_bookings).getActionView();
         bookingText = (TextView) showBooking.findViewById(R.id.update_bookings_text);
-        long bookings = getBookingCount();
-        if(bookings > 0)
-       {
-            bookingText.setText(String.valueOf(bookings));
-            bookingText.setVisibility(View.VISIBLE);
-        }
+        getBookingCount();
+       showBooking.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent i1 = new Intent(Home.this, CustomerViewBookings.class);
+               startActivity(i1);
+           }
+       });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -156,7 +160,7 @@ public class Home extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public long getCartItem()
+    public void getCartItem()
     {
         String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase.getInstance()
@@ -168,6 +172,8 @@ public class Home extends AppCompatActivity {
                         if(snapshot.exists())
                         {
                             cartCount = snapshot.getChildrenCount();
+                            cartText.setText(String.valueOf(cartCount));
+                            cartText.setVisibility(View.VISIBLE);
                         }
                     }
 
@@ -177,9 +183,8 @@ public class Home extends AppCompatActivity {
                     }
                 }
         );
-        return cartCount;
     }
-    public long getBookingCount()
+    public void getBookingCount()
     {
         final String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase.getInstance()
@@ -197,6 +202,8 @@ public class Home extends AppCompatActivity {
                                 if(getBooking.getId().contains(uid))
                                 {
                                     bookingCount++;
+                                    bookingText.setText(String.valueOf(bookingCount));
+                                    bookingText.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
@@ -208,6 +215,5 @@ public class Home extends AppCompatActivity {
                 }
         );
 
-        return bookingCount;
     }
 }

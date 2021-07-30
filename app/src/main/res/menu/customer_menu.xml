@@ -24,7 +24,7 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/customer_logout"
-        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:icon="@drawable/ic_baseline_power_settings_new_24"
         android:orderInCategory="100"
         android:title=""
         app:showAsAction="always"/>

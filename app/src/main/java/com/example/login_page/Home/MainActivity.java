@@ -206,4 +206,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Token token= new Token(refreshToken);
         FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
     }
+
 }
