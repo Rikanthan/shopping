@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".Views.Timer"></activity>
+        <activity android:name=".Views.SeeTimer"></activity>
         <activity android:name=".Admin.SetDateActivity" />
         <activity android:name=".customer.CustomerViewBookings" />
         <activity android:name=".Views.ShowBookings" />
@@ -46,7 +46,7 @@
         <activity android:name=".Admin.ui.EditItems" />
         <activity android:name=".notification.SendNotification" />
         <activity android:name=".Admin.AdminViewConfirmBookings" />
-        <activity android:name=".Views.ShowConfirmOrders"/>
+        <activity android:name=".Views.ShowConfirmOrders" />
         <activity android:name=".Home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

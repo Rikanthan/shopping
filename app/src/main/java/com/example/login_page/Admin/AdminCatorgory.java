@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
+import java.util.Set;
+
 public class AdminCatorgory extends AppCompatActivity {
     Toolbar tool;
     TextView bookingText;
@@ -99,10 +101,7 @@ public class AdminCatorgory extends AppCompatActivity {
         inflater.inflate(R.menu.navi,menu);
         final View showBooking = menu.findItem(R.id.customerBookings).getActionView();
         bookingText = (TextView) showBooking.findViewById(R.id.update_bookings_text);
-        long bookings = getBookingCount();
-            bookingText.setText("3");
-            bookingText.setVisibility(View.VISIBLE);
-
+        getBookingCount();
         return true ;
     }
 
@@ -124,6 +123,15 @@ public class AdminCatorgory extends AppCompatActivity {
             case R.id.addNewProducts:
                 Intent i3 = new Intent(this, SendNotification.class);
                 startActivity(i3);
+            case R.id.setBookingTime:
+                Intent i4 = new Intent(this, SetDateActivity.class);
+                i4.putExtra("Activity","BookingTime");
+                startActivity(i4);
+                return true;
+            case R.id.setTimer:
+                Intent i5 = new Intent(this, SetDateActivity.class);
+                i5.putExtra("Activity","setTimer");
+                startActivity(i5);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -131,18 +139,20 @@ public class AdminCatorgory extends AppCompatActivity {
 
     }
 
-    public long getBookingCount()
+    public void getBookingCount()
     {
         String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase.getInstance()
                 .getReference("booking")
-                .child(uid).addListenerForSingleValueEvent(
+                .addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists())
                         {
                             bookingCount = snapshot.getChildrenCount();
+                            bookingText.setText(String.valueOf(bookingCount));
+                            bookingText.setVisibility(View.VISIBLE);
                         }
                     }
 
@@ -152,7 +162,6 @@ public class AdminCatorgory extends AppCompatActivity {
                     }
                 }
         );
-        return bookingCount;
     }
 
 }

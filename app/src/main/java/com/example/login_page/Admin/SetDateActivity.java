@@ -18,7 +18,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.login_page.R;
+import com.example.login_page.Views.SeeTimer;
 import com.example.login_page.Views.ShowBookings;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
@@ -31,6 +33,11 @@ public class SetDateActivity extends AppCompatActivity implements
     private String format = "";
     String date = "";
     String time = "";
+    String getHour = "";
+    String getMinute = "";
+    String getDigital = "";
+    String activity;
+    boolean isCountdown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,15 @@ public class SetDateActivity extends AppCompatActivity implements
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
-
+        activity = getIntent().getStringExtra("Activity");
+        if(activity != null && activity.contains("BookingTime"))
+        {
+            isCountdown = false;
+        }
+        else if(activity != null && activity.contains("setTimer"))
+        {
+            isCountdown = true;
+        }
     }
 
     @Override
@@ -99,6 +114,8 @@ public class SetDateActivity extends AppCompatActivity implements
                         @Override
                         public void onTimeSet(TimePicker view, int hour,
                                               int minute) {
+                            getHour = String.valueOf(hour);
+                            getMinute = String.valueOf(minute);
                             if (hour == 0) {
                                 hour += 12;
                                 format = ":00 AM";
@@ -134,16 +151,23 @@ public class SetDateActivity extends AppCompatActivity implements
     public void set(View v)
     {
         Intent intent = new Intent(this, ShowBookings.class);
+        Intent intent1 = new Intent(this, SeeTimer.class);
         date = txtDate.getText().toString();
         time = txtTime.getText().toString();
+        getDigital = date+" "+getHour+":"+getMinute+":00";
         if(date.isEmpty() || time.isEmpty())
         {
             Toast.makeText(this,"Please select date and time",Toast.LENGTH_LONG).show();
         }
         else
         {
-            intent.putExtra("datetime",date+" "+time);
-            startActivity(intent);
+            if(!isCountdown)
+            {
+                intent.putExtra("datetime",date+" "+time);
+                startActivity(intent);
+            }
+            FirebaseDatabase.getInstance().getReference("Timer").setValue(getDigital);
+            startActivity(intent1);
         }
     }
 }

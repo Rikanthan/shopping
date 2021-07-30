@@ -14,17 +14,19 @@
         android:icon="@drawable/ic_baseline_book_online_24"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/customer"
+        android:id="@+id/setBookingTime"
         android:title=""
         app:showAsAction="always"
-        android:icon="@drawable/cust"/>
+        android:icon="@drawable/ic_baseline_more_time_24"/>
 
     <item
         android:id="@+id/inventory"
         android:title="Inventory items"
         android:icon="@drawable/product"
         app:showAsAction="always"/>
-
+   <item
+       android:id="@+id/setTimer"
+       android:title="Set Timer"/>
     <item
         android:id="@+id/logout"
         android:title="Logout"
