@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.example.login_page.Holder.Bookings;
 import com.example.login_page.Images.ImagesActivity;
+import com.example.login_page.Product.ShowItemsActivity;
 import com.example.login_page.R;
+import com.example.login_page.Views.SeeTimer;
 import com.example.login_page.Views.ShowOrders;
 import com.example.login_page.adapter.customAdapter;
 import com.example.login_page.category.Bakery;
@@ -135,6 +137,8 @@ public class Home extends AppCompatActivity {
                startActivity(i1);
            }
        });
+       final View home = menu.findItem(R.id.customer_home).getActionView();
+       menu.findItem(R.id.customer_home).setIcon(R.drawable.ic_baseline_timer_24);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -142,7 +146,7 @@ public class Home extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.customer_home:
-                Intent intent = new Intent(this,Home.class);
+                Intent intent = new Intent(this, SeeTimer.class);
                 startActivity(intent);
                 return true;
             case R.id.show_cart:

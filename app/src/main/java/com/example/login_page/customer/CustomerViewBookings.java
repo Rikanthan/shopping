@@ -60,7 +60,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         if(process("Confirmedbooking") == 0)
         {
             newcartlist.clear();
-         System.out.println( process("booking"));
+        // System.out.println( process("booking"));
         }
     }
     @Override

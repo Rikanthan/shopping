@@ -102,11 +102,12 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
                     String Name=mycart.getPname();
                     Long quantity=mycart.getQuantity();
                     Long price=mycart.getPrice();
+                    String imageUrl = mycart.getImageUrl();
                     totalPrice = totalPrice + price*quantity;
                     mycart.setPname(Name);
                     mycart.setQuantity(quantity);
                     mycart.setPrice(price);
-                    Cart showcart=new Cart(Name,quantity,price);
+                    Cart showcart=new Cart(Name,quantity,price,imageUrl);
                     newcartlist.add(showcart);
                 }
                 mAdapter = new CartViewHolder(ShowConfirmOrders.this, newcartlist);

@@ -98,11 +98,12 @@ Long totalPrice = Long.valueOf(0);
                     String Name=mycart.getPname();
                     Long quantity=mycart.getQuantity();
                     Long price=mycart.getPrice();
+                    String imageUrl = mycart.getImageUrl();
                     totalPrice = totalPrice + price*quantity;
                     mycart.setPname(Name);
                     mycart.setQuantity(quantity);
                     mycart.setPrice(price);
-                    Cart showcart=new Cart(Name,quantity,price);
+                    Cart showcart=new Cart(Name,quantity,price,imageUrl);
                     newcartlist.add(showcart);
                 }
                 mAdapter = new CartViewHolder(ShowOrders.this, newcartlist);

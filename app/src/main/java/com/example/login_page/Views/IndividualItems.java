@@ -63,7 +63,7 @@ public class IndividualItems extends AppCompatActivity {
     Upload uploads;
     int pPrice  =   0;
     int quan=1;
-
+    String catergoryImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,17 +111,17 @@ public class IndividualItems extends AppCompatActivity {
                                  uploadId = upload.getmuploadId();
                                 String categoryDescription = upload.getmCatergory();
                                 String categoryPrice = upload.getmPrice();
-                                String categoryImageUrl = upload.getImageUrl();
+                                catergoryImageUrl = upload.getImageUrl();
                                 String quantity = upload.getmQuantity();
                                  catergoryId = upload.getmCatergoryId();
-                                upload.setImageUrl(categoryImageUrl);
+                                upload.setImageUrl(catergoryImageUrl);
                                 upload.setmCatergory(categoryDescription);
                                 upload.setmPrice(categoryPrice);
                                 upload.setName(Name);
                                 upload.setmQuantity(quantity);
                                 upload.setmuploadId(uploadId);
                                 upload.setmCatergoryId(catergoryId);
-                                 uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription ,uploadId ,catergoryId);
+                                 uploads = new Upload(Name, catergoryImageUrl, categoryPrice, quantity, categoryDescription ,uploadId ,catergoryId);
                                 textname.setText(uploads.getName());
                                 showQuantity= uploads.getName();
                                 pPrice=Integer.parseInt(uploads.getmPrice());
@@ -164,6 +164,7 @@ public class IndividualItems extends AppCompatActivity {
         final HashMap<String,Object> cartMap=new HashMap<>();
 
         cartMap.put("pname",showQuantity);
+        cartMap.put("imageUrl",catergoryImageUrl);
         cartMap.put("price",pPrice);
         cartMap.put("quantity",quan);
         cartMap.put("date",saveCurrentdate);

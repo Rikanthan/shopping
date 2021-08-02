@@ -1,13 +1,24 @@
 package com.example.login_page.Product;
 
 public class Cart {
-    public Cart(String pname, Long price, Long quantity) {
+    public Cart(String pname, Long price, Long quantity,String imageUrl) {
         this.pname = pname;
         this.price = price;
         this.quantity = quantity;
+        this.imageUrl = imageUrl;
     }
 
     String pname;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    String imageUrl;
     Long price;
     Long quantity;
 
