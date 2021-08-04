@@ -82,7 +82,7 @@ public class SeeTimer extends AppCompatActivity {
             }
 
             public void onFinish() {
-                timeView.setText("done!");
+                timeView.setText("Exceeded!");
             }
 
         }.start();

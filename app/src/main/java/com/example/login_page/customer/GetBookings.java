@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.login_page.Product.Cart;
 import com.example.login_page.Views.Member;
+import com.example.login_page.Views.SeeTimer;
 import com.example.login_page.notification.Data;
 import com.example.login_page.notification.MyResponse;
 import com.example.login_page.notification.NotificationSender;
@@ -34,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +49,7 @@ import retrofit2.Response;
 
 public class GetBookings extends AppCompatActivity {
     private static final String CHANNEL_ID = "100 " ;
+    private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private APIService apiService;
     TextView total;
     EditText name;
@@ -53,8 +57,11 @@ public class GetBookings extends AppCompatActivity {
     EditText location;
     String price;
     String userId;
+    boolean canBook;
     FirebaseAuth firebaseAuth;
     SendNotification sendNotification;
+    SimpleDateFormat format;
+    Date currentTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,53 +77,53 @@ public class GetBookings extends AppCompatActivity {
         total.setText("Total : Rs"+ price);
         firebaseAuth = FirebaseAuth.getInstance();
         userId = firebaseAuth.getUid();
+        format = new SimpleDateFormat(DATE_FORMAT);
         getUserDetails();
+        currentTime = new Date();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void book(View v)
     {
+        if(canBooke())
+        {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+            final String date = format.format(new Date());
+            final HashMap<String,Object> cartMap=new HashMap<>();
+            DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("booking");//.child(currentDate.toString());
+            cartMap.put("id",userId);
+            cartMap.put("name",name.getText().toString().trim());
+            cartMap.put("phone",phone.getText().toString().trim());
+            cartMap.put("location",location.getText().toString().trim());
+            cartMap.put("price",price);
+            cartMap.put("date",date);
+            databaseReference.child(date).setValue(cartMap);
+            UpdateToken();
+            getBackup(date);
+            Toast.makeText(this,"Your items booked successfully",Toast.LENGTH_LONG).show();
+            FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
+                    .child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists())
+                    {
+                        String userToken = dataSnapshot.getValue(String.class);
+                        sendNotifications(userToken, "New Booking", name.getText().toString()+" booked items");
+                    }
 
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-        final String date = format.format(new Date());
-        final HashMap<String,Object> cartMap=new HashMap<>();
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("booking");//.child(currentDate.toString());
-        cartMap.put("id",userId);
-        cartMap.put("name",name.getText().toString().trim());
-        cartMap.put("phone",phone.getText().toString().trim());
-        cartMap.put("location",location.getText().toString().trim());
-        cartMap.put("price",price);
-        cartMap.put("date",date);
-       // assert fuser != null;
-        databaseReference.child(date).setValue(cartMap);
-        UpdateToken();
-        getBackup(date);
-        int i = 0;
-//        for(Cart cart: backupCart)
-//        {
-//            FirebaseDatabase.getInstance().getReference("orders").child(date).child(String.valueOf(i)).setValue(cart);
-//            i++;
-//        }
-        Toast.makeText(this,"Your items booked successfully",Toast.LENGTH_LONG).show();
-        FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
-                .child("token").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                {
-                    String userToken = dataSnapshot.getValue(String.class);
-                    sendNotifications(userToken, "New Booking", name.getText().toString()+" booked items");
                 }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-       // Intent intent = new Intent(this, ShowBookings.class);
-       // startActivity(intent);
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(GetBookings.this,"Sorry! Booking time limit exceeds",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, SeeTimer.class);
+            startActivity(intent);
+        }
 
     }
     public void UpdateToken(){
@@ -213,5 +220,38 @@ public class GetBookings extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("orders").child(userId).getRef().removeValue();
         return cartList;
     }
+    public boolean canBooke()
+    {
 
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Timer")
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists())
+                                {
+                                   String date = snapshot.getValue(String.class);
+                                    try {
+                                        Date eventdate = format.parse(date);
+                                        if(eventdate.getTime() - currentTime.getTime() > 0)
+                                        {
+                                            canBook = true;
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        }
+                );
+        return canBook;
+    }
 }

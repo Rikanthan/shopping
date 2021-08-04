@@ -7,13 +7,26 @@
     android:orientation="vertical"
     tools:context=".Admin.SetDateActivity">
 
+    <TextView
+        android:id="@+id/timeText"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:text="Set timer"
+        />
+
     <EditText
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/in_date"
-        android:layout_marginTop="82dp"
+        android:layout_marginTop="132dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

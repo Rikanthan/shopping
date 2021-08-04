@@ -26,7 +26,9 @@
         app:showAsAction="always"/>
    <item
        android:id="@+id/setTimer"
-       android:title="Set Timer"/>
+       android:icon="@drawable/ic_baseline_timer_24"
+       android:title=""
+       app:showAsAction="always"/>
     <item
         android:id="@+id/logout"
         android:title="Logout"

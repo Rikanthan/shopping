@@ -3,6 +3,8 @@ package com.example.login_page.Admin;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -37,6 +39,7 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
     BookingHolder mAdapter;
     List<Bookings> newcartlist;
     List<Bookings> myCartList;
+    ProgressBar progressBar;
     int clickPosition = 0;
     int position = 0;
     String userId;
@@ -51,6 +54,7 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
         newcartlist=new ArrayList<>();
         myCartList = new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.cust_view_progress);
         fuser=FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Confirmedbooking");
         process();
@@ -105,6 +109,7 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
                 mAdapter = new BookingHolder(AdminViewConfirmBookings.this, newcartlist);
                 mAdapter.setOnItemClickListener(AdminViewConfirmBookings.this);
                 recyclerView.setAdapter(mAdapter);
+                progressBar.setVisibility(View.GONE);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

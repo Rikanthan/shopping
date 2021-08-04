@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
     String customer, bookedDate;
     Button deletebutton, confirmButton;
     CartViewHolder mAdapter;
+    ProgressBar progressBar;
     List<Cart> newcartlist;
     private static final String CHANNEL_ID = "100 " ;
     private APIService apiService;
@@ -66,6 +68,7 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
         recyclerView   =  findViewById(R.id.show_cart);
         recyclerView.setHasFixedSize(true);
         deletebutton = findViewById(R.id.idelete);
+        progressBar = findViewById(R.id.progress_circle);
         confirmButton = findViewById(R.id.confirmOrder);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -82,7 +85,7 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
         {
             fuser = customer;
         }
-        System.out.println(fuser);
+        System.out.println(fuser+" "+bookedDate);
         if(!FirebaseAuth.getInstance().getUid().contains(fuser))
         {
             isAdmin = true;
@@ -113,6 +116,7 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
                 mAdapter = new CartViewHolder(ShowConfirmOrders.this, newcartlist);
                 mAdapter.setOnItemClickListener(ShowConfirmOrders.this);
                 recyclerView.setAdapter(mAdapter);
+                progressBar.setVisibility(View.GONE);
 
             }
             @Override

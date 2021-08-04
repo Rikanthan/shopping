@@ -11,6 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.login_page.Holder.BookingHolder;
@@ -41,7 +44,9 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
   public   FirebaseAuth firebaseAuth;
   public   FirebaseUser fuser;
   public   BookingHolder mAdapter;
-  public  List<Bookings> newcartlist;
+  public  List<Bookings> newcartlist , customerList;
+  TextView textView;
+  ProgressBar progressBar;
     public CustomerViewBookings(){
 
     }
@@ -50,25 +55,25 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_view_booking);
         recyclerView  =  findViewById(R.id.show_bookings);
+        progressBar = findViewById(R.id.cust_view_progress);
+        textView = findViewById(R.id.cust_warn_text);
         recyclerView.setHasFixedSize(true);
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist=new ArrayList<>();
+        customerList = new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference();
-        if(process("Confirmedbooking") == 0)
-        {
-            newcartlist.clear();
-        // System.out.println( process("booking"));
-        }
+        process("Confirmedbooking");
     }
     @Override
     public void onItemClick(int position)
     {
-        Bookings myBookings = newcartlist.get(position);
+        Bookings myBookings = customerList.get(position);
         Intent intent = new Intent(this, ShowConfirmOrders.class);
         intent.putExtra("id",myBookings.getId());
+        System.out.println(myBookings.getDate());
         intent.putExtra("date",myBookings.getDate());
         startActivity(intent);
     }
@@ -87,6 +92,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                             {
                                 if(dataSnapshot.exists())
                                 {
+
                                     boolean itsMe = false;
                                     Bookings mycart = dataSnapshot.getValue(Bookings.class);
                                     String name=mycart.getName();
@@ -99,9 +105,11 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                                     {
 
                                         Bookings mybookings = new Bookings(userId,price,name,phone,location,dataSnapshot.getKey());
+                                        Bookings customerbookings = new Bookings(userId,price,name,phone,location,date);
                                         if(!newcartlist.contains(mybookings))
                                         {
                                             newcartlist.add(mybookings);
+                                            customerList.add(customerbookings);
                                         }
                                     }
                                 }
@@ -111,7 +119,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                             mAdapter = new BookingHolder(CustomerViewBookings.this, newcartlist);
                             mAdapter.setOnItemClickListener(CustomerViewBookings.this);
                             recyclerView.setAdapter(mAdapter);
-
+                            progressBar.setVisibility(View.GONE);
 
                         }
                         @Override

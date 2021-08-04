@@ -132,12 +132,12 @@ public class AdminCatorgory extends AppCompatActivity {
                 startActivity(i3);
             case R.id.setBookingTime:
                 Intent i4 = new Intent(this, SetDateActivity.class);
-                i4.putExtra("Activity","BookingTime");
+                i4.putExtra("Activity",false);
                 startActivity(i4);
                 return true;
             case R.id.setTimer:
                 Intent i5 = new Intent(this, SetDateActivity.class);
-                i5.putExtra("Activity","setTimer");
+                i5.putExtra("Activity",true);
                 startActivity(i5);
                 return true;
             default:

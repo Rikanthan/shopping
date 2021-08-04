@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.login_page.Holder.CartViewHolder;
@@ -55,6 +56,7 @@ List<Cart> newcartlist;
 private static final String CHANNEL_ID = "100 " ;
 private APIService apiService;
 SendNotification sendNotification;
+ProgressBar progressBar;
 String del="";
 int pos = 0;
 Long totalPrice = Long.valueOf(0);
@@ -66,6 +68,7 @@ Long totalPrice = Long.valueOf(0);
         recyclerView.setHasFixedSize(true);
         deletebutton = findViewById(R.id.idelete);
         confirmButton = findViewById(R.id.confirmOrder);
+        progressBar = findViewById(R.id.progress_circle);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist = new ArrayList<>();
@@ -109,6 +112,7 @@ Long totalPrice = Long.valueOf(0);
                 mAdapter = new CartViewHolder(ShowOrders.this, newcartlist);
                 mAdapter.setOnItemClickListener(ShowOrders.this);
               recyclerView.setAdapter(mAdapter);
+              progressBar.setVisibility(View.GONE);
 
             }
             @Override

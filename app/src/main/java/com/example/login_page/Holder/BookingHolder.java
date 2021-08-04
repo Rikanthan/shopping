@@ -1,5 +1,11 @@
 package com.example.login_page.Holder;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.fonts.FontStyle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +46,15 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         Bookings BookingsCurrent = mbookings.get(position);
-        holder.customername.setText("   Customer name :  "+BookingsCurrent.getName());
-        holder.customerlocation.setText("   Customer location : "+BookingsCurrent.getLocation());
-        holder.customerphone.setText("   Customer phone :  "+BookingsCurrent.getPhone());
-        holder.totalprice.setText("   Total Price :  "+BookingsCurrent.getPrice() + " Rs");
-        holder.customerpickuptime.setText("  Customer pickup Time : "+BookingsCurrent.getDate());
+        Spannable wordtoSpan = new SpannableString("Order#"+position);
+        int length = wordtoSpan.length();
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.YELLOW), 5, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.orderId.setText(wordtoSpan);
+        holder.customername.setText(BookingsCurrent.getName());
+        holder.customerlocation.setText(BookingsCurrent.getLocation());
+        holder.customerphone.setText(BookingsCurrent.getPhone());
+        holder.totalprice.setText("Rs "+BookingsCurrent.getPrice() + ".00");
+        holder.customerpickuptime.setText(BookingsCurrent.getDate());
 
     }
     @Override
@@ -52,7 +62,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
         return mbookings.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView customername,customerlocation,customerphone,totalprice,customerpickuptime;
+        public TextView customername,customerlocation,customerphone,totalprice,customerpickuptime,orderId;
 
         @Override
         public void onClick(View v) {
@@ -73,6 +83,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
             customerphone = itemView.findViewById(R.id.customer_phone);
             totalprice = itemView.findViewById(R.id.total_price);
             customerpickuptime = itemView.findViewById(R.id.customer_pickup_time);
+            orderId = itemView.findViewById(R.id.order_id);
             itemView.setOnClickListener(this);
         }
 
