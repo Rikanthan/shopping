@@ -3,6 +3,8 @@ package com.example.login_page.Home;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -14,10 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.login_page.Holder.Bookings;
+import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.ImagesActivity;
+import com.example.login_page.Images.Upload;
 import com.example.login_page.Product.ShowItemsActivity;
 import com.example.login_page.R;
 import com.example.login_page.Views.SeeTimer;
@@ -32,18 +37,28 @@ import com.example.login_page.category.Snacks;
 import com.example.login_page.category.Softdrinks;
 import com.example.login_page.category.Vegetables;
 import com.example.login_page.customer.CustomerViewBookings;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Home extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickListener {
     String[] lables;
     String[] fruitPages;
     Layout updateCart;
+    ImageAdapter mAdapter;
     TextView cartText,bookingText;
+    SearchView searchView;
+    RecyclerView recyclerView;
     CustomerViewBookings _customer;
+    GridView grid;
+    List<Upload> mUploads;
+
     long cartCount = 0;
     long bookingCount = 0;
     @Override
@@ -53,7 +68,12 @@ public class Home extends AppCompatActivity {
         Resources res=getResources();
         lables=res.getStringArray(R.array.headers);
         fruitPages=res.getStringArray(R.array.fruits_page);
-        final GridView grid=(GridView) findViewById(R.id.Items);
+        searchView = findViewById(R.id.search_items);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        mUploads = new ArrayList<>();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        grid=(GridView) findViewById(R.id.Items);
         _customer = new CustomerViewBookings();
         customAdapter myadapter=new customAdapter(getApplicationContext(),lables);
         grid.setAdapter(myadapter);
@@ -111,7 +131,41 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        grid.setVisibility(View.GONE);
 
+                        if(query != null )
+                        {
+                            if(!query.isEmpty())
+                            {
+                                mUploads.clear();
+                                search(query);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        grid.setVisibility(View.GONE);
+
+                        if(newText != null )
+                        {
+                            if(!newText.isEmpty())
+                            {
+                                mUploads.clear();
+                                search(newText);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        return true;
+                    }
+                }
+        );
     }
 
     @Override
@@ -218,6 +272,60 @@ public class Home extends AppCompatActivity {
                     }
                 }
         );
+
+    }
+    public void search(String s)
+    {
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Uploads")
+                .orderByChild("name")
+                .startAt(s)
+                .endAt(s+"\uf8ff")
+                .addValueEventListener(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists())
+                                {
+                                    for(DataSnapshot snapshot1: snapshot.getChildren())
+                                    {
+                                        Upload upload = snapshot1.getValue(Upload.class);
+                                        String Name = upload.getName();
+                                        String categoryDescription = upload.getmCatergory();
+                                        String categoryPrice = upload.getmPrice();
+                                        String categoryImageUrl = upload.getImageUrl();
+                                        String quantity=upload.getmQuantity();
+                                        String uploadId = upload.getmuploadId();
+                                        String catergoryId = upload.getmCatergoryId();
+                                        upload.setmuploadId(uploadId);
+                                        upload.setmCatergoryId(catergoryId);
+                                        upload.setImageUrl(categoryImageUrl);
+                                        upload.setmCatergory(categoryDescription);
+                                        upload.setmPrice(categoryPrice);
+                                        upload.setName(Name);
+                                        upload.setmQuantity(quantity);
+                                        Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
+                                        mUploads.add(uploads);
+                                    }
+                                    mAdapter = new ImageAdapter(Home.this, mUploads);
+                                    mAdapter.setOnItemClickListener(Home.this);
+                                    recyclerView.setAdapter(mAdapter);
+                                    grid.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        }
+                );
+    }
+
+    @Override
+    public void onItemClick(int position) {
 
     }
 }

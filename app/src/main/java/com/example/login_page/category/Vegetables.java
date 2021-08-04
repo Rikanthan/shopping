@@ -36,7 +36,6 @@ import java.util.List;
 public class Vegetables extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
-
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
@@ -70,7 +69,7 @@ public class Vegetables extends AppCompatActivity implements ImageAdapter.OnItem
                     String categoryImageUrl = upload.getImageUrl();
                     String quantity=upload.getmQuantity();
                     String uploadId = upload.getmuploadId();
-                                String catergoryId = upload.getmCatergoryId();
+                    String catergoryId = upload.getmCatergoryId();
                     upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
                     upload.setImageUrl(categoryImageUrl);
                     upload.setmCatergory(categoryDescription);
