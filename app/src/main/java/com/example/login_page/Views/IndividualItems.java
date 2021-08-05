@@ -96,7 +96,7 @@ public class IndividualItems extends AppCompatActivity {
     }
     private void getDetails(final String productCategory)
     {
-        DatabaseReference productsRef= FirebaseDatabase.getInstance().getReference(productCategory);
+        DatabaseReference productsRef   = FirebaseDatabase.getInstance().getReference(productCategory);
         productsRef.child(String.valueOf(index+1)).addValueEventListener(
                 new ValueEventListener() {
                     @Override
@@ -114,13 +114,6 @@ public class IndividualItems extends AppCompatActivity {
                                 catergoryImageUrl = upload.getImageUrl();
                                 String quantity = upload.getmQuantity();
                                  catergoryId = upload.getmCatergoryId();
-                                upload.setImageUrl(catergoryImageUrl);
-                                upload.setmCatergory(categoryDescription);
-                                upload.setmPrice(categoryPrice);
-                                upload.setName(Name);
-                                upload.setmQuantity(quantity);
-                                upload.setmuploadId(uploadId);
-                                upload.setmCatergoryId(catergoryId);
                                  uploads = new Upload(Name, catergoryImageUrl, categoryPrice, quantity, categoryDescription ,uploadId ,catergoryId);
                                 textname.setText(uploads.getName());
                                 showQuantity= uploads.getName();

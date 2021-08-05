@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -40,23 +41,22 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
     List<Bookings> newcartlist;
     List<Bookings> myCartList;
     ProgressBar progressBar;
-    int clickPosition = 0;
-    int position = 0;
-    String userId;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_view_booking);
         recyclerView  =  findViewById(R.id.show_bookings);
+        textView = findViewById(R.id.cust_warn_text);
+        progressBar = findViewById(R.id.cust_view_progress);
         recyclerView.setHasFixedSize(true);
-        linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        newcartlist=new ArrayList<>();
+        newcartlist =   new ArrayList<>();
         myCartList = new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
-        progressBar = findViewById(R.id.cust_view_progress);
-        fuser=FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("Confirmedbooking");
+        fuser   =   FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("booking");
         process();
 
     }
@@ -91,12 +91,6 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
                         String price = mycart.getPrice();
                         String date = mycart.getDate();
                         String userId = mycart.getId();
-                        mycart.setDate(date);
-                        mycart.setPhone(phone);
-                        mycart.setLocation(location);
-                        mycart.setId(userId);
-                        mycart.setName(name);
-                        mycart.setPrice(price);
                         String pickUpDate = dataSnapshot.getKey();
                         Bookings mybookings = new Bookings(userId,price,name,phone,location,pickUpDate);
                         Bookings refBookings = new Bookings(userId,price,name,price,location,date);

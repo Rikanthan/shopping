@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.Product.ShowItemsActivity;
 import com.example.login_page.R;
+import com.example.login_page.Views.IndividualItems;
 import com.example.login_page.Views.SeeTimer;
 import com.example.login_page.Views.ShowOrders;
 import com.example.login_page.adapter.customAdapter;
@@ -56,9 +59,10 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     SearchView searchView;
     RecyclerView recyclerView;
     CustomerViewBookings _customer;
+    ImageButton imageButton;
     GridView grid;
     List<Upload> mUploads;
-
+    boolean isListView = false;
     long cartCount = 0;
     long bookingCount = 0;
     @Override
@@ -70,6 +74,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
         fruitPages=res.getStringArray(R.array.fruits_page);
         searchView = findViewById(R.id.search_items);
         recyclerView = findViewById(R.id.recycler_view);
+        imageButton = findViewById(R.id.show_all);
         recyclerView.setHasFixedSize(true);
         mUploads = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,13 +135,10 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                     }
             }
         });
-
         searchView.setOnQueryTextListener(
                 new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
-                        grid.setVisibility(View.GONE);
-
                         if(query != null )
                         {
                             if(!query.isEmpty())
@@ -146,13 +148,14 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                                 recyclerView.setVisibility(View.VISIBLE);
                             }
                         }
+                        else
+                        {
+                            grid.setVisibility(View.VISIBLE);
+                        }
                         return true;
                     }
-
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        grid.setVisibility(View.GONE);
-
                         if(newText != null )
                         {
                             if(!newText.isEmpty())
@@ -276,12 +279,15 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     }
     public void search(String s)
     {
+        mUploads.clear();
+        s = s.substring(0,1).toUpperCase() + s.substring(1);
+        System.out.println(s);
         FirebaseDatabase
                 .getInstance()
                 .getReference("Uploads")
                 .orderByChild("name")
                 .startAt(s)
-                .endAt(s+"\uf8ff")
+                .endAt(s.toLowerCase()+"\uf8ff")
                 .addValueEventListener(
                         new ValueEventListener() {
                             @Override
@@ -298,13 +304,6 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                                         String quantity=upload.getmQuantity();
                                         String uploadId = upload.getmuploadId();
                                         String catergoryId = upload.getmCatergoryId();
-                                        upload.setmuploadId(uploadId);
-                                        upload.setmCatergoryId(catergoryId);
-                                        upload.setImageUrl(categoryImageUrl);
-                                        upload.setmCatergory(categoryDescription);
-                                        upload.setmPrice(categoryPrice);
-                                        upload.setName(Name);
-                                        upload.setmQuantity(quantity);
                                         Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
                                         mUploads.add(uploads);
                                     }
@@ -323,9 +322,66 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                         }
                 );
     }
+    public void showAll(View v)
+    {
+        mUploads.clear();
+        isListView = !isListView;
+        if(isListView)
+        {
+            imageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_view_list_24));
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            imageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_view_module_24));
+            Intent i = new Intent(this,Home.class);
+            startActivity(i);
+        }
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Uploads")
+                .addValueEventListener(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists())
+                                {
+                                    for(DataSnapshot snapshot1: snapshot.getChildren())
+                                    {
+                                        Upload upload = snapshot1.getValue(Upload.class);
+                                        String Name = upload.getName();
+                                        String categoryDescription = upload.getmCatergory();
+                                        String categoryPrice = upload.getmPrice();
+                                        String categoryImageUrl = upload.getImageUrl();
+                                        String quantity=upload.getmQuantity();
+                                        String uploadId = upload.getmuploadId();
+                                        String catergoryId = upload.getmCatergoryId();
+                                        Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
+                                        mUploads.add(uploads);
+                                    }
+                                    mAdapter = new ImageAdapter(Home.this, mUploads);
+                                    mAdapter.setOnItemClickListener(Home.this);
+                                    recyclerView.setAdapter(mAdapter);
+                                    grid.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        }
+                );
+    }
     @Override
     public void onItemClick(int position) {
-
+        Upload upload = mUploads.get(position);
+        Intent i=new Intent(this, IndividualItems.class);
+        String catergory = upload.getmCatergory();
+        String index = upload.getmCatergoryId();
+        i.putExtra("Category",upload.getmCatergory());
+        i.putExtra("index",upload.getmCatergoryId());
+        startActivity(i);
     }
 }
