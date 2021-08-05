@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".customer.CustomerViewBookings">
+    <TextView
+        android:id="@+id/booking_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:text="Bookings"
+        />
     <ProgressBar
         android:id="@+id/cust_view_progress"
         android:layout_width="wrap_content"

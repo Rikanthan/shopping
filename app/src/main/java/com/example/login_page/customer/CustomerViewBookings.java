@@ -47,9 +47,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
   public  List<Bookings> newcartlist , customerList;
   TextView textView;
   ProgressBar progressBar;
-    public CustomerViewBookings(){
 
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +63,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference();
-        process("Confirmedbooking");
+        process("booking");
     }
     @Override
     public void onItemClick(int position)

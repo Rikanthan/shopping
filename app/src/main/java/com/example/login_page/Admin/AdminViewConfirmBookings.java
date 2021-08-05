@@ -1,15 +1,20 @@
 package com.example.login_page.Admin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.Holder.BookingHolder;
@@ -40,24 +45,37 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
     BookingHolder mAdapter;
     List<Bookings> newcartlist;
     List<Bookings> myCartList;
+    ImageView imageView;
     ProgressBar progressBar;
     TextView textView;
+    boolean isConfirm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_view_booking);
         recyclerView  =  findViewById(R.id.show_bookings);
-        textView = findViewById(R.id.cust_warn_text);
+        textView = findViewById(R.id.booking_text);
         progressBar = findViewById(R.id.cust_view_progress);
         recyclerView.setHasFixedSize(true);
+        imageView = findViewById(R.id.icon_status);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist =   new ArrayList<>();
         myCartList = new ArrayList<>();
         firebaseAuth=FirebaseAuth.getInstance();
         fuser   =   FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("booking");
-        process();
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+        isConfirm = getIntent().getBooleanExtra("Confirm",false);
+        if(isConfirm)
+        {
+            process("Confirmedbooking",true);
+            textView.setText("Confirmed Bookings");
+          //  imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_check_circle_24));
+        }
+        else
+        {
+            process("booking",false);
+        }
 
     }
     @Override
@@ -72,10 +90,11 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
         startActivity(intent);
 
     }
-    public void process()
+
+    public void process(String status, final boolean isConfirm)
     {
         final String uid    =   firebaseAuth.getCurrentUser().getUid();
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child(status).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,6 +111,10 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
                         String date = mycart.getDate();
                         String userId = mycart.getId();
                         String pickUpDate = dataSnapshot.getKey();
+                        if(isConfirm)
+                        {
+                            price = "Rs" + price;
+                        }
                         Bookings mybookings = new Bookings(userId,price,name,phone,location,pickUpDate);
                         Bookings refBookings = new Bookings(userId,price,name,price,location,date);
                         myCartList.add(refBookings);

@@ -9,11 +9,14 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.login_page.Interface.ItemClickListner;
 
 import com.example.login_page.R;
@@ -53,7 +56,17 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
         holder.customername.setText(BookingsCurrent.getName());
         holder.customerlocation.setText(BookingsCurrent.getLocation());
         holder.customerphone.setText(BookingsCurrent.getPhone());
-        holder.totalprice.setText("Rs "+BookingsCurrent.getPrice() + ".00");
+        if(BookingsCurrent.getPrice().contains("Rs"))
+        {
+            Glide.with(mContext).load(R.drawable.ic_baseline_check_circle_24)
+                    .placeholder(R.drawable.ic_baseline_check_circle_24)
+                    .into(holder.statusImage);
+            holder.totalprice.setText(BookingsCurrent.getPrice() + ".00");
+        }
+        else
+        {
+            holder.totalprice.setText("Rs "+BookingsCurrent.getPrice() + ".00");
+        }
         holder.customerpickuptime.setText(BookingsCurrent.getDate());
 
     }
@@ -63,6 +76,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView customername,customerlocation,customerphone,totalprice,customerpickuptime,orderId;
+        public ImageView statusImage;
 
         @Override
         public void onClick(View v) {
@@ -84,6 +98,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
             totalprice = itemView.findViewById(R.id.total_price);
             customerpickuptime = itemView.findViewById(R.id.customer_pickup_time);
             orderId = itemView.findViewById(R.id.order_id);
+            statusImage = itemView.findViewById(R.id.icon_status);
             itemView.setOnClickListener(this);
         }
 
@@ -96,6 +111,4 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
     {
         mListener= listener;
     }
-
 }
-

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/addNewProducts"
-        android:title="Add new products"
+        android:id="@+id/confirm_bookings"
+        android:title="Conformed Bookings"
         android:icon="@drawable/ic_baseline_add_shopping_cart_24"
         app:showAsAction="never"/>
     <item
@@ -22,7 +22,7 @@
     <item
         android:id="@+id/inventory"
         android:title="Inventory items"
-        android:icon="@drawable/product"
+        android:icon="@drawable/products"
         app:showAsAction="always"/>
    <item
        android:id="@+id/setTimer"

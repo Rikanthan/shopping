@@ -122,15 +122,18 @@ public class AdminCatorgory extends AppCompatActivity {
                 return true;
             case R.id.customerBookings:
                 Intent i1 = new Intent(this, AdminViewConfirmBookings.class);
+                i1.putExtra("Confirm",false);
                 startActivity(i1);
                 return true;
             case R.id.inventory:
                 Intent i2 = new Intent(this, AdminViewProducts.class);
                 startActivity(i2);
                 return true;
-            case R.id.addNewProducts:
-                Intent i3 = new Intent(this, SendNotification.class);
+            case R.id.confirm_bookings:
+                Intent i3 = new Intent(this, AdminViewConfirmBookings.class);
+                i3.putExtra("Confirm",true);
                 startActivity(i3);
+                return true;
             case R.id.setBookingTime:
                 Intent i4 = new Intent(this, SetDateActivity.class);
                 i4.putExtra("Activity",false);
