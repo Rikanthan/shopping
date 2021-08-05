@@ -70,7 +70,6 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
         {
             process("Confirmedbooking",true);
             textView.setText("Confirmed Bookings");
-          //  imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_check_circle_24));
         }
         else
         {
@@ -113,7 +112,7 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
                         String pickUpDate = dataSnapshot.getKey();
                         if(isConfirm)
                         {
-                            price = "Rs" + price;
+                            price = "Rs " + price;
                         }
                         Bookings mybookings = new Bookings(userId,price,name,phone,location,pickUpDate);
                         Bookings refBookings = new Bookings(userId,price,name,price,location,date);

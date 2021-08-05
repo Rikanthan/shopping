@@ -54,7 +54,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         setContentView(R.layout.activity_customer_view_booking);
         recyclerView  =  findViewById(R.id.show_bookings);
         progressBar = findViewById(R.id.cust_view_progress);
-        textView = findViewById(R.id.cust_warn_text);
+        textView = findViewById(R.id.booking_text);
         recyclerView.setHasFixedSize(true);
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -63,7 +63,10 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         firebaseAuth=FirebaseAuth.getInstance();
         fuser=FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference();
-        process("booking");
+        if(process("booking",false) == 0)
+        {
+            process("Confirmedbooking",true);
+        }
     }
     @Override
     public void onItemClick(int position)
@@ -75,7 +78,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         intent.putExtra("date",myBookings.getDate());
         startActivity(intent);
     }
-    public int process(String getBooking)
+    public int process(String getBooking, final boolean status)
     {
         final String uid    =   FirebaseAuth.getInstance().getUid();
         if(getBooking != null)
@@ -99,6 +102,10 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                                     String price = mycart.getPrice();
                                     date = mycart.getDate();
                                     String userId = mycart.getId();
+                                    if(status)
+                                    {
+                                        price = "Rs " + price;
+                                    }
                                     if(userId.contains(uid))
                                     {
 

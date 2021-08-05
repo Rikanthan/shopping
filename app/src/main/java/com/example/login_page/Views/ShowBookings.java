@@ -124,8 +124,14 @@ public class ShowBookings extends AppCompatActivity
                         newcartlist.add(mybookings);
                         if(settedDate.contains(checkDate))
                         {
-                            FirebaseDatabase.getInstance().getReference().child("Confirmedbooking").child(pickupTime).setValue(mybookings);
+                            FirebaseDatabase
+                                    .getInstance()
+                                    .getReference()
+                                    .child("Confirmedbooking")
+                                    .child(pickupTime)
+                                    .setValue(mybookings);
                         }
+                        databaseReference.child(date).removeValue();
                         pos++;
                     }
                     else

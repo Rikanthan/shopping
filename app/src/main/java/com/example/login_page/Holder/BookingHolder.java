@@ -65,6 +65,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
         }
         else
         {
+            holder.datetext.setText("Booked Date & Time");
             holder.totalprice.setText("Rs "+BookingsCurrent.getPrice() + ".00");
         }
         holder.customerpickuptime.setText(BookingsCurrent.getDate());
@@ -75,7 +76,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
         return mbookings.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView customername,customerlocation,customerphone,totalprice,customerpickuptime,orderId;
+        public TextView customername,customerlocation,customerphone,totalprice,customerpickuptime,orderId,datetext;
         public ImageView statusImage;
 
         @Override
@@ -98,6 +99,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
             totalprice = itemView.findViewById(R.id.total_price);
             customerpickuptime = itemView.findViewById(R.id.customer_pickup_time);
             orderId = itemView.findViewById(R.id.order_id);
+            datetext = itemView.findViewById(R.id.date_text);
             statusImage = itemView.findViewById(R.id.icon_status);
             itemView.setOnClickListener(this);
         }
