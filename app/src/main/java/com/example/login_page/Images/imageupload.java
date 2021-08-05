@@ -217,37 +217,7 @@ public class imageupload extends AppCompatActivity {
         }
 
     }
-
-    private void SaveProductInfoToDatabase()
-    {
-        HashMap<String, Object> productMap = new HashMap<>();
-
-        productMap.put("description", Description);
-        productMap.put("image", downloadImageUrl);
-        productMap.put("category", CategoryName);
-        productMap.put("price", Price);
-        productMap.put("pname", Pname);
-
-        mDatabaseRef.updateChildren(productMap)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task)
-                    {
-                        if (task.isSuccessful())
-                        {
-                            Intent intent = new Intent(imageupload.this, Admin.class);
-                            startActivity(intent);
-                            Toast.makeText(imageupload.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            // loadingBar.dismiss();
-                            String message = task.getException().toString();
-                            Toast.makeText(imageupload.this, "Error: " + message, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+    
 
     private  void showimages()
     {
