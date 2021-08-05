@@ -25,11 +25,9 @@
         <activity android:name=".Product.ShowItemsActivity" />
         <activity android:name=".Admin.AdminCatorgory" />
         <activity android:name=".Images.imageupload" />
-        <activity android:name=".Views.Softdrinks" />
         <activity android:name=".Quantitysample.mango" />
         <activity android:name=".Admin.AdminProducts" />
         <activity android:name=".Admin.Admin" />
-        <activity android:name=".Views.Hygiene" />
         <activity android:name=".Views.Fruit" />
         <activity android:name=".Home.Home" />
         <activity android:name=".Login_front.SignIn" />

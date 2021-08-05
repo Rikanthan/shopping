@@ -16,8 +16,6 @@ public class customAdapter extends BaseAdapter {
             {R.drawable.vegetables,R.drawable.fruit,R.drawable.medical,R.drawable.paper,R.drawable.hygiene,R.drawable.cosmetrics,R.drawable.softdrinks,R.drawable.snacks,R.drawable.bakery,R.drawable.others};
 
     private String[] imageLabels;
-    private Integer[] fruit_items={R.drawable.mango,R.drawable.apple,R.drawable.orange,R.drawable.grapes,R.drawable.strawberry,R.drawable.pineapple,R.drawable.banana};
-    private String[] fruit_labels;
     private LayoutInflater thisInflater;
     public customAdapter(Context con,String[] labs)
     {

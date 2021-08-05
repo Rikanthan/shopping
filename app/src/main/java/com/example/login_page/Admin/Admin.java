@@ -21,7 +21,6 @@ import com.example.login_page.Holder.Items;
 import com.example.login_page.Holder.ProductViewHolder;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.R;
-import com.example.login_page.Views.Fruit;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
@@ -116,9 +115,9 @@ public class Admin extends AppCompatActivity implements NavigationView.OnNavigat
 
             case R.id.inventory:
 
-                Intent intent2=new Intent(getApplicationContext(), Fruit.class);
-                startActivity(intent2);
+                Toast.makeText(getApplicationContext(),"customer",Toast.LENGTH_LONG).show();
                 break;
+
 
 
             case R.id.product:

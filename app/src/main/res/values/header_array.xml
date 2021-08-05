@@ -91,38 +91,7 @@
            activity_fruit.xml
         </item>
     </string-array>
-    <string-array name="softdrink">
-        <item>
-            Cocacola mega
-        </item>
-        <item>
-            Cocacola buddy
-        </item>
-        <item>
-            Sprite mega
-        </item>
-        <item>
-            Sprite buddy
-        </item>
-        <item>
-            Pepsi mega
-        </item>
-        <item>
-            Pepsi buddy
-        </item>
-        <item>
-            7up mega
-        </item>
-        <item>
-            7up buddy
-        </item>
-        <item>
-            Fanta mega
-        </item>
-        <item>
-            Fanta buddy
-        </item>
-    </string-array>
+
     <string-array name="softdrinks">
         <item>
             Bathroomcleaner
