@@ -30,6 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:inputType="phone"
+        android:singleLine="true"
         android:layout_below="@+id/button_choose_image"
         android:layout_toRightOf="@+id/button_choose_image"
         android:hint="Enter product price" />
@@ -39,6 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:inputType="phone"
+        android:singleLine="true"
         android:layout_below="@+id/edit_text_price"
         android:layout_toRightOf="@+id/button_choose_image"
         android:hint="Enter product quantity"
