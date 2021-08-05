@@ -10,37 +10,25 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.login_page.Holder.Bookings;
 import com.example.login_page.Images.ImageAdapter;
-import com.example.login_page.Images.ImagesActivity;
 import com.example.login_page.Images.Upload;
-import com.example.login_page.Product.ShowItemsActivity;
 import com.example.login_page.R;
 import com.example.login_page.Views.IndividualItems;
 import com.example.login_page.Views.SeeTimer;
 import com.example.login_page.Views.ShowOrders;
 import com.example.login_page.adapter.customAdapter;
-import com.example.login_page.category.Bakery;
-import com.example.login_page.category.Cosmetrics;
-import com.example.login_page.category.Hygiene;
-import com.example.login_page.category.Medical;
-import com.example.login_page.category.Paper;
-import com.example.login_page.category.Snacks;
-import com.example.login_page.category.Softdrinks;
-import com.example.login_page.category.Vegetables;
+import com.example.login_page.category.AllCatergories;
 import com.example.login_page.customer.CustomerViewBookings;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,7 +40,6 @@ import java.util.List;
 
 public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickListener {
     String[] lables;
-    String[] fruitPages;
     ImageAdapter mAdapter;
     TextView cartText,bookingText;
     SearchView searchView;
@@ -68,9 +55,8 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Resources res=getResources();
-        lables=res.getStringArray(R.array.headers);
-        fruitPages=res.getStringArray(R.array.fruits_page);
+        Resources res = getResources();
+        lables = res.getStringArray(R.array.headers);
         searchView = findViewById(R.id.search_items);
         recyclerView = findViewById(R.id.recycler_view);
         imageButton = findViewById(R.id.show_all);
@@ -79,59 +65,14 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         grid=(GridView) findViewById(R.id.Items);
         _customer = new CustomerViewBookings();
-        customAdapter myadapter=new customAdapter(getApplicationContext(),lables);
+        customAdapter myadapter =   new customAdapter(getApplicationContext(),lables);
         grid.setAdapter(myadapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //intent.putExtra("newpage",fruitPages[i]);
-                     long viewId = view.getId();
-
-                    if (i==1)
-                    {
-                        Intent intent=new Intent(getApplicationContext(),ImagesActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), AllCatergories.class);
+                        intent.putExtra("Product",lables[i]);
                         startActivity(intent);
-                    }
-                    else if (i==2)
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Medical.class);
-                        startActivity(intent);
-                    }
-                    else if (i==4)
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Hygiene.class);
-                        startActivity(intent);
-                    }
-                    else if (i==0)
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Vegetables.class);
-                        startActivity(intent);
-                    }
-                    else if (i==5)
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Cosmetrics.class);
-                        startActivity(intent);
-                    }
-                    else if (i==6)
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Softdrinks.class);
-                        startActivity(intent);
-                    }
-                    else if (i==7)
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Snacks.class);
-                        startActivity(intent);
-                    }
-                    else if(i==3)
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Paper.class);
-                        startActivity(intent);
-                    }
-                    else
-                    {
-                        Intent intent=new Intent(getApplicationContext(), Bakery.class);
-                        startActivity(intent);
-                    }
             }
         });
         searchView.setOnQueryTextListener(
@@ -291,21 +232,13 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
                                     for(DataSnapshot snapshot1: snapshot.getChildren())
                                     {
+                                        if(snapshot1.exists())
+                                        {
                                         Upload upload = snapshot1.getValue(Upload.class);
-                                        String Name = upload.getName();
-                                        String categoryDescription = upload.getmCatergory();
-                                        String categoryPrice = upload.getmPrice();
-                                        String categoryImageUrl = upload.getImageUrl();
-                                        String quantity=upload.getmQuantity();
-                                        String uploadId = upload.getmuploadId();
-                                        String catergoryId = upload.getmCatergoryId();
-                                        Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
-                                        mUploads.add(uploads);
-                                    }
+                                        mUploads.add(upload);
+                                        }
                                     mAdapter = new ImageAdapter(Home.this, mUploads);
                                     mAdapter.setOnItemClickListener(Home.this);
                                     recyclerView.setAdapter(mAdapter);
@@ -343,27 +276,14 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
+                                mUploads.clear();
                                     for(DataSnapshot snapshot1: snapshot.getChildren())
                                     {
-                                        Upload upload = snapshot1.getValue(Upload.class);
-                                        String Name = upload.getName();
-                                        String categoryDescription = upload.getmCatergory();
-                                        String categoryPrice = upload.getmPrice();
-                                        String categoryImageUrl = upload.getImageUrl();
-                                        String quantity=upload.getmQuantity();
-                                        String uploadId = upload.getmuploadId();
-                                        String catergoryId = upload.getmCatergoryId();
-                                        Upload uploads = new Upload(Name,
-                                                                    categoryImageUrl,
-                                                                    categoryPrice,
-                                                                    quantity,
-                                                                    categoryDescription,
-                                                                    uploadId ,
-                                                                    catergoryId);
-                                        mUploads.add(uploads);
-                                    }
+                                        if(snapshot1.exists())
+                                        {
+                                            Upload upload = snapshot1.getValue(Upload.class);
+                                            mUploads.add(upload);
+                                        }
                                     mAdapter = new ImageAdapter(Home.this, mUploads);
                                     mAdapter.setOnItemClickListener(Home.this);
                                     recyclerView.setAdapter(mAdapter);
@@ -377,13 +297,11 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
 
                             }
                         }
-                );
-    }
+                );    }
     @Override
     public void onItemClick(final int position) {
         Upload upload = mUploads.get(position);
         Intent i=new Intent(this, IndividualItems.class);
-        String catergory = upload.getmCatergory();
         int index = Integer.parseInt(upload.getmCatergoryId());
         i.putExtra("Category",upload.getmCatergory());
         i.putExtra("index",index-1);

@@ -2,7 +2,6 @@ package com.example.login_page.category;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,19 +26,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bakery extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
+public class AllCatergories extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
-
+    String product;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,27 +46,28 @@ public class Bakery extends AppCompatActivity implements ImageAdapter.OnItemClic
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressCircle = findViewById(R.id.progress_circle);
         mUploads = new ArrayList<>();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Bakery");
+        product = getIntent().getStringExtra("Product");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(product);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUploads.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                   if(postSnapshot.exists())
-                   {
-                       Upload upload = postSnapshot.getValue(Upload.class);
-                       mUploads.add(upload);
-                   }
+                    if(postSnapshot.exists())
+                    {
+                        Upload upload = postSnapshot.getValue(Upload.class);
+                        mUploads.add(upload);
+                    }
                 }
-                mAdapter = new ImageAdapter(Bakery.this, mUploads);
+                mAdapter = new ImageAdapter(AllCatergories.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);
-                mAdapter.setOnItemClickListener(Bakery.this);
+                mAdapter.setOnItemClickListener(AllCatergories.this);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(Bakery.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllCatergories.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
@@ -78,7 +76,7 @@ public class Bakery extends AppCompatActivity implements ImageAdapter.OnItemClic
     @Override
     public void onItemClick(int position) {
         Intent i=new Intent(this, IndividualItems.class);
-        i.putExtra("Category","Bakery");
+        i.putExtra("Category",product);
         i.putExtra("index",position);
         startActivity(i);
     }

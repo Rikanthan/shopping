@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity android:name=".Views.SeeTimer"></activity>
+        <activity android:name=".category.AllCatergories"></activity>
         <activity android:name=".Admin.SetDateActivity" />
         <activity android:name=".customer.CustomerViewBookings" />
         <activity android:name=".Views.ShowBookings" />
@@ -22,14 +23,6 @@
         <activity android:name=".Views.IndividualItems" />
         <activity android:name=".customer.customer" />
         <activity android:name=".Product.ShowItemsActivity" />
-        <activity android:name=".category.Vegetables" />
-        <activity android:name=".category.Cosmetrics" />
-        <activity android:name=".category.Snacks" />
-        <activity android:name=".category.Hygiene" />
-        <activity android:name=".category.Bakery" />
-        <activity android:name=".category.Paper" />
-        <activity android:name=".category.Medical" />
-        <activity android:name=".category.Softdrinks" />
         <activity android:name=".Admin.AdminCatorgory" />
         <activity android:name=".Images.imageupload" />
         <activity android:name=".Views.Softdrinks" />
