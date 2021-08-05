@@ -45,41 +45,24 @@ public class Vegetables extends AppCompatActivity implements ImageAdapter.OnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
-
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mProgressCircle = findViewById(R.id.progress_circle);
-
         mUploads = new ArrayList<>();
-
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Vegetables");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
-
-
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mUploads.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    String Name = upload.getName();
-                    String categoryDescription = upload.getmCatergory();
-                    String categoryPrice = upload.getmPrice();
-                    String categoryImageUrl = upload.getImageUrl();
-                    String quantity=upload.getmQuantity();
-                    String uploadId = upload.getmuploadId();
-                    String catergoryId = upload.getmCatergoryId();
-                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
-                    upload.setImageUrl(categoryImageUrl);
-                    upload.setmCatergory(categoryDescription);
-                    upload.setmPrice(categoryPrice);
-                    upload.setName(Name);
-                    upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
-                    mUploads.add(uploads);
+                    if(postSnapshot.exists())
+                    {
+                        Upload upload = postSnapshot.getValue(Upload.class);
+                        mUploads.add(upload);
+                    }
                 }
-
                 mAdapter = new ImageAdapter(Vegetables.this, mUploads);
                 mAdapter.setOnItemClickListener(Vegetables.this);
                 mRecyclerView.setAdapter(mAdapter);

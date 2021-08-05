@@ -38,9 +38,7 @@ public class Medical extends AppCompatActivity implements ImageAdapter.OnItemCli
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
-    private StorageReference mStorageRef;
     private List<Upload> mUploads;
-    int count=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,39 +49,20 @@ public class Medical extends AppCompatActivity implements ImageAdapter.OnItemCli
         mProgressCircle = findViewById(R.id.progress_circle);
         mUploads = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Medical");
-        mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mUploads.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    String Name = upload.getName();
-                    String categoryDescription = upload.getmCatergory();
-                    String categoryPrice = upload.getmPrice();
-                    String categoryImageUrl = upload.getImageUrl();
-                    String quantity=upload.getmQuantity();
-                    String uploadId = upload.getmuploadId();
-                                String catergoryId = upload.getmCatergoryId();
-                    upload.setImageUrl(categoryImageUrl);
-                    upload.setmCatergory(categoryDescription);
-                    upload.setmPrice(categoryPrice);
-                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
-                    upload.setName(Name);
-                    upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
-                    mUploads.add(uploads);
-
+                    if(postSnapshot.exists())
+                    {
+                        Upload upload = postSnapshot.getValue(Upload.class);
+                        mUploads.add(upload);
+                    }
                 }
                 mAdapter = new ImageAdapter(Medical.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.setOnItemClickListener(Medical.this);
-                mRecyclerView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                       count=mUploads.size();
-                       System.out.println(count);
-                    }
-                });
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
 

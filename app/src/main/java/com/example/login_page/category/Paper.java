@@ -36,10 +36,8 @@ import java.util.List;
 public class Paper extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
-
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
-    private StorageReference mStorageRef;
     private List<Upload> mUploads;
 
     @Override
@@ -52,27 +50,16 @@ public class Paper extends AppCompatActivity implements ImageAdapter.OnItemClick
         mProgressCircle = findViewById(R.id.progress_circle);
         mUploads = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Paper");
-        mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                        mUploads.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    String Name = upload.getName();
-                    String categoryDescription = upload.getmCatergory();
-                    String categoryPrice = upload.getmPrice();
-                    String categoryImageUrl = upload.getImageUrl();
-                    String quantity=upload.getmQuantity();
-                    String uploadId = upload.getmuploadId();
-                                String catergoryId = upload.getmCatergoryId();
-                    upload.setImageUrl(categoryImageUrl);
-                    upload.setmCatergory(categoryDescription);
-                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
-                    upload.setmPrice(categoryPrice);
-                    upload.setName(Name);
-                    upload.setmQuantity(quantity);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
-                    mUploads.add(uploads);
+                    if(postSnapshot.exists())
+                    {
+                        Upload upload = postSnapshot.getValue(Upload.class);
+                        mUploads.add(upload);
+                    }
                 }
                 mAdapter = new ImageAdapter(Paper.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);

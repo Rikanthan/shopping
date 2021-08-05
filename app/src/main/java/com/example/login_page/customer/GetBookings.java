@@ -100,8 +100,13 @@ public class GetBookings extends AppCompatActivity {
             UpdateToken();
             getBackup(date);
             Toast.makeText(this,"Your items booked successfully",Toast.LENGTH_LONG).show();
-            FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
-                    .child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase
+                    .getInstance()
+                    .getReference()
+                    .child("Tokens")
+                    .child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
+                    .child("token")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists())
@@ -130,7 +135,15 @@ public class GetBookings extends AppCompatActivity {
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         String refreshToken= FirebaseInstanceId.getInstance().getToken();
         Token token= new Token(refreshToken);
-        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Tokens")
+                .child(
+                        FirebaseAuth
+                                .getInstance()
+                                .getCurrentUser()
+                                .getUid())
+                                    .setValue(token);
     }
 
     public void sendNotifications(String usertoken, String title, String message) {
@@ -222,7 +235,6 @@ public class GetBookings extends AppCompatActivity {
     }
     public boolean canBooke()
     {
-
         FirebaseDatabase
                 .getInstance()
                 .getReference("Timer")

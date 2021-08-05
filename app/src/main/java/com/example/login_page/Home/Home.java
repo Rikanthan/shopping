@@ -53,7 +53,6 @@ import java.util.List;
 public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickListener {
     String[] lables;
     String[] fruitPages;
-    Layout updateCart;
     ImageAdapter mAdapter;
     TextView cartText,bookingText;
     SearchView searchView;
@@ -356,7 +355,13 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                                         String quantity=upload.getmQuantity();
                                         String uploadId = upload.getmuploadId();
                                         String catergoryId = upload.getmCatergoryId();
-                                        Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
+                                        Upload uploads = new Upload(Name,
+                                                                    categoryImageUrl,
+                                                                    categoryPrice,
+                                                                    quantity,
+                                                                    categoryDescription,
+                                                                    uploadId ,
+                                                                    catergoryId);
                                         mUploads.add(uploads);
                                     }
                                     mAdapter = new ImageAdapter(Home.this, mUploads);
@@ -375,13 +380,13 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                 );
     }
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(final int position) {
         Upload upload = mUploads.get(position);
         Intent i=new Intent(this, IndividualItems.class);
         String catergory = upload.getmCatergory();
-        String index = upload.getmCatergoryId();
+        int index = Integer.parseInt(upload.getmCatergoryId());
         i.putExtra("Category",upload.getmCatergory());
-        i.putExtra("index",upload.getmCatergoryId());
+        i.putExtra("index",index-1);
         startActivity(i);
     }
 }

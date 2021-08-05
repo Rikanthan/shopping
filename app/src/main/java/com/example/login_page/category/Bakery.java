@@ -36,50 +36,30 @@ import java.util.List;
 public class Bakery extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
-    public String pname;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
-    private StorageReference mStorageRef;
     private List<Upload> mUploads;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
-
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mProgressCircle = findViewById(R.id.progress_circle);
-
         mUploads = new ArrayList<>();
-
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Bakery");
-        mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
-
-
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mUploads.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    String Name = upload.getName();
-                    pname=Name;
-                    String categoryDescription = upload.getmCatergory();
-                    String categoryPrice = upload.getmPrice();
-                    String categoryImageUrl = upload.getImageUrl();
-                    String uploadId = upload.getmuploadId();
-                                String catergoryId = upload.getmCatergoryId();
-                    String quantity=upload.getmQuantity();
-                    upload.setImageUrl(categoryImageUrl);
-                    upload.setmCatergory(categoryDescription);
-                    upload.setmPrice(categoryPrice);
-                    upload.setName(Name);
-                    upload.setmQuantity(quantity);
-                    upload.setmuploadId(uploadId);                               upload.setmCatergoryId(catergoryId);
-                    Upload uploads=new Upload(Name,categoryImageUrl,categoryPrice,quantity,categoryDescription,uploadId ,catergoryId);
-                    mUploads.add(uploads);
+                   if(postSnapshot.exists())
+                   {
+                       Upload upload = postSnapshot.getValue(Upload.class);
+                       mUploads.add(upload);
+                   }
                 }
                 mAdapter = new ImageAdapter(Bakery.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);

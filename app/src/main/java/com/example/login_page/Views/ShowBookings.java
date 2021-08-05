@@ -101,12 +101,6 @@ public class ShowBookings extends AppCompatActivity
                         String location = mycart.getLocation();
                         String price = mycart.getPrice();
                         String date = mycart.getDate();
-                        mycart.setDate(date);
-                        mycart.setPhone(phone);
-                        mycart.setLocation(location);
-                        mycart.setId(userId);
-                        mycart.setName(name);
-                        mycart.setPrice(price);
                         Calendar calendar = Calendar.getInstance();
                         String s = settedDate;
                         try {

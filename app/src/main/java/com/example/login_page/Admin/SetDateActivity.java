@@ -66,7 +66,6 @@ public class SetDateActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_datectivity);
-
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
         txtDate=(EditText)findViewById(R.id.in_date);
@@ -75,6 +74,7 @@ public class SetDateActivity extends AppCompatActivity implements
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
         uid = FirebaseAuth.getInstance().getUid();
+        createNotificationChannel();
         isCountdown = getIntent().getBooleanExtra("Activity",false);
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
@@ -245,5 +245,19 @@ public class SetDateActivity extends AppCompatActivity implements
 
                     }
                 });
+    }
+    public void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "NotificationChannel";
+            String description = "New Booking receive";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.setLightColor(Color.CYAN);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
