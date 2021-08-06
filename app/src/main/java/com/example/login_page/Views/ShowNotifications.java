@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ShowNotifications extends AppCompatActivity
@@ -51,7 +52,7 @@ public class ShowNotifications extends AppCompatActivity
 
     public void showNotification()
     {
-        databaseReference.addValueEventListener(
+        databaseReference.orderByValue().addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -64,6 +65,7 @@ public class ShowNotifications extends AppCompatActivity
                                 dataList.add(data);
                             }
                         }
+                        Collections.reverse(dataList);
                         adapter = new NotificationHolder(ShowNotifications.this,dataList);
                         adapter.setOnItemClickListener(ShowNotifications.this);
                         recyclerView.setAdapter(adapter);
@@ -77,6 +79,7 @@ public class ShowNotifications extends AppCompatActivity
                     }
                 });
     }
+
     @Override
     public void onItemClick(int position) {
         Data myData = dataList.get(position);
@@ -93,5 +96,10 @@ public class ShowNotifications extends AppCompatActivity
             databaseReference.child(editData.getDate()).setValue(editData);
         }
 
+    }
+    public void clearAll(View v)
+    {
+        dataList.clear();
+        databaseReference.removeValue();
     }
 }

@@ -159,7 +159,6 @@ public class IndividualItems extends AppCompatActivity {
         SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime=currentTime.format(calendar.getTime());
         final HashMap<String,Object> cartMap=new HashMap<>();
-
         cartMap.put("pname",showQuantity);
         cartMap.put("imageUrl",catergoryImageUrl);
         cartMap.put("price",pPrice);

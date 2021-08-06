@@ -1,8 +1,10 @@
 package com.example.login_page.Admin;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,10 +15,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.login_page.Home.Home;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
+import com.example.login_page.Views.ShowNotifications;
 import com.example.login_page.customer.CustomerViewBookings;
+import com.example.login_page.notification.Data;
 import com.example.login_page.notification.SendNotification;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,8 +34,9 @@ import java.util.Set;
 
 public class AdminCatorgory extends AppCompatActivity {
     Toolbar tool;
-    TextView bookingText;
+    TextView bookingText,notificationText;
     long bookingCount = 0;
+    long notifCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +116,16 @@ public class AdminCatorgory extends AppCompatActivity {
                 startActivity(i1);
             }
         });
+        final View showNotification = menu.findItem(R.id.admin_notification).getActionView();
+        notificationText = (TextView) showNotification.findViewById(R.id.update_notifications_text);
+        getNotificationCount();
+        showNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminCatorgory.this, ShowNotifications.class);
+                startActivity(intent);
+            }
+        });
         return true ;
     }
 
@@ -144,6 +160,10 @@ public class AdminCatorgory extends AppCompatActivity {
                 i5.putExtra("Activity",true);
                 startActivity(i5);
                 return true;
+            case R.id.admin_notification:
+                Intent i6 = new Intent(this,ShowNotifications.class);
+                startActivity(i6);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -151,6 +171,7 @@ public class AdminCatorgory extends AppCompatActivity {
     }
     public void getBookingCount()
     {
+        bookingCount = 0;
         FirebaseDatabase.getInstance()
                 .getReference("booking")
                 .addListenerForSingleValueEvent(
@@ -171,6 +192,40 @@ public class AdminCatorgory extends AppCompatActivity {
                     }
                 }
         );
+    }
+    public void getNotificationCount()
+    {
+        notifCount = 0;
+        final String uid = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance()
+                .getReference("Notification")
+                .child(uid)
+                .addValueEventListener(
+                        new ValueEventListener() {
+                            @Override
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                                {
+                                    if(dataSnapshot.exists())
+                                    {
+                                        Data data = dataSnapshot.getValue(Data.class);
+                                        if(data.getStatus().contains("Unread") )
+                                        {
+                                            notifCount++;
+                                            notificationText.setText(String.valueOf(notifCount));
+                                            notificationText.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        }
+                );
+
     }
 
 }

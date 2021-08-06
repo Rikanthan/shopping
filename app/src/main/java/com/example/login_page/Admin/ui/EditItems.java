@@ -44,9 +44,9 @@ public class EditItems extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_items);
-        index=getIntent().getIntExtra("index",index);
+        index = getIntent().getIntExtra("index",index);
         System.out.println("index is:"+index);
-        imageView=(ImageView)findViewById(R.id.edit_img);
+        imageView = (ImageView)findViewById(R.id.edit_img);
         editname = (TextInputEditText) findViewById(R.id.edit_product_name);
         editprice = (TextInputEditText) findViewById(R.id.edit_product_price);
         editquantity = (TextInputEditText) findViewById(R.id.edit_product_quantity);
@@ -67,28 +67,14 @@ public class EditItems extends AppCompatActivity {
                             Upload upload=snapshot.getValue(Upload.class);
                             if(upload != null) {
                                 System.out.println(index);
-                                String Name = upload.getName();
-                                String categoryDescription = upload.getmCatergory();
-                                String categoryPrice = upload.getmPrice();
-                                String categoryImageUrl = upload.getImageUrl();
-                                String quantity = upload.getmQuantity();
-                                String uploadId = upload.getmuploadId();
                                 catergoryId = upload.getmCatergoryId();
-                                upload.setImageUrl(categoryImageUrl);
-                                upload.setmCatergory(categoryDescription);
-                                upload.setmPrice(categoryPrice);
-                                upload.setName(Name);
-                                upload.setmQuantity(quantity);
-                                upload.setmuploadId(uploadId);                              
-                                upload.setmCatergoryId(catergoryId);
-                                Upload uploads = new Upload(Name, categoryImageUrl, categoryPrice, quantity, categoryDescription, uploadId ,catergoryId);
-                                editname.setText(uploads.getName());
-                                editprice.setText(uploads.getmPrice());
-                                editquantity.setText(uploads.getmQuantity());
-                                showQuantity= uploads.getName();
-                                productImage = uploads.getImageUrl();
-                                productCategory = uploads.getmCatergory();
-                                Picasso.get().load(uploads.getImageUrl()).placeholder(R.mipmap.loading).into(imageView);
+                                editname.setText(upload.getName());
+                                editprice.setText(upload.getmPrice());
+                                editquantity.setText(upload.getmQuantity());
+                                productImage = upload.getImageUrl();
+                                catergoryId = upload.getmCatergoryId();
+                                productCategory = upload.getmCatergory();
+                                Picasso.get().load(upload.getImageUrl()).placeholder(R.mipmap.loading).into(imageView);
                             }
                         }
                         else
@@ -126,8 +112,6 @@ public class EditItems extends AppCompatActivity {
         databaseReference.setValue(cartMap);
         catergoryReference = FirebaseDatabase.getInstance()
                 .getReference(productCategory);
-
-        System.out.println("Index is:"+catergoryIndex);
         catergoryReference.child(catergoryId).setValue(cartMap);
 
         Toast.makeText(EditItems.this,"Update successfully",Toast.LENGTH_SHORT).show();

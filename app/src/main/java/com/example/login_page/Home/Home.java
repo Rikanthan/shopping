@@ -99,14 +99,23 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                     }
                     @Override
                     public boolean onQueryTextChange(String newText) {
+                        recyclerView.setVisibility(View.VISIBLE);
                         if(newText != null )
                         {
                             if(!newText.isEmpty())
                             {
                                 mUploads.clear();
                                 search(newText);
-                                recyclerView.setVisibility(View.VISIBLE);
+
                             }
+                            else
+                            {
+                                show();
+                            }
+                        }
+                        else
+                        {
+                            show();
                         }
                         return true;
                     }
@@ -272,7 +281,6 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     {
         mUploads.clear();
         s = s.substring(0,1).toUpperCase() + s.substring(1);
-        System.out.println(s);
         FirebaseDatabase
                 .getInstance()
                 .getReference("Uploads")
@@ -320,6 +328,19 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
             Intent i = new Intent(this,Home.class);
             startActivity(i);
         }
+        show();
+    }
+    @Override
+    public void onItemClick(final int position) {
+        Upload upload = mUploads.get(position);
+        Intent i=new Intent(this, IndividualItems.class);
+        int index = Integer.parseInt(upload.getmCatergoryId());
+        i.putExtra("Category",upload.getmCatergory());
+        i.putExtra("index",index-1);
+        startActivity(i);
+    }
+    public void show()
+    {
         FirebaseDatabase
                 .getInstance()
                 .getReference("Uploads")
@@ -328,13 +349,13 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 mUploads.clear();
-                                    for(DataSnapshot snapshot1: snapshot.getChildren())
+                                for(DataSnapshot snapshot1: snapshot.getChildren())
+                                {
+                                    if(snapshot1.exists())
                                     {
-                                        if(snapshot1.exists())
-                                        {
-                                            Upload upload = snapshot1.getValue(Upload.class);
-                                            mUploads.add(upload);
-                                        }
+                                        Upload upload = snapshot1.getValue(Upload.class);
+                                        mUploads.add(upload);
+                                    }
                                     mAdapter = new ImageAdapter(Home.this, mUploads);
                                     mAdapter.setOnItemClickListener(Home.this);
                                     recyclerView.setAdapter(mAdapter);
@@ -348,14 +369,6 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
 
                             }
                         }
-                );    }
-    @Override
-    public void onItemClick(final int position) {
-        Upload upload = mUploads.get(position);
-        Intent i=new Intent(this, IndividualItems.class);
-        int index = Integer.parseInt(upload.getmCatergoryId());
-        i.putExtra("Category",upload.getmCatergory());
-        i.putExtra("index",index-1);
-        startActivity(i);
+                );
     }
 }

@@ -11,11 +11,11 @@
         android:id="@+id/notification_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="5dp"
+        android:elevation="15dp"
         app:cardElevation="15dp"
         tools:targetApi="lollipop"
-        app:cardBackgroundColor = "@color/blueaccent"
-        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor = "#E1FBFB"
+        app:cardCornerRadius="5dp"
         >
                 <LinearLayout
                     android:layout_width="fill_parent"

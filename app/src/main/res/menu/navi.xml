@@ -15,8 +15,8 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/setBookingTime"
-        android:title=""
-        app:showAsAction="always"
+        android:title="Set Booking Time"
+        app:showAsAction="never"
         android:icon="@drawable/ic_baseline_more_time_24"/>
 
     <item
@@ -34,4 +34,12 @@
         android:title="Logout"
         app:showAsAction="never"
         android:icon="@drawable/logout"/>
+    <item
+        android:id="@+id/admin_notification"
+        app:actionLayout="@layout/update_notifications"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:orderInCategory="100"
+        android:title=""
+        app:showAsAction="always"
+        />
 </menu>
