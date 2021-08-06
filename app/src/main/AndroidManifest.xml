@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".Views.SeeTimer"></activity>
-        <activity android:name=".category.AllCatergories"></activity>
+        <activity android:name=".Views.ShowNotifications"></activity>
+        <activity android:name=".Views.SeeTimer" />
+        <activity android:name=".category.AllCatergories" />
         <activity android:name=".Admin.SetDateActivity" />
         <activity android:name=".customer.CustomerViewBookings" />
         <activity android:name=".Views.ShowBookings" />

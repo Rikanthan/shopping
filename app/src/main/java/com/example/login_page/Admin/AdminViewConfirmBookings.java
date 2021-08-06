@@ -97,6 +97,8 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                myCartList.clear();
+                newcartlist.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
                     if(dataSnapshot.exists())

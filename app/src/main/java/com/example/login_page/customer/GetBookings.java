@@ -38,6 +38,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,6 +63,7 @@ public class GetBookings extends AppCompatActivity {
     SendNotification sendNotification;
     SimpleDateFormat format;
     Date currentTime;
+    String adminId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,7 @@ public class GetBookings extends AppCompatActivity {
         userId = firebaseAuth.getUid();
         format = new SimpleDateFormat(DATE_FORMAT);
         getUserDetails();
+        adminId = "4VUgoUAvIgSNWgPFVCEYaFh1Mfd2";
         currentTime = new Date();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -104,15 +107,16 @@ public class GetBookings extends AppCompatActivity {
                     .getInstance()
                     .getReference()
                     .child("Tokens")
-                    .child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
+                    .child(adminId)
                     .child("token")
                     .addListenerForSingleValueEvent(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists())
                     {
                         String userToken = dataSnapshot.getValue(String.class);
-                        sendNotifications(userToken, "New Booking", name.getText().toString()+" booked items");
+                        sendNotifications( userToken, "New Booking", name.getText().toString()+" booked items");
                     }
 
                 }
@@ -146,10 +150,16 @@ public class GetBookings extends AppCompatActivity {
                                     .setValue(token);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sendNotifications(String usertoken, String title, String message) {
-        Data data = new Data(title, message);
+        Date currentTime = new Date();
+        String date = new SimpleDateFormat("dd-MMM-yy HH:mm:ss").format(currentTime);
+        Data data = new Data(title, message, date,"Unread");
         NotificationSender sender = new NotificationSender(data, usertoken);
-
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Notification")
+                .child(adminId).child(date).setValue(data);
         apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {

@@ -1,6 +1,7 @@
 package com.example.login_page.Admin;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -38,7 +39,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -201,9 +205,16 @@ public class SetDateActivity extends AppCompatActivity implements
 
         }
     }
-    public void sendNotifications(String usertoken, String title, String message) {
-        Data data = new Data(title, message);
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void sendNotifications(String usertoken, String title, String message, String uid) {
+        Date currentTime = new Date();
+        String date = new SimpleDateFormat("dd-MMM-yy HH:mm:ss").format(currentTime);
+        Data data = new Data(title, message, date,"Unread");
         NotificationSender sender = new NotificationSender(data, usertoken);
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Notification")
+                .child(uid).child(date).setValue(data);
 
         apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
             @Override
@@ -227,6 +238,7 @@ public class SetDateActivity extends AppCompatActivity implements
                 .getInstance()
                 .getReference("Tokens")
                 .addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot dataSnapshot:snapshot.getChildren())
@@ -235,7 +247,7 @@ public class SetDateActivity extends AppCompatActivity implements
                             {
                                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                                 String userToken = (String)map.get("token");
-                                sendNotifications(userToken,"Booking Alert","Booking count down starts now!");
+                                sendNotifications(userToken,"Booking Alert","Booking count down starts now!",dataSnapshot.getKey());
                             }
                         }
                     }

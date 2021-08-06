@@ -13,7 +13,7 @@
         android:elevation="5dp"
         app:cardElevation="15dp"
         tools:targetApi="lollipop"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="15dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:rotationX="-17"
                 android:rotationY="25"
                 android:text="Order#0"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSelectHandleLeft="@drawable/bg"
                 android:textSize="18dp" />
             <ImageView
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bevan"
                     android:text="Ricky"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:layout_marginRight="5dp"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Vavuniya"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/customer_phone"
@@ -83,7 +83,7 @@
                     android:layout_marginRight="5dp"
                     android:fontFamily="sans-serif-condensed"
                     android:text="0778566252"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -100,7 +100,7 @@
                     android:layout_marginRight="5dp"
                     android:text="Total"
                     android:textAlignment="center"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/total_price"
@@ -112,7 +112,7 @@
                     android:gravity="center_horizontal"
                     android:text="Rs 200.00"
                     android:textAlignment="center"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/date_text"
@@ -123,7 +123,7 @@
                     android:gravity="center_horizontal"
                     android:text="Pickup Date &amp; Time "
                     android:textAlignment="center"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/customer_pickup_time"
@@ -136,7 +136,7 @@
                     android:fontFamily="@font/digital"
                     android:text="2021-08-04 09:42:00 am"
                     android:textAlignment="center"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
         </LinearLayout>

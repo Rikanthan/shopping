@@ -3,6 +3,8 @@ package com.example.login_page.Views;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Date;
 import java.util.UUID;
 
 import android.app.NotificationChannel;
@@ -64,7 +66,7 @@ public class IndividualItems extends AppCompatActivity {
     int pPrice  =   0;
     int quan=1;
     String catergoryImageUrl;
-
+    String adminId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,8 @@ public class IndividualItems extends AppCompatActivity {
         updateCount = (TextView) findViewById(R.id.update_cart_count);
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         elegantNumberButton =   (ElegantNumberButton)findViewById(R.id.ele_button);
+        adminId = "4VUgoUAvIgSNWgPFVCEYaFh1Mfd2";
+        createNotificationChannel();
         getDetails(productCategory);
         setCount();
         firebaseAuth=FirebaseAuth.getInstance();
@@ -188,7 +192,7 @@ public class IndividualItems extends AppCompatActivity {
         changeUploads.setmuploadId(uploadId);
         if(reducedQuantity < 5)
         {
-            FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2")
+            FirebaseDatabase.getInstance().getReference().child("Tokens").child(adminId)
                     .child("token").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -230,9 +234,14 @@ public class IndividualItems extends AppCompatActivity {
     }
 
     public void sendNotifications(String usertoken, String title, String message) {
-        Data data = new Data(title, message);
+        Date currentTime = new Date();
+        String date = new SimpleDateFormat("dd-MMM-yy HH:mm:ss").format(currentTime);
+        Data data = new Data(title, message, date,"Unread");
         NotificationSender sender = new NotificationSender(data, usertoken);
-
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Notification")
+                .child(adminId).child(date).setValue(data);
         apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {

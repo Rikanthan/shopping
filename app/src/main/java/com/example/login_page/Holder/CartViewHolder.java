@@ -44,15 +44,16 @@ public class CartViewHolder extends RecyclerView.Adapter<CartViewHolder.ImageVie
                 .into(holder.imageView);
         holder.textViewName.setText(CartCurrent.getPname());
         holder.textViewPrice.setText(CartCurrent.getPrice().toString()+" X "+CartCurrent.getQuantity().toString() +" Rs");
-        holder.textViewQuantity.setText(CartCurrent.getQuantity().toString() + " Rs");
-
+        holder.textViewQuantity.setText("Rs "+CartCurrent.getQuantity().toString() + " .00");
+        long total = CartCurrent.getPrice() * CartCurrent.getQuantity();
+        holder.textViewTotal.setText("Rs "+String.valueOf(total)+" .00");
     }
     @Override
     public int getItemCount() {
         return mCarts.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView textViewName,textViewPrice,textViewQuantity;
+        public TextView textViewName,textViewPrice,textViewQuantity, textViewTotal;
         public ImageView imageView;
         @Override
         public void onClick(View v) {
@@ -72,6 +73,7 @@ public class CartViewHolder extends RecyclerView.Adapter<CartViewHolder.ImageVie
             textViewName = itemView.findViewById(R.id.cart_product_name);
             textViewPrice=itemView.findViewById(R.id.cart_product_price);
             textViewQuantity=itemView.findViewById(R.id.cart_product_quantity);
+            textViewTotal = itemView.findViewById(R.id.cart_total);
             itemView.setOnClickListener(this);
         }
 

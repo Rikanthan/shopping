@@ -25,10 +25,12 @@ import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
 import com.example.login_page.Views.IndividualItems;
 import com.example.login_page.Views.SeeTimer;
+import com.example.login_page.Views.ShowNotifications;
 import com.example.login_page.Views.ShowOrders;
 import com.example.login_page.adapter.customAdapter;
 import com.example.login_page.category.AllCatergories;
 import com.example.login_page.customer.CustomerViewBookings;
+import com.example.login_page.notification.Data;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +43,7 @@ import java.util.List;
 public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickListener {
     String[] lables;
     ImageAdapter mAdapter;
-    TextView cartText,bookingText;
+    TextView cartText,bookingText,notificationText;
     SearchView searchView;
     RecyclerView recyclerView;
     CustomerViewBookings _customer;
@@ -51,6 +53,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     boolean isListView = false;
     long cartCount = 0;
     long bookingCount = 0;
+    long notifCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +139,16 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
        });
        final View home = menu.findItem(R.id.customer_home).getActionView();
        menu.findItem(R.id.customer_home).setIcon(R.drawable.ic_baseline_timer_24);
+       final View noti = menu.findItem(R.id.cust_notification).getActionView();
+       notificationText = (TextView) noti.findViewById(R.id.update_notifications_text);
+       getNotificationCount();
+       noti.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(Home.this,ShowNotifications.class);
+               startActivity(intent);
+           }
+       });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -153,6 +166,10 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
             case R.id.cust_bookings:
                 Intent i1 = new Intent(this, CustomerViewBookings.class);
                 startActivity(i1);
+                return true;
+            case R.id.cust_notification:
+                Intent i3 = new Intent(this, ShowNotifications.class);
+                startActivity(i3);
                 return true;
             case R.id.customer_logout:
                 Intent i2 = new Intent(this,MainActivity.class);
@@ -215,6 +232,40 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                     }
                 }
         );
+
+    }
+    public void getNotificationCount()
+    {
+        notifCount = 0;
+        final String uid = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance()
+                .getReference("Notification")
+                .child(uid)
+                .addValueEventListener(
+                        new ValueEventListener() {
+                            @Override
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot:snapshot.getChildren())
+                                {
+                                    if(dataSnapshot.exists())
+                                    {
+                                        Data data = dataSnapshot.getValue(Data.class);
+                                        if(data.getStatus().contains("Unread") )
+                                        {
+                                            notifCount++;
+                                            notificationText.setText(String.valueOf(notifCount));
+                                            notificationText.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        }
+                );
 
     }
     public void search(String s)

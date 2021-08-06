@@ -17,6 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,17 +28,19 @@ public class SendNotification extends AppCompatActivity {
     private static final String CHANNEL_ID = "100 " ;
     private APIService apiService;
     Button send;
+    String adminId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createNotificationChannel();
         setContentView(R.layout.activity_sendnofication);
         send = findViewById(R.id.sendNotification);
+        adminId = "4VUgoUAvIgSNWgPFVCEYaFh1Mfd2";
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase.getInstance().getReference().child("Tokens").child("4VUgoUAvIgSNWgPFVCEYaFh1Mfd2").child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child("Tokens").child(adminId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String usertoken = dataSnapshot.getValue(String.class);
@@ -59,8 +64,13 @@ public class SendNotification extends AppCompatActivity {
     }
 
     public void sendNotifications(String usertoken, String title, String message) {
-        Data data = new Data(title, message);
+        Date currentTime = new Date();
+        Data data = new Data(title, message, String.valueOf(currentTime.getTime()),"Unread");
         NotificationSender sender = new NotificationSender(data, usertoken);
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Notification")
+                .child(adminId).child(String.valueOf(currentTime.getTime())).setValue(data);
 
         apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
             @Override

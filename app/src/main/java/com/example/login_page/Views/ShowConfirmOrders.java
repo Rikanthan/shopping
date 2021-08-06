@@ -35,7 +35,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +101,7 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                newcartlist.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
                     Cart mycart=dataSnapshot.getValue(Cart.class);
@@ -237,9 +240,14 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
 
     }
     public void sendNotifications(String usertoken, String title, String message) {
-        Data data = new Data(title, message);
+        Date currentTime = new Date();
+        String date = new SimpleDateFormat("dd-MMM-yy HH:mm:ss").format(currentTime);
+        Data data = new Data(title, message, date,"Unread");
         NotificationSender sender = new NotificationSender(data, usertoken);
-
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Notification")
+                .child(fuser).child(date).setValue(data);
         apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {

@@ -71,6 +71,7 @@ public class ShowBookings extends AppCompatActivity
         _bookings = new Bookings();
         linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        createNotificationChannel();
         settedDate = getIntent().getStringExtra("datetime");
         if(!settedDate.isEmpty() || settedDate != null)
         {
@@ -89,6 +90,7 @@ public class ShowBookings extends AppCompatActivity
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                newcartlist.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
                     System.out.println("data snapshot length "+snapshot.getChildrenCount());
@@ -151,7 +153,7 @@ public class ShowBookings extends AppCompatActivity
         });
 
     }
-    public void sentNotificationToAll(String id, final String time)
+    public void sentNotificationToAll(final String id, final String time)
     {
         FirebaseDatabase.getInstance().getReference("Tokens")
                 .child(id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -161,7 +163,7 @@ public class ShowBookings extends AppCompatActivity
                 {
                     Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
                     String userToken = (String)map.get("token");
-                    sendNotifications(userToken,"Booking confirmed!","Your time is : "+time);
+                    sendNotifications(userToken,"Booking confirmed!","Your time is : "+time,id);
                 }
             }
 
@@ -188,10 +190,15 @@ public class ShowBookings extends AppCompatActivity
         startActivity(intent);
 
     }
-    public void sendNotifications(String usertoken, String title, String message) {
-        Data data = new Data(title, message);
+    public void sendNotifications(String usertoken, String title, String message,String id) {
+        Date currentTime = new Date();
+        String date = new SimpleDateFormat("dd-MMM-yy HH:mm:ss").format(currentTime);
+        Data data = new Data(title, message, date,"Unread");
         NotificationSender sender = new NotificationSender(data, usertoken);
-
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Notification")
+                .child(id).child(date).setValue(data);
         apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {

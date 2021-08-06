@@ -51,7 +51,7 @@ public class BookingHolder extends RecyclerView.Adapter<BookingHolder.ImageViewH
         Bookings BookingsCurrent = mbookings.get(position);
         Spannable wordtoSpan = new SpannableString("Order#"+position);
         int length = wordtoSpan.length();
-        wordtoSpan.setSpan(new ForegroundColorSpan(Color.YELLOW), 5, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.GRAY), 5, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.orderId.setText(wordtoSpan);
         holder.customername.setText(BookingsCurrent.getName());
         holder.customerlocation.setText(BookingsCurrent.getLocation());
