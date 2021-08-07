@@ -163,6 +163,7 @@ public class IndividualItems extends AppCompatActivity {
         cartMap.put("imageUrl",catergoryImageUrl);
         cartMap.put("price",pPrice);
         cartMap.put("quantity",quan);
+        cartMap.put("productId",uploadId);
         cartMap.put("date",saveCurrentdate);
         cartMap.put("time",saveCurrentTime);
         String uniqueID = UUID.randomUUID().toString();

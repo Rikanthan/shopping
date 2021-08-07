@@ -12,12 +12,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.login_page.Holder.CartViewHolder;
+import com.example.login_page.Images.Upload;
 import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
 import com.example.login_page.customer.GetBookings;
@@ -34,11 +36,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,11 +59,14 @@ String customer;
 Button deletebutton, confirmButton;
 CartViewHolder mAdapter;
 List<Cart> newcartlist;
+List<String> keys;
 private static final String CHANNEL_ID = "100 " ;
+private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 private APIService apiService;
-SendNotification sendNotification;
+SimpleDateFormat format;
 ProgressBar progressBar;
-String del="";
+Date currentTime;
+Upload upload;
 int pos = 0;
 Long totalPrice = Long.valueOf(0);
     @Override
@@ -73,8 +80,13 @@ Long totalPrice = Long.valueOf(0);
         progressBar = findViewById(R.id.progress_circle);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        newcartlist = new ArrayList<>();
+        newcartlist = new ArrayList<Cart>();
+        keys = new ArrayList<>();
+        upload = new Upload();
         firebaseAuth = FirebaseAuth.getInstance();
+        createNotificationChannel();
+        format = new SimpleDateFormat(DATE_FORMAT);
+        currentTime = new Date();
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         customer   =   getIntent().getStringExtra("id");
         if( customer == null)
@@ -98,19 +110,22 @@ Long totalPrice = Long.valueOf(0);
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 newcartlist.clear();
+                keys.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
-                    Cart mycart=dataSnapshot.getValue(Cart.class);
-                    String Name=mycart.getPname();
-                    Long quantity=mycart.getQuantity();
-                    Long price=mycart.getPrice();
-                    String imageUrl = mycart.getImageUrl();
-                    totalPrice = totalPrice + price*quantity;
-                    mycart.setPname(Name);
-                    mycart.setQuantity(quantity);
-                    mycart.setPrice(price);
-                    Cart showcart=new Cart(Name,quantity,price,imageUrl);
-                    newcartlist.add(showcart);
+                    if(snapshot.exists())
+                    {
+                        Cart mycart = dataSnapshot.getValue(Cart.class);
+                        keys.add(dataSnapshot.getKey());
+                        String Name=mycart.getPname();
+                        Long quantity=mycart.getQuantity();
+                        Long price=mycart.getPrice();
+                        String imageUrl = mycart.getImageUrl();
+                        totalPrice = totalPrice + price*quantity;
+                        Cart showcart=new Cart(Name,quantity,price,imageUrl,mycart.getProductId());
+                        newcartlist.add(showcart);
+                    }
+
                 }
                 mAdapter = new CartViewHolder(ShowOrders.this, newcartlist);
                 mAdapter.setOnItemClickListener(ShowOrders.this);
@@ -134,40 +149,22 @@ Long totalPrice = Long.valueOf(0);
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        databaseReference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot uselessSnapshot: snapshot.getChildren()) {
-                                    if(pos == position)
-                                    {
-                                        uselessSnapshot.getRef().removeValue();
-                                        pos = 0;
-                                        Intent intent = new Intent(ShowOrders.this,ShowOrders.class);
-                                        startActivity(intent);
-                                        break;
-                                    }
-                                    pos++;
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(ShowOrders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        pos = position;
+                        Cart getCart = newcartlist.get(position);
+                        restores(getCart.getProductId(),getCart.getPrice());
+                        newcartlist.remove(position);
+                        databaseReference.child(keys.get(position)).removeValue();
+                        keys.remove(position);
                     }
                 });
-
         alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });
-
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-
     }
 
     public void delete(View view){
@@ -177,19 +174,11 @@ Long totalPrice = Long.valueOf(0);
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-                                databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
-                                            appleSnapshot.getRef().removeValue();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        Toast.makeText(ShowOrders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                Cart getCart = newcartlist.get(pos);
+                                restores(getCart.getProductId(),getCart.getPrice());
+                                newcartlist.remove(pos);
+                                databaseReference.child(keys.get(pos)).removeValue();
+                                keys.remove(pos);
                             }
                         });
 
@@ -228,12 +217,62 @@ Long totalPrice = Long.valueOf(0);
         }
         else
         {
-            Toast.makeText(ShowOrders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
-            Intent i=new Intent(ShowOrders.this, GetBookings.class);
-            i.putExtra("total",totalPrice.toString());
-            startActivity(i);
+            FirebaseDatabase
+                    .getInstance()
+                    .getReference("Timer")
+                    .addListenerForSingleValueEvent(
+                            new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists())
+                                    {
+                                        String date = snapshot.getValue(String.class);
+                                        try {
+                                            Date eventdate = format.parse(date);
+                                            if(eventdate.getTime() - currentTime.getTime() > 0)
+                                            {
+                                                Toast.makeText(ShowOrders.this,"Total price is :" +totalPrice.toString()+ "Rs", Toast.LENGTH_SHORT).show();
+                                                Intent i=new Intent(ShowOrders.this, GetBookings.class);
+                                                i.putExtra("total",totalPrice.toString());
+                                                i.putExtra("date",getMove());
+                                                startActivity(i);
+                                            }
+                                            else
+                                            {
+                                                Toast.makeText(ShowOrders.this,"Sorry! Booking time limit exceeds",Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(ShowOrders.this, SeeTimer.class);
+                                                startActivity(intent);
+                                            }
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            }
+                    );
         }
 
+    }
+    public String getMove()
+    {
+        final String date = format.format(currentTime);
+        for(Cart cart: newcartlist)
+        {
+            long temp = cart.getPrice();
+            cart.setPrice(cart.getQuantity());
+            cart.setQuantity(temp);
+            FirebaseDatabase.getInstance().getReference("ordersBackup")
+                    .child(fuser).child(date).child( UUID.randomUUID().toString()).setValue(cart);
+        }
+
+        FirebaseDatabase.getInstance().getReference("orders").child(fuser).getRef().removeValue();
+        return date;
     }
     public void sendNotifications(String usertoken, String title, String message) {
         Date currentTime = new Date();
@@ -260,6 +299,34 @@ Long totalPrice = Long.valueOf(0);
             }
         });
     }
+    public void restores(final String productId, final long quantity)
+    {
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Uploads")
+                .child(productId)
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists())
+                                {
+                                   upload = snapshot.getValue(Upload.class);
+                                   long quan = Integer.parseInt(upload.getmQuantity());
+                                   Upload newUpload = new Upload(upload.getName(),upload.getImageUrl(),upload.getmPrice(),String.valueOf(quan+quantity) ,upload.getmCatergory(),productId,upload.getmCatergoryId());
+                                   FirebaseDatabase.getInstance().getReference(upload.getmCatergory())
+                                           .child(upload.getmCatergoryId()).setValue(newUpload);
+                                   FirebaseDatabase.getInstance().getReference("Uploads").child(productId).setValue(newUpload);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        }
+                );
+    }
     public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "NotificationChannel";
@@ -274,5 +341,4 @@ Long totalPrice = Long.valueOf(0);
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 }

@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,12 +59,13 @@ public class GetBookings extends AppCompatActivity {
     EditText location;
     String price;
     String userId;
-    boolean canBook;
+    String getDate;
     FirebaseAuth firebaseAuth;
     SendNotification sendNotification;
     SimpleDateFormat format;
     Date currentTime;
     String adminId;
+    List<Cart> backupCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +75,12 @@ public class GetBookings extends AppCompatActivity {
         total=(TextView)findViewById(R.id.total);
         name =(EditText)findViewById(R.id.customer_name);
         phone=(EditText)findViewById(R.id.customer_phone);
+        backupCart = new ArrayList<>();
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         location=(EditText)findViewById(R.id.customer_location);
-        price =getIntent().getStringExtra("total");
+        price = getIntent().getStringExtra("total");
+        getDate = getIntent().getStringExtra("date");
+       // backupCart = getIntent().getParcelableExtra("carts");
         total.setText("Total : Rs"+ price);
         firebaseAuth = FirebaseAuth.getInstance();
         userId = firebaseAuth.getUid();
@@ -87,21 +92,16 @@ public class GetBookings extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void book(View v)
     {
-        if(canBooke())
-        {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-            final String date = format.format(new Date());
             final HashMap<String,Object> cartMap=new HashMap<>();
-            DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("booking");//.child(currentDate.toString());
+            DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("booking");
             cartMap.put("id",userId);
             cartMap.put("name",name.getText().toString().trim());
             cartMap.put("phone",phone.getText().toString().trim());
             cartMap.put("location",location.getText().toString().trim());
             cartMap.put("price",price);
-            cartMap.put("date",date);
-            databaseReference.child(date).setValue(cartMap);
+            cartMap.put("date",getDate);
+            databaseReference.child(getDate).setValue(cartMap);
             UpdateToken();
-            getBackup(date);
             Toast.makeText(this,"Your items booked successfully",Toast.LENGTH_LONG).show();
             FirebaseDatabase
                     .getInstance()
@@ -126,13 +126,8 @@ public class GetBookings extends AppCompatActivity {
 
                 }
             });
-        }
-        else
-        {
-            Toast.makeText(GetBookings.this,"Sorry! Booking time limit exceeds",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, SeeTimer.class);
-            startActivity(intent);
-        }
+
+
 
     }
     public void UpdateToken(){
@@ -214,66 +209,6 @@ public class GetBookings extends AppCompatActivity {
         );
     }
 
-    public List<Cart> getBackup(final String date)
-    {
-        final List<Cart> cartList = new ArrayList<>();
 
-        FirebaseDatabase.getInstance().getReference("orders")
-                .child(userId).addValueEventListener(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot dataSnapshot:snapshot.getChildren())
-                        {
-                            if(dataSnapshot.exists())
-                            {
-                                Cart myCart = dataSnapshot.getValue(Cart.class);
-                                FirebaseDatabase.getInstance().getReference("ordersBackup")
-                                        .child(userId).child(date).child(dataSnapshot.getKey()).setValue(myCart);
-                            }
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                }
-        );
-        FirebaseDatabase.getInstance().getReference("orders").child(userId).getRef().removeValue();
-        return cartList;
-    }
-    public boolean canBooke()
-    {
-        FirebaseDatabase
-                .getInstance()
-                .getReference("Timer")
-                .addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
-                                   String date = snapshot.getValue(String.class);
-                                    try {
-                                        Date eventdate = format.parse(date);
-                                        if(eventdate.getTime() - currentTime.getTime() > 0)
-                                        {
-                                            canBook = true;
-                                        }
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        }
-                );
-        return canBook;
-    }
 }

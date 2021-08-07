@@ -1,7 +1,12 @@
 package com.example.login_page.Product;
 
-public class Cart {
-    public Cart(String pname, Long price, Long quantity,String imageUrl) {
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Cart implements Serializable {
+    public Cart(String pname, Long price, Long quantity,String imageUrl,String productId) {
+        this.productId = productId;
         this.pname = pname;
         this.price = price;
         this.quantity = quantity;
@@ -21,6 +26,16 @@ public class Cart {
     String imageUrl;
     Long price;
     Long quantity;
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    String productId;
 
     public String getPname() {
         return pname;

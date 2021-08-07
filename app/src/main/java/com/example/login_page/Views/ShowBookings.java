@@ -50,17 +50,13 @@ public class ShowBookings extends AppCompatActivity
     DatabaseReference databaseReference;
     LinearLayoutManager linearLayoutManager;
     FirebaseAuth firebaseAuth;
-    boolean isDuplicate = false;
     String fuser;
     BookingHolder mAdapter;
     List<Bookings> newcartlist;
     Bookings _bookings;
     TextView showTime;
-    String bookedDate = "";
     String settedDate = "";
-    String userId ;
     int pos =  0;
-    int clickPosition = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

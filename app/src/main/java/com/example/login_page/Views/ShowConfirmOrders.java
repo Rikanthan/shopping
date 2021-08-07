@@ -59,8 +59,6 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
     List<Cart> newcartlist;
     private static final String CHANNEL_ID = "100 " ;
     private APIService apiService;
-    SendNotification sendNotification;
-    String del="";
     int pos = 0;
     Long totalPrice = Long.valueOf(0);
     @Override
@@ -76,6 +74,7 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist = new ArrayList<>();
         firebaseAuth = FirebaseAuth.getInstance();
+        createNotificationChannel();
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         customer   =   getIntent().getStringExtra("id");
         bookedDate = getIntent().getStringExtra("date");
@@ -94,27 +93,41 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
             confirmButton.setText("Confirmation");
             confirmButton.setVisibility(View.VISIBLE);
         }
+        showOrder();
+
+    }
+    @Override
+    public void onItemClick(final int position)
+    {
+
+    }
+    public void showOrder()
+    {
+        System.out.println(bookedDate);
         databaseReference= FirebaseDatabase.getInstance()
                 .getReference("ordersBackup")
                 .child(fuser)
                 .child(bookedDate);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 newcartlist.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren())
                 {
-                    Cart mycart=dataSnapshot.getValue(Cart.class);
-                    String Name=mycart.getPname();
-                    Long quantity=mycart.getQuantity();
-                    Long price=mycart.getPrice();
-                    String imageUrl = mycart.getImageUrl();
-                    totalPrice = totalPrice + price*quantity;
-                    mycart.setPname(Name);
-                    mycart.setQuantity(quantity);
-                    mycart.setPrice(price);
-                    Cart showcart=new Cart(Name,quantity,price,imageUrl);
-                    newcartlist.add(showcart);
+                    if(dataSnapshot.exists())
+                    {
+                        Cart mycart=dataSnapshot.getValue(Cart.class);
+                        String Name=mycart.getPname();
+                        Long quantity=mycart.getQuantity();
+                        Long price=mycart.getPrice();
+                        String imageUrl = mycart.getImageUrl();
+                        totalPrice = totalPrice + price*quantity;
+                        mycart.setPname(Name);
+                        mycart.setQuantity(quantity);
+                        mycart.setPrice(price);
+                        Cart showcart=new Cart(Name,quantity,price,imageUrl,mycart.getProductId());
+                        newcartlist.add(showcart);
+                    }
                 }
                 mAdapter = new CartViewHolder(ShowConfirmOrders.this, newcartlist);
                 mAdapter.setOnItemClickListener(ShowConfirmOrders.this);
@@ -129,83 +142,8 @@ public class ShowConfirmOrders extends AppCompatActivity implements  CartViewHol
             }
         });
     }
-    @Override
-    public void onItemClick(final int position)
-    {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure , You wanted to remove the item from cart");
-        alertDialogBuilder.setPositiveButton("yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        databaseReference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot uselessSnapshot: snapshot.getChildren()) {
-                                    if(pos == position)
-                                    {
-                                        uselessSnapshot.getRef().removeValue();
-                                        pos = 0;
-                                        Intent intent = new Intent(ShowConfirmOrders.this,ShowConfirmOrders.class);
-                                        startActivity(intent);
-                                        break;
-                                    }
-                                    pos++;
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(ShowConfirmOrders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-
-    }
-
     public void delete(View view){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure , You wanted to remove the item from cart");
-        alertDialogBuilder.setPositiveButton("yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        databaseReference.child(String.valueOf(pos)).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
-                                    appleSnapshot.getRef().removeValue();
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(ShowConfirmOrders.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 
     public void confirm(View v)

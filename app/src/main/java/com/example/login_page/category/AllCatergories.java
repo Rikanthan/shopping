@@ -62,7 +62,7 @@ public class AllCatergories extends AppCompatActivity implements ImageAdapter.On
                 mAdapter = new ImageAdapter(AllCatergories.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.setOnItemClickListener(AllCatergories.this);
-                mProgressCircle.setVisibility(View.INVISIBLE);
+                mProgressCircle.setVisibility(View.GONE);
             }
 
             @Override
