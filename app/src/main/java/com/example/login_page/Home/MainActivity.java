@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.login_page.Admin.AdminCatorgory;
+import com.example.login_page.Login_front.ForgetPassword;
 import com.example.login_page.Login_front.SignIn;
 import com.example.login_page.R;
 import com.example.login_page.Views.SeeTimer;
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, SeeTimer.class);
+        Intent i=new Intent(this, ForgetPassword.class);
         startActivity(i);
     }
     public void setValidLogin()
@@ -170,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         Intent i=new Intent(MainActivity.this,Home.class);
                                         startActivity(i);
                                     }
-
                                     //finish();
                                 }
                                 else {

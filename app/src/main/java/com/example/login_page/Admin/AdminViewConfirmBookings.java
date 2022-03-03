@@ -135,6 +135,17 @@ public class AdminViewConfirmBookings extends AppCompatActivity implements  Book
 
             }
         });
+        if(newcartlist.isEmpty())
+        {
+            if(isConfirm)
+            {
+             textView.setText("No Confirm bookings");
+            }
+            else
+            {
+                textView.setText("No bookings");
+            }
+        }
     }
 
 }

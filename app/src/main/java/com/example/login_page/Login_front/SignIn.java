@@ -146,8 +146,15 @@ public class SignIn extends AppCompatActivity {
 
         member.setName(fullname.getText().toString().trim());//fullname ;
         member.setEmail(email.getText().toString().trim());//email = findViewById(R.id.userEmailId);
-        Long phn=Long.parseLong(mobile.getText().toString().trim());
-        member.setMobile(phn);//mobile = findViewById(R.id.mobileNumber);
+        try {
+            Long phn=Long.parseLong(mobile.getText().toString().trim());
+            member.setMobile(phn);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        //mobile = findViewById(R.id.mobileNumber);
         member.setLocation(location.getText().toString().trim());//location = findViewById(R.id.location);
         member.setPassword(pswd.getText().toString().trim());//pswd = findViewById(R.id.password);
         //conpswd = findViewById(R.id.confirmPassword);

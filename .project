@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>shopping</name>
+	<name>Login_page</name>
 	<comment>Project shopping created by Buildship.</comment>
 	<projects>
 	</projects>
@@ -16,7 +16,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1613105918625</id>
+			<id>0</id>
 			<name></name>
 			<type>30</type>
 			<matcher>

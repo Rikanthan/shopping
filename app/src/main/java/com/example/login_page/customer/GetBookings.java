@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login_page.Home.Home;
 import com.example.login_page.Product.Cart;
 import com.example.login_page.Views.Member;
 import com.example.login_page.Views.SeeTimer;
@@ -126,8 +127,8 @@ public class GetBookings extends AppCompatActivity {
 
                 }
             });
-
-
+    Intent intent = new Intent(this, Home.class);
+    startActivity(intent);
 
     }
     public void UpdateToken(){
@@ -209,6 +210,16 @@ public class GetBookings extends AppCompatActivity {
         );
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,GetBookings.class);
+        intent.putExtra("date",getDate);
+        intent.putExtra("total",price);
+        startActivity(intent);
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

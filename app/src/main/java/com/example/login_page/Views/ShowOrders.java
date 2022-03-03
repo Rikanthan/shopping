@@ -16,6 +16,7 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.login_page.Holder.CartViewHolder;
@@ -63,6 +64,7 @@ List<String> keys;
 private static final String CHANNEL_ID = "100 " ;
 private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 private APIService apiService;
+TextView orderText;
 SimpleDateFormat format;
 ProgressBar progressBar;
 Date currentTime;
@@ -78,6 +80,7 @@ Long totalPrice = Long.valueOf(0);
         deletebutton = findViewById(R.id.idelete);
         confirmButton = findViewById(R.id.confirmOrder);
         progressBar = findViewById(R.id.progress_circle);
+        orderText = findViewById(R.id.order_text);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         newcartlist = new ArrayList<Cart>();
@@ -131,6 +134,12 @@ Long totalPrice = Long.valueOf(0);
                 mAdapter.setOnItemClickListener(ShowOrders.this);
               recyclerView.setAdapter(mAdapter);
               progressBar.setVisibility(View.GONE);
+              if(newcartlist.isEmpty())
+              {
+                  confirmButton.setVisibility(View.GONE);
+                  orderText.setText("No orders");
+
+              }
 
             }
             @Override
@@ -140,6 +149,12 @@ Long totalPrice = Long.valueOf(0);
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     @Override
     public void onItemClick(final int position)
     {

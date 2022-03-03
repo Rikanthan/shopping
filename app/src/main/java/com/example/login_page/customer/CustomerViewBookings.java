@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
         intent.putExtra("date",myBookings.getDate());
         startActivity(intent);
     }
+    @SuppressLint("SetTextI18n")
     public int process(String getBooking, final boolean status)
     {
         final String uid    =   FirebaseAuth.getInstance().getUid();
@@ -134,7 +136,6 @@ public class CustomerViewBookings extends AppCompatActivity implements  BookingH
                         }
                     });
         }
-
      return newcartlist.size();
     }
     @Override

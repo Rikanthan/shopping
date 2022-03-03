@@ -17,8 +17,6 @@
         android:layout_margin="20dp"
         tools:ignore="UseCompoundDrawables"
         >
-
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="100dp"
@@ -57,10 +55,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint=" User name"
+            android:hint=" Email"
             android:textColorHint="@color/lightblue"
             android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_perm_identity_24"
+            android:drawableLeft="@drawable/ic_baseline_email_24"
             android:background="@drawable/overlay"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -87,6 +85,7 @@
             android:ems="10"
             app:passwordToggleEnabled="true"
             android:hint=" Password"
+            android:textColorHighlight="@color/blue"
             android:textColor="@color/black"
             android:padding="10dp"
             android:textColorHint="@color/lightblue"
