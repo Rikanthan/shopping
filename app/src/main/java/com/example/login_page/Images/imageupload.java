@@ -64,12 +64,11 @@ public class imageupload extends AppCompatActivity {
         setContentView(R.layout.activity_imageupload);
         Button mButtonChooseImage = findViewById(R.id.button_choose_image);
         Button mButtonUpload = findViewById(R.id.button_upload);
-        TextView mTextViewShowUploads = findViewById(R.id.text_view_show_uploads);
         mImageView=findViewById(R.id.image_view);
         mProgressBar=findViewById(R.id.progress_bar);
-        mTextFileName = findViewById(R.id.edit_text_file_name);
-        mTextPrice=findViewById(R.id.edit_text_price);
-        mTextQuantity=findViewById(R.id.edit_text_quantiy);
+        mTextFileName = findViewById(R.id.phone_name);
+        mTextPrice=findViewById(R.id.camera);
+        mTextQuantity=findViewById(R.id.fingerprint);
         mCatergory=getIntent().getExtras().get("category").toString();
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef= FirebaseDatabase.getInstance().getReference(mCatergory);
@@ -117,12 +116,12 @@ public class imageupload extends AppCompatActivity {
             }
 
         });
-        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showimages();
-            }
-        });
+//        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showimages();
+//            }
+//        });
 
 
     }

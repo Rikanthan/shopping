@@ -1,96 +1,231 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".Images.imageupload">
-
-    <Button
-        android:id="@+id/button_choose_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button"
-        android:padding="15dp"
-        android:text="Choose file" />
-
-    <EditText
-        android:id="@+id/edit_text_file_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_toEndOf="@+id/button_choose_image"
-        android:layout_toRightOf="@+id/button_choose_image"
-        android:hint="Enter product name" />
-    <EditText
-        android:id="@+id/edit_text_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:inputType="phone"
-        android:singleLine="true"
-        android:layout_below="@+id/button_choose_image"
-        android:layout_toRightOf="@+id/button_choose_image"
-        android:hint="Enter product price" />
-    <EditText
-        android:id="@+id/edit_text_quantiy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:inputType="phone"
-        android:singleLine="true"
-        android:layout_below="@+id/edit_text_price"
-        android:layout_toRightOf="@+id/button_choose_image"
-        android:hint="Enter product quantity"
-      />
-
-
-
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/progress_bar"
-        android:layout_below="@+id/edit_text_quantiy"
-        android:layout_marginTop="16dp" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_upload"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="16dp" />
-
-
-    <Button
-        android:id="@+id/button_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/button"
-        android:text="Upload" />
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
 
     <TextView
-        android:id="@+id/text_view_show_uploads"
+        android:id="@+id/addnew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_upload"
-        android:layout_alignBottom="@+id/button_upload"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_toEndOf="@+id/button_upload"
-        android:layout_toRightOf="@+id/button_upload"
-        android:gravity="center"
-        android:text="Show Uploads"
-        android:textSize="16sp" />
+        android:layout_gravity="center"
+        android:padding="20dp"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:text="Add New product" />
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addnew"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_choose_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:padding="15dp"
+            android:text="Choose file" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp" />
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/phone_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Phone name"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_smartphone_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Battery Details"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_battery_std_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+        <EditText
+            android:id="@+id/camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Camera Details"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_camera_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+        <EditText
+            android:id="@+id/ram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Ram Details"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_subtitles_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+        <EditText
+            android:id="@+id/storage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Storage Details"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_storage_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+        <EditText
+            android:id="@+id/fingerprint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" Fingerprint Details"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_baseline_fingerprint_24"
+            android:background="@drawable/overlay"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            />
+            <EditText
+                android:id="@+id/network"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint=" Connection Details"
+                android:textColorHint="@color/lightblue"
+                android:inputType="textPersonName"
+                android:drawableLeft="@drawable/ic_baseline_network"
+                android:background="@drawable/overlay"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                />
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint=" Description"
+                android:textColorHint="@color/lightblue"
+                android:inputType="textMultiLine"
+                android:drawableLeft="@drawable/ic_baseline_description_24"
+                android:lines="4"
+                android:maxLines="4"
+                android:background="@drawable/overlay"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:layout_margin="15dp"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/button_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button"
+            android:text="Upload" />
+        </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>
+
+
+
+<!--<ProgressBar-->
+<!--android:id="@+id/progress_bar"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginBottom="16dp" />-->
+
+
+<!--<Button-->
+<!--android:id="@+id/button_upload"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginBottom="15dp"-->
+<!--android:background="@drawable/button"-->
+<!--android:text="Upload" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/text_view_show_uploads"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginStart="25dp"-->
+<!--android:layout_marginLeft="25dp"-->
+<!--android:gravity="center"-->
+<!--android:text="Show Uploads"-->
+<!--android:textSize="16sp" />-->
