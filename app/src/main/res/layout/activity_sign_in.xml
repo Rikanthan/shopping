@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:theme="@style/AppTheme2"
     android:padding="20dp"
@@ -51,7 +52,7 @@
         android:background="@drawable/overlay"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:hint="@string/email"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:singleLine="true"
@@ -111,41 +112,29 @@
         android:layout_height="1px"
         android:background="@color/white" />
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="fill_parent"
-        android:drawableStart="@drawable/ic_baseline_person_24"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passError"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/overlay"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="@string/username"
-        android:inputType="textCapWords"
-        android:drawableLeft="@drawable/overlay"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/lightblue"
-        android:textSize="16sp" />
+        app:passwordToggleEnabled="true">
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/overlay"
-        android:drawableLeft="@drawable/overlay"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:drawableStart="@drawable/ic_baseline_lock_24"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/lightblue"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:ems="10"
+            android:hint=" Password"
+            android:textColor="@color/black"
+            app:passwordToggleEnabled="true"
+            android:padding="10dp"
+            android:textColorHint="@color/lightblue"
+            android:inputType="textPassword"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/overlay"
+            android:drawableStart="@drawable/ic_baseline_lock_24" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <View
         android:layout_width="fill_parent"
@@ -170,15 +159,6 @@
         android:textColorHint="@color/lightblue"
         android:textSize="16sp" />
 
-    <CheckBox
-        android:id="@+id/terms_conditions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="@string/terms_conditions"
-        android:textColor="@color/black"
-        android:textStyle="normal"
-        android:textSize="14sp" />
 
     <Button
         android:id="@+id/signUpBtn"
@@ -189,22 +169,10 @@
         android:background="@drawable/button"
         android:onClick="signin"
         android:padding="3dp"
-        android:text="@string/signin"
+        android:text="sign up"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:fontFamily="casual"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/already_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="already_user"
-        android:textColor="@color/lightblue"
-        android:textSize="15sp" />
 
 </LinearLayout>

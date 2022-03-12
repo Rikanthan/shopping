@@ -1,12 +1,12 @@
 package com.example.login_page.Holder;
 
 public class Items {
-    public Items(String pimageurl, String pcategory, String pquantity, String pname, String pprice) {
-        this.pimageurl = pimageurl;
-        this.pcategory = pcategory;
-        this.pquantity = pquantity;
-        this.pname = pname;
-        this.pprice = pprice;
+    public Items(String imageurl, String category, String quantity, String name, String price) {
+        this.pimageurl = imageurl;
+        this.pcategory = category;
+        this.pquantity = quantity;
+        this.pname = name;
+        this.pprice = price;
     }
     public Items()
     {
@@ -22,40 +22,40 @@ public class Items {
         return pimageurl;
     }
 
-    public void setPimageurl(String pimageurl) {
-        this.pimageurl = pimageurl;
+    public void setPimageurl(String imageurl) {
+        this.pimageurl = imageurl;
     }
 
     public String getPcategory() {
         return pcategory;
     }
 
-    public void setPcategory(String pcategory) {
-        this.pcategory = pcategory;
+    public void setPcategory(String category) {
+        this.pcategory = category;
     }
 
     public String getPquantity() {
         return pquantity;
     }
 
-    public void setPquantity(String pquantity) {
-        this.pquantity = pquantity;
+    public void setPquantity(String quantity) {
+        this.pquantity = quantity;
     }
 
     public String getPname() {
         return pname;
     }
 
-    public void setPname(String pname) {
-        this.pname = pname;
+    public void setPname(String name) {
+        this.pname = name;
     }
 
     public String getPprice() {
         return pprice;
     }
 
-    public void setPprice(String pprice) {
-        this.pprice = pprice;
+    public void setPprice(String price) {
+        this.pprice = price;
     }
 
     private String pprice;

@@ -17,19 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@+id/item_name"
+            android:onClick="show_individual"
             android:scaleType="centerCrop"
             android:layout_marginTop="2dp"/>
+
         <TextView
             android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Item Name"
             android:gravity="center_horizontal"
-            android:textSize="20dp"
-
-            android:textStyle="bold"
+            android:text="Item Name"
             android:textColor="@color/black"
-            />
+            android:textSize="20dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/item_Catergory"
             android:layout_width="match_parent"

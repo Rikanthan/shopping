@@ -1,49 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/dashboard"
-        android:title="Dashboard"
-
-       android:icon="@drawable/ic_baseline_dashboard_24"/>
+        android:id="@+id/confirm_bookings"
+        android:title="Conformed Bookings"
+        android:icon="@drawable/ic_baseline_add_shopping_cart_24"
+        app:showAsAction="never"/>
     <item
-        android:id="@+id/search"
-        android:title="Search"
-
-        android:icon="@drawable/ic_baseline_search_24"/>
+        android:id="@+id/customerBookings"
+        android:title=""
+        app:actionLayout="@layout/update_bookings"
+        android:icon="@drawable/ic_baseline_book_online_24"
+        app:showAsAction="always"/>
     <item
-        android:id="@+id/customer"
-        android:title="Customers"
+        android:id="@+id/setBookingTime"
+        android:title="Set Booking Time"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_baseline_more_time_24"/>
 
-        android:icon="@drawable/customer"/>
-    <item
-        android:id="@+id/salesmen"
-        android:title="Salesmen"
-
-        android:icon="@drawable/salesman"/>
     <item
         android:id="@+id/inventory"
         android:title="Inventory items"
-
-        android:icon="@drawable/inv"/>
-    <item
-        android:id="@+id/product"
-        android:title="Products"
-
-        android:icon="@drawable/pro"/>
-    <item
-        android:id="@+id/offer"
-        android:title="Offers"
-
-        android:icon="@drawable/ic_baseline_local_offer_24"/>
-    <item
-        android:id="@+id/setting"
-
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Settings"/>
+        android:icon="@drawable/products"
+        app:showAsAction="always"/>
+   <item
+       android:id="@+id/setTimer"
+       android:icon="@drawable/ic_baseline_timer_24"
+       android:title=""
+       app:showAsAction="always"/>
     <item
         android:id="@+id/logout"
         android:title="Logout"
-
+        app:showAsAction="never"
         android:icon="@drawable/logout"/>
+    <item
+        android:id="@+id/admin_notification"
+        app:actionLayout="@layout/update_notifications"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:orderInCategory="100"
+        android:title=""
+        app:showAsAction="always"
+        />
 </menu>

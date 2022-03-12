@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Views.SeeTimer">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/abril_fatface"
+        android:text="Bookings time limit ends in"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/lato"
+        android:text="hh mm ss"
+        android:textSize="55dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/setCounter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/digital"
+        android:text="00:00:00"
+        android:textSize="75dp"
+        android:shadowColor="@color/white"
+        android:shadowDx="-2"
+        android:shadowDy="2"
+        android:shadowRadius="15"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        android:layout_gravity="center"
+        />
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="300dp"
+        android:src="@drawable/sand_clock"
+        />
+</LinearLayout>

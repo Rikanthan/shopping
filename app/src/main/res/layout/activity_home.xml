@@ -6,13 +6,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/AppTheme2"
-    android:background="@color/blueaccent"
-    tools:context=".Home.Home">
+    tools:context=".Home.Home"
+    android:paddingLeft="10dp">
 
-    <SearchView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content">
+    <SearchView
+        android:id="@+id/search_items"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:queryHint='Search items' />
+        <ImageButton
+            android:id="@+id/show_all"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/white"
+            android:onClick="showAll"
+            android:src="@drawable/ic_baseline_view_module_24"/>
+    </LinearLayout>
     <GridView
         android:id="@+id/Items"
         android:layout_width="match_parent"
@@ -20,5 +33,14 @@
         android:layout_marginTop="10dp"
         android:numColumns="3"
         android:stretchMode="columnWidth"
+        android:visibility="visible"
         android:verticalSpacing="20dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:targetApi="O"
+        android:visibility="invisible"
+        />
 </LinearLayout>

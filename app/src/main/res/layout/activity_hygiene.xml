@@ -7,7 +7,7 @@
     android:background="@color/lightblue"
     android:orientation="vertical"
     android:weightSum="5"
-    tools:context=".Views.hygiene">
+    tools:context=".Views.Hygiene">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,7 +167,8 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            tools:targetApi="lollipop">
 
             <ImageView
                 android:layout_width="80dp"

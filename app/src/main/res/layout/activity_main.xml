@@ -7,8 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Home.MainActivity"
-    android:background="@color/blueaccent"
-    tools:targetApi="P">
+    android:background="@color/blueaccent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,9 +15,8 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        tools:targetApi="P"
+        tools:ignore="UseCompoundDrawables"
         >
-
 
         <ImageView
             android:id="@+id/imageView"
@@ -32,51 +30,57 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="welcome to  e-shopping"
+            android:text="@string/welcome"
             android:textAlignment="center"
             android:gravity="center_horizontal"
             android:fontFamily="sans-serif-smallcaps"
             android:textFontWeight="30"
-            android:textSize="33sp"
+            android:textSize="33dp"
+            android:textColor="@color/lightblue"/>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/eshopping"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textFontWeight="30"
+            android:textSize="40sp"
             android:textColor="@color/lightblue"
-            tools:targetApi="P"
-             />
-
-
+            tools:targetApi="p" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint=" User name"
+            android:hint=" Email"
             android:textColorHint="@color/lightblue"
             android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_perm_identity_24"
+            android:drawableLeft="@drawable/ic_baseline_email_24"
             android:background="@drawable/overlay"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:paddingStart="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
-            tools:targetApi="P"
 
-            tools:ignore="RtlSymmetry" />
+            />
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:layout_marginTop="5dp"
             android:textColorHint="@color/lightblue"
+            app:passwordToggleTint="@color/lightblue"
+            app:passwordToggleEnabled="true">
 
-            app:passwordToggleEnabled="true"
-            tools:targetApi="P"
-
-            app:passwordToggleTint="@color/lightblue">
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/editPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_baseline_lock_24"
@@ -92,32 +96,39 @@
             android:layout_margin="15dp"
             android:paddingBottom="10dp"
             android:background="@drawable/overlay"
-            android:drawableStart="@drawable/ic_baseline_lock_24"
-            tools:targetApi="P"/>
+            android:drawableStart="@drawable/ic_baseline_lock_24" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-            <TextView
-                android:id="@+id/forgot_password"
+            <CheckBox
+                android:layout_below="@+id/passwordview"
                 android:layout_width="wrap_content"
+                android:text="Remember Password!"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:padding="5dp"
-                android:text="@string/forgot"
-                android:onClick="forgetpassword"
-                android:textColor="@color/blue"
-                android:textSize="14sp" />
+                android:id="@+id/rempasswordcheckbox"
+                android:layout_x="23dp"
+                android:layout_y="200dp" />
+
+        <TextView
+            android:id="@+id/forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:padding="5dp"
+            android:text="@string/forgot"
+            android:onClick="forgetpassword"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
 
 
         <Button
+            android:id="@+id/userlogin"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Login"
             android:fontFamily="casual"
-            android:onClick="login"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:background="@drawable/button"
@@ -126,8 +137,11 @@
             android:id="@+id/createAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/login_layout"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:gravity="center"
+            app:passwordToggleEnabled="true"
             android:padding="5dp"
             android:onClick="signup"
             android:text="@string/newUser"

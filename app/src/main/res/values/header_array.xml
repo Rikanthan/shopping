@@ -5,19 +5,19 @@
             Vegetables
         </item>
         <item>
-            Fruits
+            Fruit
         </item>
         <item>
             Medical
         </item>
         <item>
-            Paper things
+            Paper
         </item>
         <item>
             Hygiene
         </item>
         <item>
-            Cosmetric
+            Cosmetrics
         </item>
         <item>
             Softdrinks
@@ -56,108 +56,85 @@
             Banana
         </item>
     </string-array>
+    <string-array name="fruits_page">
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_forgetpassword.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_forgetpassword.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_forgetpassword.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_forgetpassword.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+        <item>
+           activity_forgetpassword.xml
+        </item>
+        <item>
+           activity_fruit.xml
+        </item>
+    </string-array>
 
-    <string-array name="softdrink">
+    <string-array name="softdrinks">
         <item>
-            Cocacola mega
+            Bathroomcleaner
         </item>
         <item>
-            Cocacola buddy
+            Detergent
         </item>
         <item>
-            Sprite mega
+            Facewash
         </item>
         <item>
-            Sprite buddy
+            Soap
         </item>
         <item>
-            Pepsi mega
+            Toothbrush
         </item>
         <item>
-            Pepsi buddy
+            Toothpaste
+        </item>
+    </string-array>
+    <string-array name="softdrinks_prices">
+        <item>
+            Price
         </item>
         <item>
-            7up mega
+            Price
         </item>
         <item>
-            7up buddy
+            Price
         </item>
         <item>
-            Fanta mega
+            Price
         </item>
         <item>
-            Fanta buddy
+            Price
+        </item>
+        <item>
+            Price
         </item>
     </string-array>
 
 
     <string-array name="softdrink_prices">
-        <item>
-            Price :200 LKR
-        </item>
-        <item>
-            Price :75 LKR
-        </item>
-        <item>
-            Price :200 LKR
-        </item>
-        <item>
-            Price :75 LKR
-        </item>
-        <item>
-            Price :200 LKR
-        </item>
-        <item>
-            Price :75 LKR
-        </item>
-        <item>
-            Price :200 LKR
-        </item>
-        <item>
-            Price :75 LKR
-        </item>
-        <item>
-            Price :200 LKR
-        </item>
-        <item>
-            Price :75 LKR
-        </item>
-    </string-array>
-
-
-    <string-array name="snacks">
-        <item>
-            Cheese biscuit
-        </item>
-        <item>
-            Chocolate puff
-        </item>
-        <item>
-           Cream cracker
-        </item>
-        <item>
-            Lemon puff
-        </item>
-        <item>
-            Maree biscuit
-        </item>
-        <item>
-            Milk biscuit
-        </item>
-        <item>
-            Nice biscuit
-        </item>
-        <item>
-            Onion biscuit
-        </item>
-        <item>
-            Tipi tip
-        </item>
-        <item>
-            Wafers
-        </item>
-    </string-array>
-    <string-array name="snack_prices">
         <item>
             Price :200 LKR
         </item>
