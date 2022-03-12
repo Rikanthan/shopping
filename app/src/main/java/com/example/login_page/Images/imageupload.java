@@ -22,11 +22,13 @@ import com.example.login_page.Admin.Admin;
 import com.example.login_page.Holder.Items;
 import com.example.login_page.Admin.AdminViewProducts;
 import com.example.login_page.R;
+import com.example.login_page.Views.PhoneDetails;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,21 +45,19 @@ import java.util.HashMap;
 
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
-    private EditText mTextFileName;
-    private EditText mTextPrice;
-    private EditText mTextQuantity;
+    private EditText phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private Uri mImageUri;
     private StorageReference mStorageRef;
-    private String CategoryName, Description, Price, Pname, downloadImageUrl;
-    private DatabaseReference mDatabaseRef, adminDatabaseRef;
+    private String  downloadImageUrl;
+    private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
     private String mCatergory;
     private String productRandomKey;
     long id = 0;
     long adminId = 0;
-
+    String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,25 +66,19 @@ public class imageupload extends AppCompatActivity {
         Button mButtonUpload = findViewById(R.id.button_upload);
         mImageView=findViewById(R.id.image_view);
         mProgressBar=findViewById(R.id.progress_bar);
-        mTextFileName = findViewById(R.id.phone_name);
-        mTextPrice=findViewById(R.id.camera);
-        mTextQuantity=findViewById(R.id.fingerprint);
-        mCatergory=getIntent().getExtras().get("category").toString();
-        mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
-        mDatabaseRef= FirebaseDatabase.getInstance().getReference(mCatergory);
-        adminDatabaseRef = FirebaseDatabase.getInstance().getReference("Uploads");
-        adminDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                    adminId = snapshot.getChildrenCount();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        phone = findViewById(R.id.phone_name);
+        camera = findViewById(R.id.camera);
+        battery = findViewById(R.id.battery);
+        ram = findViewById(R.id.ram);
+        storage = findViewById(R.id.storage);
+        description = findViewById(R.id.description);
+        fingerPrint = findViewById(R.id.fingerprint);
+        connection = findViewById(R.id.network);
+        price = findViewById(R.id.price);
+        //mCatergory=getIntent().getExtras().get("category").toString();
+        mStorageRef= FirebaseStorage.getInstance().getReference("product");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -185,12 +179,21 @@ public class imageupload extends AppCompatActivity {
                                    if(task.isSuccessful())
                                    {
                                        downloadImageUrl=task.getResult().toString();
-                                       Upload upload = new Upload(mTextFileName.getText().toString().trim(),
-                                               downloadImageUrl,mTextPrice.getText().toString(),mTextQuantity.getText().toString(),mCatergory,String.valueOf(adminId+1),String.valueOf(id+1));
+                                       PhoneDetails details = new PhoneDetails();
+                                       details.setBattery(battery.getText().toString());
+                                       details.setCamera(camera.getText().toString());
+                                       details.setImageUri(downloadImageUrl);
+                                       details.setFingerPrint(fingerPrint.getText().toString());
+                                       details.setConnection(connection.getText().toString());
+                                       details.setDescription(description.getText().toString());
+                                       details.setRam(ram.getText().toString());
+                                       details.setStorage(storage.getText().toString());
+                                       details.setPrice(price.getText().toString());
+                                       details.setMember(uid);
                                        String uploadId = mDatabaseRef.push().getKey();
-                                       mDatabaseRef.child(String.valueOf(id+1)).setValue(upload);
-                                       adminDatabaseRef.child(String.valueOf(adminId+1)).setValue(upload);
-                                       Items items=new Items(downloadImageUrl,mCatergory,mTextQuantity.getText().toString(),mTextFileName.getText().toString(),mTextPrice.getText().toString());
+                                       mDatabaseRef.child(String.valueOf(id+1)).setValue(details);
+
+
                                    }
                                }
                            });
