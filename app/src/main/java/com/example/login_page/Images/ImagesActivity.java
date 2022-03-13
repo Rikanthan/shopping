@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.R;
 import com.example.login_page.Views.IndividualItems;
+import com.example.login_page.Views.PhoneDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,8 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
-    private List<Upload> mUploads;
+    private List<PhoneDetails> mPhoneDetailss;
+    private String phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,35 +36,21 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressCircle = findViewById(R.id.progress_circle);
-        mUploads = new ArrayList<>();
+        mPhoneDetailss = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Fruit");
         mStorageRef= FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mUploads.clear();
+                mPhoneDetailss.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    String Name = upload.getName();
-                    String categoryDescription = upload.getmCatergory();
-                    String categoryPrice = upload.getmPrice();
-                    String categoryImageUrl = upload.getImageUrl();
-                    String quantity = upload.getmQuantity();
-                    String uploadId = upload.getmuploadId();
-                    String catergoryId = upload.getmCatergoryId();
-                    Upload uploads=new Upload(
-                                                Name,
-                                                categoryImageUrl,
-                                                categoryPrice,
-                                                quantity,
-                                                categoryDescription,
-                                                uploadId ,
-                                                catergoryId
-                                                    );
-                    mUploads.add(uploads);
+                    if(postSnapshot.exists())
+                    {
+                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
+                        mPhoneDetailss.add(upload);
+                    }
                 }
-
-                mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                mAdapter = new ImageAdapter(ImagesActivity.this, mPhoneDetailss);
                 mAdapter.setOnItemClickListener(ImagesActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);

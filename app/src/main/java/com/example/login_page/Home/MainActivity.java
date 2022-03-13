@@ -23,6 +23,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.login_page.Admin.AdminCatorgory;
+import com.example.login_page.Admin.AdminViewProducts;
+import com.example.login_page.Images.imageupload;
 import com.example.login_page.Login_front.ForgetPassword;
 import com.example.login_page.Login_front.SignIn;
 import com.example.login_page.R;
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, ForgetPassword.class);
+        Intent i=new Intent(this, imageupload.class);
         startActivity(i);
     }
     public void setValidLogin()
@@ -162,13 +164,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     {
                                         UpdateToken();
                                         admin = true;
-                                        Intent i=new Intent(MainActivity.this, AdminCatorgory.class);
+                                        Intent i=new Intent(MainActivity.this, AdminViewProducts.class);
                                         startActivity(i);
                                     }
                                     else if(!admin)
                                     {
                                         UpdateToken();
-                                        Intent i=new Intent(MainActivity.this,Home.class);
+                                        Intent i=new Intent(MainActivity.this, AdminViewProducts.class);
                                         startActivity(i);
                                     }
                                     //finish();
@@ -204,7 +206,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         String refreshToken= FirebaseInstanceId.getInstance().getToken();
         Token token= new Token(refreshToken);
-        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
+        FirebaseDatabase
+                .getInstance()
+                .getReference("Tokens")
+                .child(FirebaseAuth
+                        .getInstance()
+                        .getCurrentUser()
+                        .getUid()
+                ).setValue(token);
     }
 
 }

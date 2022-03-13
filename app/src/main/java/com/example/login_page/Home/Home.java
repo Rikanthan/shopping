@@ -21,9 +21,9 @@ import android.widget.TextView;
 
 import com.example.login_page.Holder.Bookings;
 import com.example.login_page.Images.ImageAdapter;
-import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
 import com.example.login_page.Views.IndividualItems;
+import com.example.login_page.Views.PhoneDetails;
 import com.example.login_page.Views.SeeTimer;
 import com.example.login_page.Views.ShowNotifications;
 import com.example.login_page.Views.ShowOrders;
@@ -49,7 +49,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     CustomerViewBookings _customer;
     ImageButton imageButton;
     GridView grid;
-    List<Upload> mUploads;
+    List<PhoneDetails> mPhoneDetailss;
     boolean isListView = false;
     long cartCount = 0;
     long bookingCount = 0;
@@ -64,7 +64,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
         recyclerView = findViewById(R.id.recycler_view);
         imageButton = findViewById(R.id.show_all);
         recyclerView.setHasFixedSize(true);
-        mUploads = new ArrayList<>();
+        mPhoneDetailss = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         grid=(GridView) findViewById(R.id.Items);
         _customer = new CustomerViewBookings();
@@ -86,7 +86,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                         {
                             if(!query.isEmpty())
                             {
-                                mUploads.clear();
+                                mPhoneDetailss.clear();
                                 search(query);
                                 recyclerView.setVisibility(View.VISIBLE);
                             }
@@ -104,7 +104,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                         {
                             if(!newText.isEmpty())
                             {
-                                mUploads.clear();
+                                mPhoneDetailss.clear();
                                 search(newText);
 
                             }
@@ -279,11 +279,11 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     }
     public void search(String s)
     {
-        mUploads.clear();
+        mPhoneDetailss.clear();
         s = s.substring(0,1).toUpperCase() + s.substring(1);
         FirebaseDatabase
                 .getInstance()
-                .getReference("Uploads")
+                .getReference("PhoneDetailss")
                 .orderByChild("name")
                 .startAt(s)
                 .endAt(s.toLowerCase()+"\uf8ff")
@@ -295,10 +295,10 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                                     {
                                         if(snapshot1.exists())
                                         {
-                                        Upload upload = snapshot1.getValue(Upload.class);
-                                        mUploads.add(upload);
+                                        PhoneDetails upload = snapshot1.getValue(PhoneDetails.class);
+                                        mPhoneDetailss.add(upload);
                                         }
-                                    mAdapter = new ImageAdapter(Home.this, mUploads);
+                                    mAdapter = new ImageAdapter(Home.this, mPhoneDetailss);
                                     mAdapter.setOnItemClickListener(Home.this);
                                     recyclerView.setAdapter(mAdapter);
                                     grid.setVisibility(View.GONE);
@@ -315,7 +315,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     }
     public void showAll(View v)
     {
-        mUploads.clear();
+        mPhoneDetailss.clear();
         isListView = !isListView;
         if(isListView)
         {
@@ -332,31 +332,31 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
     }
     @Override
     public void onItemClick(final int position) {
-        Upload upload = mUploads.get(position);
-        Intent i=new Intent(this, IndividualItems.class);
-        int index = Integer.parseInt(upload.getmCatergoryId());
-        i.putExtra("Category",upload.getmCatergory());
-        i.putExtra("index",index-1);
-        startActivity(i);
+//        PhoneDetails upload = mPhoneDetailss.get(position);
+//        Intent i=new Intent(this, IndividualItems.class);
+//        int index = Integer.parseInt(upload.getmCatergoryId());
+//        i.putExtra("Category",upload.getmCatergory());
+//        i.putExtra("index",index-1);
+//        startActivity(i);
     }
     public void show()
     {
         FirebaseDatabase
                 .getInstance()
-                .getReference("Uploads")
+                .getReference("PhoneDetailss")
                 .addValueEventListener(
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                mUploads.clear();
+                                mPhoneDetailss.clear();
                                 for(DataSnapshot snapshot1: snapshot.getChildren())
                                 {
                                     if(snapshot1.exists())
                                     {
-                                        Upload upload = snapshot1.getValue(Upload.class);
-                                        mUploads.add(upload);
+                                        PhoneDetails upload = snapshot1.getValue(PhoneDetails.class);
+                                        mPhoneDetailss.add(upload);
                                     }
-                                    mAdapter = new ImageAdapter(Home.this, mUploads);
+                                    mAdapter = new ImageAdapter(Home.this, mPhoneDetailss);
                                     mAdapter.setOnItemClickListener(Home.this);
                                     recyclerView.setAdapter(mAdapter);
                                     grid.setVisibility(View.GONE);

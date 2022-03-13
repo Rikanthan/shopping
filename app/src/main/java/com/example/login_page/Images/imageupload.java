@@ -53,8 +53,6 @@ public class imageupload extends AppCompatActivity {
     private String  downloadImageUrl;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
-    private String mCatergory;
-    private String productRandomKey;
     long id = 0;
     long adminId = 0;
     String uid;
@@ -190,6 +188,7 @@ public class imageupload extends AppCompatActivity {
                                        details.setStorage(storage.getText().toString());
                                        details.setPrice(price.getText().toString());
                                        details.setMember(uid);
+                                       details.setPhone(phone.getText().toString());
                                        String uploadId = mDatabaseRef.push().getKey();
                                        mDatabaseRef.child(String.valueOf(id+1)).setValue(details);
 

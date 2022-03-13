@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.Home.Home;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.ImageAdapter;
-import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
 import com.example.login_page.Views.IndividualItems;
+import com.example.login_page.Views.PhoneDetails;
 import com.example.login_page.Views.ShowOrders;
 import com.example.login_page.customer.CustomerViewBookings;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +35,7 @@ public class AllCatergories extends AppCompatActivity implements ImageAdapter.On
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
-    private List<Upload> mUploads;
+    private List<PhoneDetails> mPhoneDetailss;
     String product;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +45,21 @@ public class AllCatergories extends AppCompatActivity implements ImageAdapter.On
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressCircle = findViewById(R.id.progress_circle);
-        mUploads = new ArrayList<>();
+        mPhoneDetailss = new ArrayList<>();
         product = getIntent().getStringExtra("Product");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(product);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mUploads.clear();
+                mPhoneDetailss.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     if(postSnapshot.exists())
                     {
-                        Upload upload = postSnapshot.getValue(Upload.class);
-                        mUploads.add(upload);
+                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
+                        mPhoneDetailss.add(upload);
                     }
                 }
-                mAdapter = new ImageAdapter(AllCatergories.this, mUploads);
+                mAdapter = new ImageAdapter(AllCatergories.this, mPhoneDetailss);
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.setOnItemClickListener(AllCatergories.this);
                 mProgressCircle.setVisibility(View.GONE);

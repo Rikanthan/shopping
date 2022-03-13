@@ -12,17 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.login_page.R;
+import com.example.login_page.Views.PhoneDetails;
 
 import java.util.List;
 
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private final Context mContext;
-    private final List<Upload> mUploads;
+    private final List<PhoneDetails> mPhoneDetailss;
     private static OnItemClickListener mListener;
-    public ImageAdapter(Context context, List<Upload> uploads) {
+    public ImageAdapter(Context context, List<PhoneDetails> uploads) {
         mContext = context;
-        mUploads = uploads;
+        mPhoneDetailss = uploads;
     }
     @NonNull
     @Override
@@ -32,23 +33,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
-        Upload uploadCurrent = mUploads.get(position);
-            holder.textViewName.setText(uploadCurrent.getName());
+        PhoneDetails uploadCurrent = mPhoneDetailss.get(position);
+            holder.phone.setText(uploadCurrent.getPhone());
             Glide.with(mContext)
-                    .load(uploadCurrent.getImageUrl())
+                    .load(uploadCurrent.getImageUri())
                     .placeholder(R.mipmap.loading)
                     .into(holder.imageView);
-        holder.textViewCatergory.setText("Product catergory: "+uploadCurrent.getmCatergory());
-        holder.textViewPrice.setText(uploadCurrent.getmPrice()+" Rs");
-        holder.textViewQuantity.setText("Available items:"+uploadCurrent.getmQuantity());
+        holder.description.setText("Description: "+uploadCurrent.getDescription());
+        holder.price.setText("Phone price: "+uploadCurrent.getPrice()+" Rs");
+        holder.battery.setText("Battery: "+uploadCurrent.getBattery());
+        holder.camera.setText("Camera: "+uploadCurrent.getCamera());
+        holder.ram.setText("Ram: "+uploadCurrent.getRam());
+        holder.storage.setText("Storage: "+uploadCurrent.getStorage());
+        holder.fingerPrint.setText("FingerPrint: "+uploadCurrent.getFingerPrint());
+        holder.connection.setText("Network: "+uploadCurrent.getConnection());
 
     }
     @Override
     public int getItemCount() {
-        return mUploads.size();
+        return mPhoneDetailss.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView textViewName,textViewCatergory,textViewPrice,textViewQuantity;
+        public TextView phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
         public ImageView imageView;
 
         @Override
@@ -65,11 +71,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.text_view_name);
+            phone = itemView.findViewById(R.id.phone_text);
+            camera = itemView.findViewById(R.id.camera_text);
+            battery = itemView.findViewById(R.id.battery_text);
+            ram = itemView.findViewById(R.id.ram_text);
+            storage = itemView.findViewById(R.id.storage_text);
+            description = itemView.findViewById(R.id.description_text);
+            fingerPrint = itemView.findViewById(R.id.fingerprint_text);
+            connection = itemView.findViewById(R.id.connection_text);
+            price = itemView.findViewById(R.id.price_text);
             imageView = itemView.findViewById(R.id.image_view_upload);
-            textViewCatergory = itemView.findViewById(R.id.text_view_catergory);
-            textViewPrice = itemView.findViewById(R.id.text_view_price);
-            textViewQuantity = itemView.findViewById(R.id.text_view_quantity);
             itemView.setOnClickListener(this);
         }
 

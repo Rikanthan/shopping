@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.Admin.ui.EditItems;
 import com.example.login_page.Home.Home;
 import com.example.login_page.Images.ImageAdapter;
-import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
+import com.example.login_page.Views.PhoneDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +36,7 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
-    private List<Upload> mUploads;
+    private List<PhoneDetails> mPhoneDetailss;
     private SearchView mSearchView;
 
     @Override
@@ -48,8 +48,8 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressCircle = findViewById(R.id.progress_circle);
         mSearchView = findViewById(R.id.search_items);
-        mUploads = new ArrayList<>();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Uploads");
+        mPhoneDetailss = new ArrayList<>();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
         show();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -104,12 +104,12 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
     }
     public void search(String s)
     {
-        mUploads.clear();
+        mPhoneDetailss.clear();
         s = s.substring(0,1).toUpperCase() + s.substring(1);
         FirebaseDatabase
                 .getInstance()
-                .getReference("Uploads")
-                .orderByChild("name")
+                .getReference("Phone")
+                .orderByChild("phone")
                 .startAt(s)
                 .endAt(s.toLowerCase()+"\uf8ff")
                 .addValueEventListener(
@@ -120,10 +120,10 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
                                 {
                                     if(snapshot1.exists())
                                     {
-                                        Upload upload = snapshot1.getValue(Upload.class);
-                                        mUploads.add(upload);
+                                        PhoneDetails upload = snapshot1.getValue(PhoneDetails.class);
+                                        mPhoneDetailss.add(upload);
                                     }
-                                    mAdapter = new ImageAdapter(AdminViewProducts.this, mUploads);
+                                    mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetailss);
                                     mAdapter.setOnItemClickListener(AdminViewProducts.this);
                                     mRecyclerView.setAdapter(mAdapter);
                                 }
@@ -141,15 +141,15 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mUploads.clear();
+                mPhoneDetailss.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     if(postSnapshot.exists()) {
-                        Upload upload = postSnapshot.getValue(Upload.class);
-                        mUploads.add(upload);
+                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
+                        mPhoneDetailss.add(upload);
                     }
                 }
 
-                mAdapter = new ImageAdapter(AdminViewProducts.this, mUploads);
+                mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetailss);
                 mAdapter.setOnItemClickListener(AdminViewProducts.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);
