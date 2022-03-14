@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllCatergories extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
+public class AllCatergories extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
@@ -59,9 +59,8 @@ public class AllCatergories extends AppCompatActivity implements ImageAdapter.On
                         mPhoneDetailss.add(upload);
                     }
                 }
-                mAdapter = new ImageAdapter(AllCatergories.this, mPhoneDetailss);
+                mAdapter = new ImageAdapter(AllCatergories.this, mPhoneDetailss,AllCatergories.this);
                 mRecyclerView.setAdapter(mAdapter);
-                mAdapter.setOnItemClickListener(AllCatergories.this);
                 mProgressCircle.setVisibility(View.GONE);
             }
 
@@ -71,14 +70,6 @@ public class AllCatergories extends AppCompatActivity implements ImageAdapter.On
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        Intent i=new Intent(this, IndividualItems.class);
-        i.putExtra("Category",product);
-        i.putExtra("index",position);
-        startActivity(i);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,5 +98,10 @@ public class AllCatergories extends AppCompatActivity implements ImageAdapter.On
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void contactSellerClick(View v, int position) {
+        System.out.println(mPhoneDetailss.get(position).getMember());
     }
 }

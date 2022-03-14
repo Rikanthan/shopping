@@ -40,7 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickListener {
+public class Home extends AppCompatActivity implements ImageAdapter.ImageAdapterListener {
     String[] lables;
     ImageAdapter mAdapter;
     TextView cartText,bookingText,notificationText;
@@ -298,8 +298,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                                         PhoneDetails upload = snapshot1.getValue(PhoneDetails.class);
                                         mPhoneDetailss.add(upload);
                                         }
-                                    mAdapter = new ImageAdapter(Home.this, mPhoneDetailss);
-                                    mAdapter.setOnItemClickListener(Home.this);
+                                    mAdapter = new ImageAdapter(Home.this, mPhoneDetailss,Home.this);
                                     recyclerView.setAdapter(mAdapter);
                                     grid.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.VISIBLE);
@@ -330,15 +329,6 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
         }
         show();
     }
-    @Override
-    public void onItemClick(final int position) {
-//        PhoneDetails upload = mPhoneDetailss.get(position);
-//        Intent i=new Intent(this, IndividualItems.class);
-//        int index = Integer.parseInt(upload.getmCatergoryId());
-//        i.putExtra("Category",upload.getmCatergory());
-//        i.putExtra("index",index-1);
-//        startActivity(i);
-    }
     public void show()
     {
         FirebaseDatabase
@@ -356,8 +346,7 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                                         PhoneDetails upload = snapshot1.getValue(PhoneDetails.class);
                                         mPhoneDetailss.add(upload);
                                     }
-                                    mAdapter = new ImageAdapter(Home.this, mPhoneDetailss);
-                                    mAdapter.setOnItemClickListener(Home.this);
+                                    mAdapter = new ImageAdapter(Home.this, mPhoneDetailss,Home.this);
                                     recyclerView.setAdapter(mAdapter);
                                     grid.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.VISIBLE);
@@ -370,5 +359,10 @@ public class Home extends AppCompatActivity implements ImageAdapter.OnItemClickL
                             }
                         }
                 );
+    }
+
+    @Override
+    public void contactSellerClick(View v, int position) {
+
     }
 }

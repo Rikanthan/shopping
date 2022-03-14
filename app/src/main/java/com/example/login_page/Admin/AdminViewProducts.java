@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.Admin.ui.EditItems;
 import com.example.login_page.Home.Home;
 import com.example.login_page.Images.ImageAdapter;
+import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminViewProducts extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
+public class AdminViewProducts extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
@@ -96,12 +97,6 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
         });
     }
 
-    @Override
-    public void onItemClick(int position) {
-        Intent i=new Intent(AdminViewProducts.this, EditItems.class);
-        i.putExtra("index",position);
-        startActivity(i);
-    }
     public void search(String s)
     {
         mPhoneDetailss.clear();
@@ -123,8 +118,7 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
                                         PhoneDetails upload = snapshot1.getValue(PhoneDetails.class);
                                         mPhoneDetailss.add(upload);
                                     }
-                                    mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetailss);
-                                    mAdapter.setOnItemClickListener(AdminViewProducts.this);
+                                    mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetailss,AdminViewProducts.this);
                                     mRecyclerView.setAdapter(mAdapter);
                                 }
                             }
@@ -149,8 +143,7 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
                     }
                 }
 
-                mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetailss);
-                mAdapter.setOnItemClickListener(AdminViewProducts.this);
+                mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetailss,AdminViewProducts.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);
             }
@@ -161,5 +154,12 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    @Override
+    public void contactSellerClick(View v, int position) {
+        Intent i = new Intent(this, imageupload.class);
+        startActivity(i);
+        System.out.println(mPhoneDetailss.get(position).getMember());
     }
 }

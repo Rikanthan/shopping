@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:ignore="UseCompoundDrawables"
+        android:id="@+id/show_phone"
         tools:targetApi="O">
 
         <ImageView
@@ -127,17 +128,17 @@
             android:text="Name"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
-        <TextView
-            android:id="@+id/seller_details"
+
+        <Button
+            android:id="@+id/contactSeller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/lato"
-            android:text="Name"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/ic_baseline_contact_support_24"
+            android:fontFamily="@font/ledger"
+            android:padding="16dp"
+            android:text="Contact Seller"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

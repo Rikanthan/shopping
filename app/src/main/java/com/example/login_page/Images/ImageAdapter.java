@@ -3,8 +3,11 @@ import android.content.Context;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,11 +22,13 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private final Context mContext;
+    public static ImageAdapterListener mClickListener;
     private final List<PhoneDetails> mPhoneDetailss;
     private static OnItemClickListener mListener;
-    public ImageAdapter(Context context, List<PhoneDetails> uploads) {
+    public ImageAdapter(Context context, List<PhoneDetails> uploads,ImageAdapterListener listener) {
         mContext = context;
         mPhoneDetailss = uploads;
+        this.mClickListener = listener;
     }
     @NonNull
     @Override
@@ -32,7 +37,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         return new ImageViewHolder(v);
     }
     @Override
-    public void onBindViewHolder(ImageViewHolder holder, int position) {
+    public void onBindViewHolder(ImageViewHolder holder, final int position) {
         PhoneDetails uploadCurrent = mPhoneDetailss.get(position);
             holder.phone.setText(uploadCurrent.getPhone());
             Glide.with(mContext)
@@ -47,16 +52,25 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.storage.setText("Storage: "+uploadCurrent.getStorage());
         holder.fingerPrint.setText("FingerPrint: "+uploadCurrent.getFingerPrint());
         holder.connection.setText("Network: "+uploadCurrent.getConnection());
+        holder.contact.setOnClickListener(
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mClickListener.contactSellerClick(v,position);
+                    }
+                }
+        );
 
     }
     @Override
     public int getItemCount() {
         return mPhoneDetailss.size();
     }
-    public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ImageViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         public TextView phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
         public ImageView imageView;
-
+        public LinearLayout linearLayoutManager;
+        public Button contact;
         @Override
         public void onClick(View v) {
             if(mListener !=null)
@@ -64,7 +78,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 int position=getAdapterPosition();
                 if(position!= RecyclerView.NO_POSITION)
                 {
-                    mListener.onItemClick(position);
+                   // mListener.onItemClick(position);
                 }
             }
         }
@@ -81,17 +95,26 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             connection = itemView.findViewById(R.id.connection_text);
             price = itemView.findViewById(R.id.price_text);
             imageView = itemView.findViewById(R.id.image_view_upload);
+            linearLayoutManager = (LinearLayout)itemView.findViewById(R.id.show_phone);
+            contact = itemView.findViewById(R.id.contactSeller);
+            linearLayoutManager.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mClickListener
+                            .contactSellerClick(v, ImageViewHolder.this.getAdapterPosition());
+                }
+            });
             itemView.setOnClickListener(this);
         }
 
     }
-    public interface OnItemClickListener{
-        void onItemClick(int position);
+    public interface ImageAdapterListener{
+        void contactSellerClick(View v,int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener)
-    {
-        mListener= listener;
+    public interface OnItemClickListener{
     }
+
+
 
 }

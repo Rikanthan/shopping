@@ -19,7 +19,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
-public class ImagesActivity extends AppCompatActivity implements ImageAdapter.OnItemClickListener{
+public class ImagesActivity extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
@@ -50,8 +50,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
                         mPhoneDetailss.add(upload);
                     }
                 }
-                mAdapter = new ImageAdapter(ImagesActivity.this, mPhoneDetailss);
-                mAdapter.setOnItemClickListener(ImagesActivity.this);
+                mAdapter = new ImageAdapter(ImagesActivity.this, mPhoneDetailss,ImagesActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
@@ -65,10 +64,7 @@ public class ImagesActivity extends AppCompatActivity implements ImageAdapter.On
     }
 
     @Override
-    public void onItemClick(int position) {
-        Intent i=new Intent(ImagesActivity.this, IndividualItems.class);
-        i.putExtra("Category","Fruit");
-        i.putExtra("index",position);
-        startActivity(i);
+    public void contactSellerClick(View v, int position) {
+
     }
 }
