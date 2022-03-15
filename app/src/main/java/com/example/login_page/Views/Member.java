@@ -5,7 +5,6 @@ public class Member {
     private String Email;
     private long Mobile;
     private  String Location;
-    private String UserName;
     private String Password;
 
     public String getName() {
@@ -38,14 +37,6 @@ public class Member {
 
     public void setLocation(String location) {
         Location = location;
-    }
-
-    public String getUserName() {
-        return UserName;
-    }
-
-    public void setUserName(String userName) {
-        UserName = userName;
     }
 
     public String getPassword() {

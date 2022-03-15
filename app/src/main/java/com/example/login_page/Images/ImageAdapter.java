@@ -1,4 +1,5 @@
 package com.example.login_page.Images;
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import android.view.LayoutInflater;
@@ -37,7 +38,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         return new ImageViewHolder(v);
     }
     @Override
-    public void onBindViewHolder(ImageViewHolder holder, final int position) {
+    public void onBindViewHolder(ImageViewHolder holder,
+                                 @SuppressLint("RecyclerView") final int position) {
         PhoneDetails uploadCurrent = mPhoneDetailss.get(position);
             holder.phone.setText(uploadCurrent.getPhone());
             Glide.with(mContext)
