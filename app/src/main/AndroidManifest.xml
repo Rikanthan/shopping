@@ -36,7 +36,7 @@
         <activity android:name=".Login_front.SignIn" />
         <activity android:name=".Login_front.ForgetPassword" />
         <activity android:name=".Images.ImagesActivity" />
-        <activity android:name=".Admin.AdminViewProducts" />
+        <activity android:name=".customer.ConsumerViewPhones" />
         <activity android:name=".Admin.ui.EditItems" />
         <activity android:name=".notification.SendNotification" />
         <activity android:name=".Admin.AdminViewConfirmBookings" />

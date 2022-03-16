@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.login_page.Admin.AdminViewProducts;
+import com.example.login_page.customer.ConsumerViewPhones;
 import com.example.login_page.Images.Upload;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowOrders;
@@ -115,7 +115,7 @@ public class EditItems extends AppCompatActivity {
         catergoryReference.child(catergoryId).setValue(cartMap);
 
         Toast.makeText(EditItems.this,"Update successfully",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(EditItems.this, AdminViewProducts.class);
+        Intent intent = new Intent(EditItems.this, ConsumerViewPhones.class);
         startActivity(intent);
     }
     public void show_cart_items(View v)

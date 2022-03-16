@@ -15,22 +15,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.login_page.Home.Home;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
 import com.example.login_page.Views.ShowNotifications;
-import com.example.login_page.customer.CustomerViewBookings;
+import com.example.login_page.customer.ConsumerViewPhones;
 import com.example.login_page.notification.Data;
-import com.example.login_page.notification.SendNotification;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
-
-import java.util.Set;
 
 public class AdminCatorgory extends AppCompatActivity {
     Toolbar tool;
@@ -142,7 +138,7 @@ public class AdminCatorgory extends AppCompatActivity {
                 startActivity(i1);
                 return true;
             case R.id.inventory:
-                Intent i2 = new Intent(this, AdminViewProducts.class);
+                Intent i2 = new Intent(this, ConsumerViewPhones.class);
                 startActivity(i2);
                 return true;
             case R.id.confirm_bookings:

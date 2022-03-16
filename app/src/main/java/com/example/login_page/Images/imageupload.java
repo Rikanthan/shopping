@@ -15,12 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.login_page.Admin.Admin;
-import com.example.login_page.Holder.Items;
-import com.example.login_page.Admin.AdminViewProducts;
+import com.example.login_page.customer.ConsumerViewPhones;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
 import com.google.android.gms.tasks.Continuation;
@@ -40,8 +37,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
 
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
@@ -222,7 +217,7 @@ public class imageupload extends AppCompatActivity {
 
     private  void showimages()
     {
-        Intent i=new Intent(this, AdminViewProducts.class);
+        Intent i=new Intent(this, ConsumerViewPhones.class);
         startActivity(i);
 
     }

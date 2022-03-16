@@ -1,4 +1,4 @@
-package com.example.login_page.Admin;
+package com.example.login_page.customer;
 
 
 
@@ -19,38 +19,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.login_page.Admin.ui.EditItems;
-import com.example.login_page.Home.Home;
 import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.imageupload;
-import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
-import com.example.login_page.customer.ContactSeller;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
-public class AdminViewProducts extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
+public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private List<PhoneDetails> mPhoneDetails;
     private SearchView mSearchView;
-    private boolean[] selectPhone;
-    private ArrayList<Integer> phoneCategories = new ArrayList<>();
-    private String[] phoneNames = {"All","Samsung","Iphone","Xiomi","Realme","Others"};
+    private boolean isClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +111,7 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
             {
                 mPhoneDetails.add(details);
             }
-            mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
+            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -139,14 +128,14 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
                     }
                 }
 
-                mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
+                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(AdminViewProducts.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ConsumerViewPhones.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
@@ -181,7 +170,7 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
     }
     private void showAlertDialog() {
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdminViewProducts.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ConsumerViewPhones.this);
         alertDialog.setTitle("Filter by Names");
         final String[] items = {"All","Xiomi","Samsung","Iphone","Others"};
         final boolean[] checkedItems = {false, false, false, false, false};
@@ -194,47 +183,52 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
                 switch (which) {
                     case 0:
                         if(isChecked)
-                          show();
+                            isClicked = true;
+                            show();
                         break;
                     case 1:
                         if(isChecked)
-                        for(PhoneDetails details: searchDetails)
-                        {
-                            if(details.getPhone().toLowerCase().contains("xia"))
+                            isClicked = true;
+                            for(PhoneDetails details: searchDetails)
                             {
-                                mPhoneDetails.add(details);
+                                if(details.getPhone().toLowerCase().contains("xia"))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                                mRecyclerView.setAdapter(mAdapter);
                             }
-                            mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
-                            mRecyclerView.setAdapter(mAdapter);
-
-                        }
                         break;
                     case 2:
                         if(isChecked)
-                        for(PhoneDetails details: searchDetails)
-                        {
-                            if(details.getPhone().toLowerCase().contains("samsung"))
+                            isClicked = true;
+                            for(PhoneDetails details: searchDetails)
                             {
-                                mPhoneDetails.add(details);
+                                if(details.getPhone().toLowerCase().contains("samsung"))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                                mRecyclerView.setAdapter(mAdapter);
                             }
-                            mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
-                            mRecyclerView.setAdapter(mAdapter);
-                        }
                         break;
                     case 3:
                         if(isChecked)
-                        for(PhoneDetails details: searchDetails)
-                        {
-                            if(details.getPhone().toLowerCase().contains("iphone"))
+                            isClicked = true;
+                            for(PhoneDetails details: searchDetails)
                             {
-                                mPhoneDetails.add(details);
+                                if(details.getPhone().toLowerCase().contains("iphone"))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                                mRecyclerView.setAdapter(mAdapter);
                             }
-                            mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
-                            mRecyclerView.setAdapter(mAdapter);
-                        }
                         break;
                     case 4:
                         if(isChecked)
+                            isClicked = true;
+                            checkedItems[4] = !checkedItems[4];
                             for(PhoneDetails details: searchDetails)
                             {
                                 if(!details.getPhone().toLowerCase().contains("iphone")
@@ -243,17 +237,22 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
                                 {
                                     mPhoneDetails.add(details);
                                 }
-                                mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
+                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
                                 mRecyclerView.setAdapter(mAdapter);
                             }
                         break;
+                    default:
+                        show();
                 }
             }
         });
         alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+//                if(!isClicked)
+//                {
+//                    show();
+//                }
             }
         });
         AlertDialog alert = alertDialog.create();

@@ -13,12 +13,14 @@
         <entry key="app/src/main/res/drawable/ic_baseline_smartphone_24.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_baseline_timer_24.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_baseline_view_list_24.xml" value="0.168" />
+        <entry key="app/src/main/res/layout-v28/activity_main.xml" value="0.10733695652173914" />
         <entry key="app/src/main/res/layout-v30/activity_main.xml" value="0.16145833333333334" />
         <entry key="app/src/main/res/layout/activity_admin__new.xml" value="0.12635869565217392" />
         <entry key="app/src/main/res/layout/activity_admin_catergory.xml" value="0.12635869565217392" />
         <entry key="app/src/main/res/layout/activity_contact_seller.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_hygiene.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_imageupload.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.10733695652173914" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/image_item.xml" value="0.14764492753623187" />
