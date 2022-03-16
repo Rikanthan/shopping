@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.example.login_page.Admin.SellerView;
 import com.example.login_page.customer.ConsumerViewPhones;
 import com.example.login_page.Images.imageupload;
 import com.example.login_page.Login_front.SignIn;
@@ -118,8 +120,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 }
                                 else if(task.isSuccessful()) {
-//                                        Intent i= new Intent(MainActivity.this, ConsumerViewPhones.class);
-//                                        startActivity(i);
+                                        Intent i= new Intent(MainActivity.this, SellerView.class);
+                                        startActivity(i);
                                 }
                                 else {
                                     System.out.println(email.getText().toString()+pass.getText().toString());

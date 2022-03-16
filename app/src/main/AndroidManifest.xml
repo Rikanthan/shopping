@@ -14,6 +14,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
+            android:name=".Admin.SellerView"
+            android:exported="false" />
+        <activity
             android:name=".customer.ContactSeller"
             android:exported="false" />
         <activity android:name=".Views.ShowNotifications" />
