@@ -2,6 +2,8 @@ package com.example.login_page.Admin;
 
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,6 +23,7 @@ import com.example.login_page.Admin.ui.EditItems;
 import com.example.login_page.Home.Home;
 import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.imageupload;
+import com.example.login_page.Product.Cart;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
 import com.example.login_page.customer.ContactSeller;
@@ -33,6 +36,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,6 +48,9 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
     private DatabaseReference mDatabaseRef;
     private List<PhoneDetails> mPhoneDetails;
     private SearchView mSearchView;
+    private boolean[] selectPhone;
+    private ArrayList<Integer> phoneCategories = new ArrayList<>();
+    private String[] phoneNames = {"All","Samsung","Iphone","Xiomi","Realme","Others"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +111,6 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
 
     public void search(String s)
     {
-        System.out.println(s);
         List<PhoneDetails> searchDetails = new ArrayList<>();
         searchDetails.addAll(mPhoneDetails);
         mPhoneDetails.clear();
@@ -167,7 +174,90 @@ public class AdminViewProducts extends AppCompatActivity implements ImageAdapter
             case R.id.add_phone:
                 Intent intent = new Intent(this,imageupload.class);
                 startActivity(intent);
+            case R.id.filter:
+                showAlertDialog();
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void showAlertDialog() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdminViewProducts.this);
+        alertDialog.setTitle("Filter by Names");
+        final String[] items = {"All","Xiomi","Samsung","Iphone","Others"};
+        final boolean[] checkedItems = {false, false, false, false, false};
+        final List<PhoneDetails> searchDetails = new ArrayList<>();
+        searchDetails.addAll(mPhoneDetails);
+        mPhoneDetails.clear();
+        alertDialog.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                switch (which) {
+                    case 0:
+                        if(isChecked)
+                          show();
+                        break;
+                    case 1:
+                        if(isChecked)
+                        for(PhoneDetails details: searchDetails)
+                        {
+                            if(details.getPhone().toLowerCase().contains("xia"))
+                            {
+                                mPhoneDetails.add(details);
+                            }
+                            mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
+                            mRecyclerView.setAdapter(mAdapter);
+
+                        }
+                        break;
+                    case 2:
+                        if(isChecked)
+                        for(PhoneDetails details: searchDetails)
+                        {
+                            if(details.getPhone().toLowerCase().contains("samsung"))
+                            {
+                                mPhoneDetails.add(details);
+                            }
+                            mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
+                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                        break;
+                    case 3:
+                        if(isChecked)
+                        for(PhoneDetails details: searchDetails)
+                        {
+                            if(details.getPhone().toLowerCase().contains("iphone"))
+                            {
+                                mPhoneDetails.add(details);
+                            }
+                            mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
+                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                        break;
+                    case 4:
+                        if(isChecked)
+                            for(PhoneDetails details: searchDetails)
+                            {
+                                if(!details.getPhone().toLowerCase().contains("iphone")
+                                        &&!details.getPhone().toLowerCase().contains("xiaomi")
+                                         && !details.getPhone().toLowerCase().contains("samsung"))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(AdminViewProducts.this, mPhoneDetails,AdminViewProducts.this);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
+                        break;
+                }
+            }
+        });
+        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog alert = alertDialog.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 }
