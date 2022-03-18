@@ -134,11 +134,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:drawablePadding="10dp"
             android:drawableLeft="@drawable/ic_baseline_contact_support_24"
             android:fontFamily="@font/ledger"
             android:padding="16dp"
             android:text="Contact Seller"
             android:textAllCaps="false"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/editphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/ic_baseline_edit_24"
+            android:padding="16dp"
+            android:drawablePadding="10dp"
+            android:text="Edit phone"
+            android:textAllCaps="false"
+            android:visibility="invisible"
             android:textSize="16sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

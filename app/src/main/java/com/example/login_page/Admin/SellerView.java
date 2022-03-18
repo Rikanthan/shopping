@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SellerView extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
@@ -36,6 +37,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private List<PhoneDetails> mPhoneDetails;
+    private List<PhoneDetails> backupDetails;
     private SearchView mSearchView;
     private boolean isClicked = false;
 
@@ -49,6 +51,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         mProgressCircle = findViewById(R.id.progress_circle);
         mSearchView = findViewById(R.id.search_items);
         mPhoneDetails = new ArrayList<>();
+        backupDetails = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
         show();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -113,6 +116,16 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
             mRecyclerView.setAdapter(mAdapter);
         }
     }
+    public static  ArrayList<PhoneDetails> removeDuplicates(ArrayList<PhoneDetails> list)
+    {
+        ArrayList<PhoneDetails> newList = new ArrayList<PhoneDetails>();
+        for (PhoneDetails element : list) {
+            if (!newList.contains(element)) {
+                newList.add(element);
+            }
+        }
+        return newList;
+    }
     public void show()
     {
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
@@ -120,12 +133,15 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mPhoneDetails.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    if(postSnapshot.exists()) {
+                    if(postSnapshot.exists() ) {
                         PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
-                        mPhoneDetails.add(upload);
+                        if(!mPhoneDetails.contains(upload))
+                        {
+                            mPhoneDetails.add(upload);
+                            backupDetails.add(upload);
+                        }
                     }
                 }
-
                 mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);
@@ -172,8 +188,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         alertDialog.setTitle("Filter by Names");
         final String[] items = {"All","Xiomi","Samsung","Iphone","Others"};
         final boolean[] checkedItems = {false, false, false, false, false};
-        final List<PhoneDetails> searchDetails = new ArrayList<>();
-        searchDetails.addAll(mPhoneDetails);
         mPhoneDetails.clear();
         alertDialog.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
@@ -181,62 +195,133 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                 switch (which) {
                     case 0:
                         if(isChecked)
+                        {
+                            mPhoneDetails.clear();
                             isClicked = true;
-                        show();
+                            mPhoneDetails.addAll(backupDetails);
+                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                         else
+                        {
+                            mPhoneDetails.clear();
+                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                            mRecyclerView.setAdapter(mAdapter);
+                        }
                         break;
                     case 1:
                         if(isChecked)
-                            isClicked = true;
-                        for(PhoneDetails details: searchDetails)
                         {
-                            if(details.getPhone().toLowerCase().contains("xia"))
+                            isClicked = true;
+                            for(PhoneDetails details: backupDetails)
                             {
-                                mPhoneDetails.add(details);
+                                if(details.getPhone().toLowerCase().contains("xia") && !mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
                             }
-                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                        else
+                        {
+                            isClicked = false;
+                            for(PhoneDetails details: backupDetails)
+                            {
+                                if(details.getPhone().toLowerCase().contains("xia") && mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.remove(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
                         }
                         break;
                     case 2:
                         if(isChecked)
-                            isClicked = true;
-                        for(PhoneDetails details: searchDetails)
                         {
-                            if(details.getPhone().toLowerCase().contains("samsung"))
+                            isClicked = true;
+                            for(PhoneDetails details: backupDetails)
                             {
-                                mPhoneDetails.add(details);
+                                if(details.getPhone().toLowerCase().contains("samsung") && !mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
                             }
-                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                        else
+                        {
+                            isClicked = false;
+                            for(PhoneDetails details: backupDetails)
+                            {
+                                if(details.getPhone().toLowerCase().contains("samsung") && mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.remove(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
                         }
                         break;
                     case 3:
                         if(isChecked)
-                            isClicked = true;
-                        for(PhoneDetails details: searchDetails)
                         {
-                            if(details.getPhone().toLowerCase().contains("iphone"))
+                            isClicked = true;
+                            for(PhoneDetails details: backupDetails)
                             {
-                                mPhoneDetails.add(details);
+                                if(details.getPhone().toLowerCase().contains("iphone")&& !mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
                             }
-                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                        else{
+                            isClicked = false;
+                            for(PhoneDetails details: backupDetails)
+                            {
+                                if(details.getPhone().toLowerCase().contains("iphone") && mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.remove(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
                         }
                         break;
                     case 4:
                         if(isChecked)
-                            isClicked = true;
-                        checkedItems[4] = !checkedItems[4];
-                        for(PhoneDetails details: searchDetails)
                         {
-                            if(!details.getPhone().toLowerCase().contains("iphone")
-                                    &&!details.getPhone().toLowerCase().contains("xiaomi")
-                                    && !details.getPhone().toLowerCase().contains("samsung"))
+                            isClicked = true;
+                            for(PhoneDetails details: backupDetails)
                             {
-                                mPhoneDetails.add(details);
+                                if(!details.getPhone().toLowerCase().contains("iphone")
+                                        &&!details.getPhone().toLowerCase().contains("xiaomi")
+                                        && !details.getPhone().toLowerCase().contains("samsung") && !mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.add(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
                             }
-                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                            mRecyclerView.setAdapter(mAdapter);
+                        }
+                        else
+                        {
+                            isClicked = false;
+                            for(PhoneDetails details: backupDetails)
+                            {
+                                if(!details.getPhone().toLowerCase().contains("iphone")
+                                        &&!details.getPhone().toLowerCase().contains("xiaomi")
+                                        && !details.getPhone().toLowerCase().contains("samsung") && mPhoneDetails.contains(details))
+                                {
+                                    mPhoneDetails.remove(details);
+                                }
+                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
                         }
                         break;
                     default:
