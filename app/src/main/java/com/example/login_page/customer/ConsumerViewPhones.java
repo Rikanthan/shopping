@@ -144,7 +144,9 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
     public void contactSellerClick(View v, int position) {
         Intent i = new Intent(this, ContactSeller.class);
         String seller = mPhoneDetails.get(position).getMember();
+        String id = mPhoneDetails.get(position).getId();
         i.putExtra("seller",seller);
+        i.putExtra("id",id);
         startActivity(i);
 
     }
