@@ -12,8 +12,10 @@ public class PhoneDetails {
     }
 
     private String imageUri;
-    public PhoneDetails(String member, String phone, String battery, String camera, String ram, String storage, String fingerPrint, String connection, String description, String price,String imageUri) {
+    public PhoneDetails(String id,String uploadTime,String member, String phone, String battery, String camera, String ram, String storage, String fingerPrint, String connection, String description, String price,String imageUri) {
         this.member = member;
+        this.id = id;
+        this.uploadTime = uploadTime;
         this.phone = phone;
         this.battery = battery;
         this.camera = camera;
@@ -120,4 +122,23 @@ public class PhoneDetails {
     private String connection;
     private String description;
     private String price;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
+    }
+
+    private String id;
+    private String uploadTime;
 }

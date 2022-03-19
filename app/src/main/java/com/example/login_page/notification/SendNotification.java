@@ -16,7 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+
 
 import java.util.Date;
 
@@ -58,7 +58,7 @@ public class SendNotification extends AppCompatActivity {
     }
     public void UpdateToken(){
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        String refreshToken= "";
         Token token= new Token(refreshToken);
         FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
     }

@@ -38,18 +38,25 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
+    private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private EditText phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private Uri mImageUri;
+    SimpleDateFormat format;
+    Date currentTime;
     private StorageReference mStorageRef;
     private String  downloadImageUrl;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
     long id = 0;
     long adminId = 0;
+    int count = -1;
     String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +75,8 @@ public class imageupload extends AppCompatActivity {
         fingerPrint = findViewById(R.id.fingerprint);
         connection = findViewById(R.id.network);
         price = findViewById(R.id.price);
-        //mCatergory=getIntent().getExtras().get("category").toString();
+        currentTime = new Date();
+        format = new SimpleDateFormat(DATE_FORMAT);
         mStorageRef= FirebaseStorage.getInstance().getReference("product");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -103,14 +111,32 @@ public class imageupload extends AppCompatActivity {
             }
 
         });
-//        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showimages();
-//            }
-//        });
+        countUploads();
+    }
+    public void countUploads()
+    {
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1: snapshot.getChildren())
+                {
+                    if(snapshot1.exists())
+                    {
+                        PhoneDetails details = snapshot1.getValue(PhoneDetails.class);
+                        if(details.getMember().equals(uid))
+                        {
+                            count++;
+                        }
+                    }
+                }
 
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
     private void openFileChooser()
     {
@@ -140,7 +166,7 @@ public class imageupload extends AppCompatActivity {
 
     private void uploadFile()
     {
-        if (mImageUri != null) {
+        if (mImageUri != null && count <= 5 && count > -1) {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
             final UploadTask uploadTask=fileReference.putFile(mImageUri);
@@ -171,9 +197,11 @@ public class imageupload extends AppCompatActivity {
                                public void onComplete(@NonNull Task<Uri> task) {
                                    if(task.isSuccessful())
                                    {
+                                       String dateNow = format.format(currentTime);
                                        downloadImageUrl=task.getResult().toString();
                                        PhoneDetails details = new PhoneDetails();
                                        details.setBattery(battery.getText().toString());
+                                       details.setId(String.valueOf(id+1));
                                        details.setCamera(camera.getText().toString());
                                        details.setImageUri(downloadImageUrl);
                                        details.setFingerPrint(fingerPrint.getText().toString());
@@ -183,11 +211,10 @@ public class imageupload extends AppCompatActivity {
                                        details.setStorage(storage.getText().toString());
                                        details.setPrice(price.getText().toString());
                                        details.setMember(uid);
+                                       details.setUploadTime(dateNow);
                                        details.setPhone(phone.getText().toString());
                                        String uploadId = mDatabaseRef.push().getKey();
                                        mDatabaseRef.child(String.valueOf(id+1)).setValue(details);
-
-
                                    }
                                }
                            });
@@ -208,8 +235,13 @@ public class imageupload extends AppCompatActivity {
                             mProgressBar.setProgress((int) progress);
                         }
                     });
-        } else {
-            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+        }
+        else if(count > 5){
+            Toast.makeText(this, "Upload limit exceeds", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "Wait upload counts", Toast.LENGTH_SHORT).show();
+            uploadFile();
         }
 
     }
