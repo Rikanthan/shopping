@@ -116,7 +116,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
     }
     public void show()
     {
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.orderByChild("price").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mPhoneDetails.clear();
@@ -169,7 +169,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ConsumerViewPhones.this);
         alertDialog.setTitle("Filter by Names");
-        final String[] items = {"All","Xiomi","Samsung","Iphone","Others"};
+        final String[] items = {"All","Name A-Z","Date Descending ","Seller A-Z","Location A-Z"};
         final boolean[] checkedItems = {false, false, false, false, false};
         final List<PhoneDetails> searchDetails = new ArrayList<>();
         searchDetails.addAll(mPhoneDetails);

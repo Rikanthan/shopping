@@ -173,6 +173,8 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.admin__new,menu);
         final View addPhone = menu.findItem(R.id.add_phone).getActionView();
+        final View filter = menu.findItem(R.id.filter).getActionView();
+        //filter.setVisibility(View.GONE);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -183,15 +185,13 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                 Intent intent = new Intent(this, imageupload.class);
                 startActivity(intent);
             case R.id.filter:
-                showAlertDialog();
         }
         return super.onOptionsItemSelected(item);
     }
     private void showAlertDialog() {
-
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SellerView.this);
         alertDialog.setTitle("Filter by Names");
-        final String[] items = {"All","Xiomi","Samsung","Iphone","Others"};
+        final String[] items = {"All","Name A-Z","Date Descending ","Seller A-Z","Location A-Z"};
         final boolean[] checkedItems = {false, false, false, false, false};
         mPhoneDetails.clear();
         alertDialog.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
