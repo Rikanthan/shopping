@@ -116,7 +116,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
     }
     public void show()
     {
-        mDatabaseRef.orderByChild("price").addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.orderByChild("uploadTime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mPhoneDetails.clear();
@@ -139,7 +139,31 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
             }
         });
     }
+    public void filter(String field)
+    {
+        mDatabaseRef.orderByChild(field).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mPhoneDetails.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    if(postSnapshot.exists()) {
+                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
+                        mPhoneDetails.add(upload);
+                    }
+                }
 
+                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                mRecyclerView.setAdapter(mAdapter);
+                mProgressCircle.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(ConsumerViewPhones.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                mProgressCircle.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
     @Override
     public void contactSellerClick(View v, int position) {
         Intent i = new Intent(this, ContactSeller.class);
@@ -169,80 +193,98 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ConsumerViewPhones.this);
         alertDialog.setTitle("Filter by Names");
-        final String[] items = {"All","Name A-Z","Date Descending ","Seller A-Z","Location A-Z"};
+        final String[] items = {"All","Samsung","Redmi","Iphone","Other"};
+        final String[] sortedItems ={"Name","Location","Seller","Date","Price"};
         final boolean[] checkedItems = {false, false, false, false, false};
         final List<PhoneDetails> searchDetails = new ArrayList<>();
         searchDetails.addAll(mPhoneDetails);
         mPhoneDetails.clear();
-        alertDialog.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                switch (which) {
-                    case 0:
-                        if(isChecked)
-                            isClicked = true;
-                            show();
-                        break;
-                    case 1:
-                        if(isChecked)
-                            isClicked = true;
-                            for(PhoneDetails details: searchDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("xia"))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        break;
-                    case 2:
-                        if(isChecked)
-                            isClicked = true;
-                            for(PhoneDetails details: searchDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("samsung"))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        break;
-                    case 3:
-                        if(isChecked)
-                            isClicked = true;
-                            for(PhoneDetails details: searchDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("iphone"))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        break;
-                    case 4:
-                        if(isChecked)
-                            isClicked = true;
-                            checkedItems[4] = !checkedItems[4];
-                            for(PhoneDetails details: searchDetails)
-                            {
-                                if(!details.getPhone().toLowerCase().contains("iphone")
-                                        &&!details.getPhone().toLowerCase().contains("xiaomi")
-                                         && !details.getPhone().toLowerCase().contains("samsung"))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        break;
-                    default:
-                        show();
-                }
+        alertDialog.setSingleChoiceItems(sortedItems, 0, (dialog, which) -> {
+            switch (which){
+                case 0:
+                    filter("Phone");
+                    break;
+                case 1:
+                    filter("id");
+                    break;
+                case 2:
+                    filter("Member");
+                    break;
+                case 3:
+                    filter("uploadTime");
+                    break;
+                case 4:
+                    filter("price");
+                    break;
             }
         });
+//        alertDialog.setMultiChoiceItems(items, checkedItems, (dialog, which, isChecked) -> {
+//            switch (which) {
+//                case 0:
+//                    if(isChecked)
+//                        isClicked = true;
+//                        show();
+//                    break;
+//                case 1:
+//                    if(isChecked)
+//                        isClicked = true;
+//                        for(PhoneDetails details: searchDetails)
+//                        {
+//                            if(details.getPhone().toLowerCase().contains("red"))
+//                            {
+//                                mPhoneDetails.add(details);
+//                            }
+//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+//                            mRecyclerView.setAdapter(mAdapter);
+//                        }
+//                    break;
+//                case 2:
+//                    if(isChecked)
+//                        isClicked = true;
+//                        for(PhoneDetails details: searchDetails)
+//                        {
+//                            if(details.getPhone().toLowerCase().contains("samsung"))
+//                            {
+//                                mPhoneDetails.add(details);
+//                            }
+//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+//                            mRecyclerView.setAdapter(mAdapter);
+//                        }
+//                    break;
+//                case 3:
+//                    if(isChecked)
+//                        isClicked = true;
+//                        for(PhoneDetails details: searchDetails)
+//                        {
+//                            if(details.getPhone().toLowerCase().contains("iphone"))
+//                            {
+//                                mPhoneDetails.add(details);
+//                            }
+//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+//                            mRecyclerView.setAdapter(mAdapter);
+//                        }
+//                    break;
+//                case 4:
+//                    if(isChecked)
+//                        isClicked = true;
+//                        checkedItems[4] = !checkedItems[4];
+//                        for(PhoneDetails details: searchDetails)
+//                        {
+//                            if(!details.getPhone().toLowerCase().contains("iphone")
+//                                    &&!details.getPhone().toLowerCase().contains("xiaomi")
+//                                     && !details.getPhone().toLowerCase().contains("samsung"))
+//                            {
+//                                mPhoneDetails.add(details);
+//                            }
+//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+//                            mRecyclerView.setAdapter(mAdapter);
+//                        }
+//                    break;
+//                default:
+//                    show();
+//            }
+//        });
+
         alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

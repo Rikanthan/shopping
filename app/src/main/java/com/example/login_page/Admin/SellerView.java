@@ -173,7 +173,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.admin__new,menu);
         final View addPhone = menu.findItem(R.id.add_phone).getActionView();
-        final View filter = menu.findItem(R.id.filter).getActionView();
         //filter.setVisibility(View.GONE);
         return super.onCreateOptionsMenu(menu);
     }
@@ -184,7 +183,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
             case R.id.add_phone:
                 Intent intent = new Intent(this, imageupload.class);
                 startActivity(intent);
-            case R.id.filter:
         }
         return super.onOptionsItemSelected(item);
     }

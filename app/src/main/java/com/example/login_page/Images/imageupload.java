@@ -166,7 +166,7 @@ public class imageupload extends AppCompatActivity {
 
     private void uploadFile()
     {
-        if (mImageUri != null && count <= 5 && count > -1) {
+        if (mImageUri != null && count <= 6 && count > -1) {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
             final UploadTask uploadTask=fileReference.putFile(mImageUri);
@@ -209,7 +209,7 @@ public class imageupload extends AppCompatActivity {
                                        details.setDescription(description.getText().toString());
                                        details.setRam(ram.getText().toString());
                                        details.setStorage(storage.getText().toString());
-                                       details.setPrice(price.getText().toString());
+                                       details.setPrice(Double.parseDouble(price.getText().toString()));
                                        details.setMember(uid);
                                        details.setUploadTime(dateNow);
                                        details.setPhone(phone.getText().toString());
@@ -235,13 +235,14 @@ public class imageupload extends AppCompatActivity {
                             mProgressBar.setProgress((int) progress);
                         }
                     });
+            System.out.print("count : "+count);
         }
         else if(count > 5){
             Toast.makeText(this, "Upload limit exceeds", Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(this, "Wait upload counts", Toast.LENGTH_SHORT).show();
-            uploadFile();
+            System.out.print("count : "+count);
         }
 
     }

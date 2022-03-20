@@ -8,7 +8,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_shoppingcart"
+        android:icon="@drawable/ic_baseline_smartphone_24"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"

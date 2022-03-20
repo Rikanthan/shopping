@@ -126,7 +126,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:textAllCaps="false"
-            android:text="Login"
+            android:text="Login as Seller"
             android:fontFamily="casual"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
