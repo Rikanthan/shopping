@@ -19,31 +19,10 @@
         <activity
             android:name=".customer.ContactSeller"
             android:exported="false" />
-        <activity android:name=".Views.ShowNotifications" />
-        <activity android:name=".Views.SeeTimer" />
-        <activity android:name=".category.AllCatergories" />
-        <activity android:name=".Admin.SetDateActivity" />
-        <activity android:name=".customer.CustomerViewBookings" />
-        <activity android:name=".Views.ShowBookings" />
-        <activity android:name=".customer.GetBookings" />
-        <activity android:name=".Views.ShowOrders" />
-        <activity android:name=".Views.IndividualItems" />
-        <activity android:name=".customer.customer" />
-        <activity android:name=".Product.ShowItemsActivity" />
-        <activity android:name=".Admin.AdminCatorgory" />
         <activity android:name=".Images.imageupload" />
-        <activity android:name=".Quantitysample.mango" />
-        <activity android:name=".Admin.AdminProducts" />
-        <activity android:name=".Admin.Admin" />
-        <activity android:name=".Home.Home" />
         <activity android:name=".Login_front.SignIn" />
         <activity android:name=".Login_front.ForgetPassword" />
-        <activity android:name=".Images.ImagesActivity" />
         <activity android:name=".customer.ConsumerViewPhones" />
-        <activity android:name=".Admin.ui.EditItems" />
-        <activity android:name=".notification.SendNotification" />
-        <activity android:name=".Admin.AdminViewConfirmBookings" />
-        <activity android:name=".Views.ShowConfirmOrders" />
         <activity android:name=".Home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,16 +35,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <service android:name=".notification.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".notification.MyFireBaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
     </application>
 
 </manifest>
