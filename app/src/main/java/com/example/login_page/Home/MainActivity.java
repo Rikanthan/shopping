@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String user = email.getText().toString().trim();
         if(user.isEmpty())
         {
-            email.setError("username can't be empty");
+            email.setError("Email can't be empty");
             return false;
         }
         return  true;

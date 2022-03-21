@@ -56,7 +56,7 @@ public class imageupload extends AppCompatActivity {
     private StorageTask mUploadTask;
     long id = 0;
     long adminId = 0;
-    int count = -1;
+    int count = 0;
     String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +77,26 @@ public class imageupload extends AppCompatActivity {
         price = findViewById(R.id.price);
         currentTime = new Date();
         format = new SimpleDateFormat(DATE_FORMAT);
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mStorageRef= FirebaseStorage.getInstance().getReference("product");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
-        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                     id=(snapshot.getChildrenCount());
+                    count = 0;
+                for(DataSnapshot snapshot1: snapshot.getChildren())
+                {
+                    if(snapshot1.exists())
+                    {
+                        PhoneDetails details = snapshot1.getValue(PhoneDetails.class);
+                        if(details.getMember().equals(uid))
+                        {
+                            count++;
+                        }
+                    }
+                }
             }
 
             @Override
@@ -111,32 +123,7 @@ public class imageupload extends AppCompatActivity {
             }
 
         });
-        countUploads();
-    }
-    public void countUploads()
-    {
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1: snapshot.getChildren())
-                {
-                    if(snapshot1.exists())
-                    {
-                        PhoneDetails details = snapshot1.getValue(PhoneDetails.class);
-                        if(details.getMember().equals(uid))
-                        {
-                            count++;
-                        }
-                    }
-                }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
     private void openFileChooser()
     {
@@ -166,7 +153,10 @@ public class imageupload extends AppCompatActivity {
 
     private void uploadFile()
     {
-        if (mImageUri != null && count <= 6 && count > -1) {
+
+        if (mImageUri != null && count <5) {
+            System.out.println(count);
+            System.out.print("count");
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
             final UploadTask uploadTask=fileReference.putFile(mImageUri);
@@ -235,9 +225,8 @@ public class imageupload extends AppCompatActivity {
                             mProgressBar.setProgress((int) progress);
                         }
                     });
-            System.out.print("count : "+count);
         }
-        else if(count > 5){
+        else if(count >= 5){
             Toast.makeText(this, "Upload limit exceeds", Toast.LENGTH_SHORT).show();
         }
         else {
