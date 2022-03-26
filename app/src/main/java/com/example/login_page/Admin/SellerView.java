@@ -159,17 +159,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     }
 
     @Override
-    public void contactSellerClick(View v, int position) {
-        Intent i = new Intent(this, ContactSeller.class);
-        String seller = mPhoneDetails.get(position).getMember();
-        String id = mPhoneDetails.get(position).getId();
-        i.putExtra("seller",seller);
-        i.putExtra("id",id);
-        startActivity(i);
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.admin__new,menu);
         final View addPhone = menu.findItem(R.id.add_phone).getActionView();
@@ -182,164 +171,33 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         switch (item.getItemId()){
             case R.id.add_phone:
                 Intent intent = new Intent(this, imageupload.class);
+                intent.putExtra("isUpdate",false);
                 startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
-    private void showAlertDialog() {
+
+    @Override
+    public void editClick(View v, int position) {
+        Intent i = new Intent(this,imageupload.class);
+        i.putExtra("isUpdate",true);
+        String id = mPhoneDetails.get(position).getId();
+        i.putExtra("itemid",id);
+        startActivity(i);
+    }
+
+    @Override
+    public void deleteClick(View v, int position) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SellerView.this);
-        alertDialog.setTitle("Filter by Names");
-        final String[] items = {"All","Name A-Z","Date Descending ","Seller A-Z","Location A-Z"};
-        final boolean[] checkedItems = {false, false, false, false, false};
-        mPhoneDetails.clear();
-        alertDialog.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                switch (which) {
-                    case 0:
-                        if(isChecked)
-                        {
-                            mPhoneDetails.clear();
-                            isClicked = true;
-                            mPhoneDetails.addAll(backupDetails);
-                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                            mRecyclerView.setAdapter(mAdapter);
-                        }
-                         else
-                        {
-                            mPhoneDetails.clear();
-                            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                            mRecyclerView.setAdapter(mAdapter);
-                        }
-                        break;
-                    case 1:
-                        if(isChecked)
-                        {
-                            isClicked = true;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("xia") && !mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        else
-                        {
-                            isClicked = false;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("xia") && mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.remove(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        break;
-                    case 2:
-                        if(isChecked)
-                        {
-                            isClicked = true;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("samsung") && !mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        else
-                        {
-                            isClicked = false;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("samsung") && mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.remove(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        break;
-                    case 3:
-                        if(isChecked)
-                        {
-                            isClicked = true;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("iphone")&& !mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        else{
-                            isClicked = false;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(details.getPhone().toLowerCase().contains("iphone") && mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.remove(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        break;
-                    case 4:
-                        if(isChecked)
-                        {
-                            isClicked = true;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(!details.getPhone().toLowerCase().contains("iphone")
-                                        &&!details.getPhone().toLowerCase().contains("xiaomi")
-                                        && !details.getPhone().toLowerCase().contains("samsung") && !mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.add(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        else
-                        {
-                            isClicked = false;
-                            for(PhoneDetails details: backupDetails)
-                            {
-                                if(!details.getPhone().toLowerCase().contains("iphone")
-                                        &&!details.getPhone().toLowerCase().contains("xiaomi")
-                                        && !details.getPhone().toLowerCase().contains("samsung") && mPhoneDetails.contains(details))
-                                {
-                                    mPhoneDetails.remove(details);
-                                }
-                                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                                mRecyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                        break;
-                    default:
-                        show();
-                }
-            }
+        alertDialog.setTitle("Confirmation");
+        alertDialog.setMessage("Are you want to delete this item?");
+        alertDialog.setPositiveButton("ok", (dialog, which) -> {
+            String id = mPhoneDetails.get(position).getId();
+            mPhoneDetails.remove(position);
+            mDatabaseRef.child(id).removeValue();
         });
-        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                if(!isClicked)
-//                {
-//                    show();
-//                }
-            }
+        alertDialog.setNegativeButton("cancel", (dialog, which) -> {
+
         });
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);

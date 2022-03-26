@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,13 +55,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.storage.setText("Storage: "+uploadCurrent.getStorage());
         holder.fingerPrint.setText("FingerPrint: "+uploadCurrent.getFingerPrint());
         holder.connection.setText("Network: "+uploadCurrent.getConnection());
-        holder.contact.setOnClickListener(
-                new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mClickListener.contactSellerClick(v,position);
-                    }
-                }
+        holder.edit.setOnClickListener(
+                v -> mClickListener.editClick(v,position)
+        );
+        holder.delete.setOnClickListener(
+                v -> mClickListener.deleteClick(v,position)
         );
 
     }
@@ -70,9 +69,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         public TextView phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
+        public ImageButton edit,delete;
         public ImageView imageView;
         public LinearLayout linearLayoutManager;
-        public Button contact;
         @Override
         public void onClick(View v) {
             if(mListener !=null)
@@ -98,20 +97,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             price = itemView.findViewById(R.id.price_text);
             imageView = itemView.findViewById(R.id.image_view_upload);
             linearLayoutManager = (LinearLayout)itemView.findViewById(R.id.show_phone);
-            contact = itemView.findViewById(R.id.contactSeller);
-            linearLayoutManager.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mClickListener
-                            .contactSellerClick(v, ImageViewHolder.this.getAdapterPosition());
-                }
-            });
+            edit = itemView.findViewById(R.id.edit);
+            delete = itemView.findViewById(R.id.delete);
+            linearLayoutManager.setOnClickListener(v -> mClickListener
+                    .editClick(v, ImageViewHolder.this.getAdapterPosition()));
+            linearLayoutManager.setOnClickListener(v -> mClickListener.
+                    deleteClick(v,ImageViewHolder.this.getAdapterPosition()));
             itemView.setOnClickListener(this);
         }
 
     }
     public interface ImageAdapterListener{
-        void contactSellerClick(View v,int position);
+        void editClick(View v,int position);
+        void deleteClick(View v,int position);
     }
 
     public interface OnItemClickListener{

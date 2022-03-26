@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.login_page.customer.ConsumerViewPhones;
@@ -40,32 +41,36 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private TextView header;
     private EditText phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private Uri mImageUri;
     SimpleDateFormat format;
     Date currentTime;
+    boolean isUpdate;
     private StorageReference mStorageRef;
     private String  downloadImageUrl;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
     long id = 0;
-    long adminId = 0;
+    String uploadId = "";
     int count = 0;
     String uid;
+    PhoneDetails phoneDetails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageupload);
         Button mButtonChooseImage = findViewById(R.id.button_choose_image);
         Button mButtonUpload = findViewById(R.id.button_upload);
-        mImageView=findViewById(R.id.image_view);
-        mProgressBar=findViewById(R.id.progress_bar);
+        mImageView = findViewById(R.id.image_view);
+        mProgressBar = findViewById(R.id.progress_bar);
         phone = findViewById(R.id.phone_name);
         camera = findViewById(R.id.camera);
         battery = findViewById(R.id.battery);
@@ -75,6 +80,16 @@ public class imageupload extends AppCompatActivity {
         fingerPrint = findViewById(R.id.fingerprint);
         connection = findViewById(R.id.network);
         price = findViewById(R.id.price);
+        header = findViewById(R.id.addnew);
+        phoneDetails = new PhoneDetails();
+        isUpdate = getIntent().getBooleanExtra("isUpdate",false);
+        uploadId = getIntent().getStringExtra("itemid");
+        if(isUpdate)
+        {
+            header.setText("Edit Phone");
+            mButtonUpload.setText("Update");
+        }
+
         currentTime = new Date();
         format = new SimpleDateFormat(DATE_FORMAT);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -95,6 +110,20 @@ public class imageupload extends AppCompatActivity {
                         {
                             count++;
                         }
+                        if(details.getId().equals(uploadId) && isUpdate)
+                        {
+                            phoneDetails = snapshot1.getValue(PhoneDetails.class);
+                            battery.setText(phoneDetails.getBattery());
+                            camera.setText(phoneDetails.getCamera());
+                            Picasso.get().load(phoneDetails.getImageUri()).into(mImageView);
+                            fingerPrint.setText(phoneDetails.getFingerPrint());
+                            connection.setText(phoneDetails.getConnection());
+                            description.setText(phoneDetails.getDescription());
+                            ram.setText(phoneDetails.getRam());
+                            phone.setText(phoneDetails.getPhone());
+                            storage.setText(phoneDetails.getStorage());
+                            price.setText(String.valueOf(phoneDetails.getPrice()));
+                        }
                     }
                 }
             }
@@ -104,24 +133,15 @@ public class imageupload extends AppCompatActivity {
 
             }
         });
-        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               openFileChooser();
+        mButtonChooseImage.setOnClickListener(v -> openFileChooser());
+        mButtonUpload.setOnClickListener(v -> {
+        if(mUploadTask !=null && mUploadTask.isInProgress()){
+            Toast.makeText(imageupload.this,"Upload in progress",Toast.LENGTH_SHORT).show();
+        }
+        else
+            {
+                uploadFile();
             }
-        });
-        mButtonUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            if(mUploadTask !=null && mUploadTask.isInProgress()){
-                Toast.makeText(imageupload.this,"Upload in progress",Toast.LENGTH_SHORT).show();
-            }
-            else
-                {
-                    uploadFile();
-                }
-            }
-
         });
 
     }
@@ -189,9 +209,10 @@ public class imageupload extends AppCompatActivity {
                                    {
                                        String dateNow = format.format(currentTime);
                                        downloadImageUrl=task.getResult().toString();
+                                       String uploadId = mDatabaseRef.push().getKey();
                                        PhoneDetails details = new PhoneDetails();
                                        details.setBattery(battery.getText().toString());
-                                       details.setId(String.valueOf(id+1));
+                                       details.setId(uploadId);
                                        details.setCamera(camera.getText().toString());
                                        details.setImageUri(downloadImageUrl);
                                        details.setFingerPrint(fingerPrint.getText().toString());
@@ -203,8 +224,7 @@ public class imageupload extends AppCompatActivity {
                                        details.setMember(uid);
                                        details.setUploadTime(dateNow);
                                        details.setPhone(phone.getText().toString());
-                                       String uploadId = mDatabaseRef.push().getKey();
-                                       mDatabaseRef.child(String.valueOf(id+1)).setValue(details);
+                                       mDatabaseRef.child(uploadId).setValue(details);
                                    }
                                }
                            });

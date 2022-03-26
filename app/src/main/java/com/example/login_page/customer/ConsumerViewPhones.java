@@ -164,16 +164,6 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
             }
         });
     }
-    @Override
-    public void contactSellerClick(View v, int position) {
-        Intent i = new Intent(this, ContactSeller.class);
-        String seller = mPhoneDetails.get(position).getMember();
-        String id = mPhoneDetails.get(position).getId();
-        i.putExtra("seller",seller);
-        i.putExtra("id",id);
-        startActivity(i);
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -297,5 +287,15 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);
         alert.show();
+    }
+
+    @Override
+    public void editClick(View v, int position) {
+
+    }
+
+    @Override
+    public void deleteClick(View v, int position) {
+
     }
 }
