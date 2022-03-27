@@ -166,12 +166,9 @@ public class imageupload extends AppCompatActivity {
         MimeTypeMap mime=MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
-
-
     private void uploadFile()
     {
-
-        if (mImageUri != null && count <5 || !isUpdate && isClicked ) {
+        if (mImageUri != null && count <5 || isUpdate && isClicked ) {
             System.out.println(count);
             System.out.print("count");
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
@@ -180,12 +177,8 @@ public class imageupload extends AppCompatActivity {
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(taskSnapshot -> {
                         Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mProgressBar.setProgress(0);
-                            }
-                        }, 500);
+                        handler.postDelayed(
+                                () -> mProgressBar.setProgress(0), 500);
                         Toast.makeText(imageupload.this, action+" successful", Toast.LENGTH_LONG).show();
                        Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
                            if(!task.isSuccessful())
@@ -205,8 +198,6 @@ public class imageupload extends AppCompatActivity {
                                addDetails();
                            }
                        });
-
-                        /**/
                     })
                     .addOnFailureListener(e -> Toast.makeText(imageupload.this, e.getMessage(), Toast.LENGTH_SHORT).show())
                     .addOnProgressListener(taskSnapshot -> {
