@@ -84,8 +84,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
                   }
               });
-
-
         holder.edit.setOnClickListener(
                 v -> mClickListener.editClick(v,position)
         );
@@ -100,17 +98,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         public TextView phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
-        public ImageButton edit,delete;
+        public ImageButton edit,delete,view;
         public ImageView imageView;
         public LinearLayout linearLayoutManager;
         @Override
         public void onClick(View v) {
             if(mListener !=null)
             {
-                int position=getAdapterPosition();
+                int position = getAdapterPosition();
                 if(position!= RecyclerView.NO_POSITION)
                 {
-                   // mListener.onItemClick(position);
+                    mListener.onItemClick(position);
                 }
             }
         }
@@ -130,12 +128,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             linearLayoutManager = (LinearLayout)itemView.findViewById(R.id.show_phone);
             edit = itemView.findViewById(R.id.edit);
             delete = itemView.findViewById(R.id.delete);
+            view = itemView.findViewById(R.id.view);
             linearLayoutManager.setOnClickListener(v -> mClickListener
                     .editClick(v, ImageViewHolder.this.getAdapterPosition()));
             linearLayoutManager.setOnClickListener(v -> mClickListener.
                     deleteClick(v,ImageViewHolder.this.getAdapterPosition()));
-            itemView.setOnClickListener(v -> mClickListener
-                    .itemClick(v,ImageViewHolder.this.getAdapterPosition()));
+            linearLayoutManager.setOnClickListener(v -> mClickListener.
+                    itemClick(v,ImageViewHolder.this.getAdapterPosition()));
+            itemView.setOnClickListener(this);
         }
 
     }
@@ -146,6 +146,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 
 

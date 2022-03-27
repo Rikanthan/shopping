@@ -207,6 +207,8 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     @Override
     public void itemClick(View v, int postion) {
         Intent i = new Intent(this,ContactSeller.class);
+        i.putExtra("seller",mPhoneDetails.get(postion).getMember());
+        i.putExtra("id",mPhoneDetails.get(postion).getId());
         startActivity(i);
     }
 }

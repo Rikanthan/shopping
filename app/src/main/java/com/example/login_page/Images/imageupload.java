@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.login_page.customer.ConsumerViewPhones;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
@@ -115,7 +116,10 @@ public class imageupload extends AppCompatActivity {
                             phoneDetails = snapshot1.getValue(PhoneDetails.class);
                             battery.setText(phoneDetails.getBattery());
                             camera.setText(phoneDetails.getCamera());
-                            Picasso.get().load(phoneDetails.getImageUri()).into(mImageView);
+                            Glide
+                                    .with(getApplicationContext())
+                                    .load(phoneDetails.getImageUri())
+                                    .placeholder(R.mipmap.loading).into(mImageView);
                             fingerPrint.setText(phoneDetails.getFingerPrint());
                             connection.setText(phoneDetails.getConnection());
                             description.setText(phoneDetails.getDescription());
@@ -202,48 +206,37 @@ public class imageupload extends AppCompatActivity {
                                    downloadImageUrl=fileReference.getDownloadUrl().toString();
                                    return fileReference.getDownloadUrl();
                                }
-                           }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                               @Override
-                               public void onComplete(@NonNull Task<Uri> task) {
-                                   if(task.isSuccessful())
-                                   {
-                                       String dateNow = format.format(currentTime);
-                                       downloadImageUrl=task.getResult().toString();
-                                       String uploadId = mDatabaseRef.push().getKey();
-                                       PhoneDetails details = new PhoneDetails();
-                                       details.setBattery(battery.getText().toString());
-                                       details.setId(uploadId);
-                                       details.setCamera(camera.getText().toString());
-                                       details.setImageUri(downloadImageUrl);
-                                       details.setFingerPrint(fingerPrint.getText().toString());
-                                       details.setConnection(connection.getText().toString());
-                                       details.setDescription(description.getText().toString());
-                                       details.setRam(ram.getText().toString());
-                                       details.setStorage(storage.getText().toString());
-                                       details.setPrice(Double.parseDouble(price.getText().toString()));
-                                       details.setMember(uid);
-                                       details.setUploadTime(dateNow);
-                                       details.setPhone(phone.getText().toString());
-                                       mDatabaseRef.child(uploadId).setValue(details);
-                                   }
+                           }).addOnCompleteListener(task -> {
+                               if(task.isSuccessful())
+                               {
+                                   String dateNow = format.format(currentTime);
+                                   downloadImageUrl=task.getResult().toString();
+                                   String uploadId = mDatabaseRef.push().getKey();
+                                   PhoneDetails details = new PhoneDetails();
+                                   details.setBattery(battery.getText().toString());
+                                   details.setId(uploadId);
+                                   details.setCamera(camera.getText().toString());
+                                   details.setImageUri(downloadImageUrl);
+                                   details.setFingerPrint(fingerPrint.getText().toString());
+                                   details.setConnection(connection.getText().toString());
+                                   details.setDescription(description.getText().toString());
+                                   details.setRam(ram.getText().toString());
+                                   details.setStorage(storage.getText().toString());
+                                   details.setPrice(Double.parseDouble(price.getText().toString()));
+                                   details.setMember(uid);
+                                   details.setUploadTime(dateNow);
+                                   details.setPhone(phone.getText().toString());
+                                   mDatabaseRef.child(uploadId).setValue(details);
                                }
                            });
 
                             /**/
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(imageupload.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            mProgressBar.setProgress((int) progress);
-                        }
+                    .addOnFailureListener(e -> Toast.makeText(imageupload.this, e.getMessage(), Toast.LENGTH_SHORT).show())
+                    .addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        mProgressBar.setProgress((int) progress);
                     });
         }
         else if(count >= 5){
@@ -255,14 +248,4 @@ public class imageupload extends AppCompatActivity {
         }
 
     }
-    
-
-    private  void showimages()
-    {
-        Intent i=new Intent(this, ConsumerViewPhones.class);
-        startActivity(i);
-
-    }
-
-
 }

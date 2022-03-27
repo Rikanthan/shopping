@@ -229,6 +229,8 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
     @Override
     public void itemClick(View v, int postion) {
         Intent i = new Intent(this,ContactSeller.class);
+        i.putExtra("seller",mPhoneDetails.get(postion).getMember());
+        i.putExtra("id",mPhoneDetails.get(postion).getId());
         startActivity(i);
     }
 }

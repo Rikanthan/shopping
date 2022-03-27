@@ -150,9 +150,16 @@
             android:id="@+id/delete"
             android:src="@drawable/ic_baseline_delete_24"
             android:layout_margin="10dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             />
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/view"
+            android:src="@drawable/ic_baseline_view_module_24"
+            android:layout_margin="10dp"
+            android:visibility="invisible"
+            />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
