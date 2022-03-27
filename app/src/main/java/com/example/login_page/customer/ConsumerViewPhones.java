@@ -208,81 +208,8 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                     break;
             }
         });
-//        alertDialog.setMultiChoiceItems(items, checkedItems, (dialog, which, isChecked) -> {
-//            switch (which) {
-//                case 0:
-//                    if(isChecked)
-//                        isClicked = true;
-//                        show();
-//                    break;
-//                case 1:
-//                    if(isChecked)
-//                        isClicked = true;
-//                        for(PhoneDetails details: searchDetails)
-//                        {
-//                            if(details.getPhone().toLowerCase().contains("red"))
-//                            {
-//                                mPhoneDetails.add(details);
-//                            }
-//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-//                            mRecyclerView.setAdapter(mAdapter);
-//                        }
-//                    break;
-//                case 2:
-//                    if(isChecked)
-//                        isClicked = true;
-//                        for(PhoneDetails details: searchDetails)
-//                        {
-//                            if(details.getPhone().toLowerCase().contains("samsung"))
-//                            {
-//                                mPhoneDetails.add(details);
-//                            }
-//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-//                            mRecyclerView.setAdapter(mAdapter);
-//                        }
-//                    break;
-//                case 3:
-//                    if(isChecked)
-//                        isClicked = true;
-//                        for(PhoneDetails details: searchDetails)
-//                        {
-//                            if(details.getPhone().toLowerCase().contains("iphone"))
-//                            {
-//                                mPhoneDetails.add(details);
-//                            }
-//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-//                            mRecyclerView.setAdapter(mAdapter);
-//                        }
-//                    break;
-//                case 4:
-//                    if(isChecked)
-//                        isClicked = true;
-//                        checkedItems[4] = !checkedItems[4];
-//                        for(PhoneDetails details: searchDetails)
-//                        {
-//                            if(!details.getPhone().toLowerCase().contains("iphone")
-//                                    &&!details.getPhone().toLowerCase().contains("xiaomi")
-//                                     && !details.getPhone().toLowerCase().contains("samsung"))
-//                            {
-//                                mPhoneDetails.add(details);
-//                            }
-//                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-//                            mRecyclerView.setAdapter(mAdapter);
-//                        }
-//                    break;
-//                default:
-//                    show();
-//            }
-//        });
 
-        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                if(!isClicked)
-//                {
-//                    show();
-//                }
-            }
+        alertDialog.setPositiveButton("Ok", (dialog, which) -> {
         });
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);
@@ -297,5 +224,11 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
     @Override
     public void deleteClick(View v, int position) {
 
+    }
+
+    @Override
+    public void itemClick(View v, int postion) {
+        Intent i = new Intent(this,ContactSeller.class);
+        startActivity(i);
     }
 }

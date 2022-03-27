@@ -18,6 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -27,6 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public static ImageAdapterListener mClickListener;
     private final List<PhoneDetails> mPhoneDetailss;
     private static OnItemClickListener mListener;
+    String userRole = "";
     public ImageAdapter(Context context, List<PhoneDetails> uploads,ImageAdapterListener listener) {
         mContext = context;
         mPhoneDetailss = uploads;
@@ -41,20 +47,45 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(ImageViewHolder holder,
                                  @SuppressLint("RecyclerView") final int position) {
-        PhoneDetails uploadCurrent = mPhoneDetailss.get(position);
-            holder.phone.setText(uploadCurrent.getPhone());
-            Glide.with(mContext)
-                    .load(uploadCurrent.getImageUri())
-                    .placeholder(R.mipmap.loading)
-                    .into(holder.imageView);
-        holder.description.setText("Description: "+uploadCurrent.getDescription());
-        holder.price.setText("Phone price: "+uploadCurrent.getPrice()+" Rs");
-        holder.battery.setText("Battery: "+uploadCurrent.getBattery());
-        holder.camera.setText("Camera: "+uploadCurrent.getCamera());
-        holder.ram.setText("Ram: "+uploadCurrent.getRam());
-        holder.storage.setText("Storage: "+uploadCurrent.getStorage());
-        holder.fingerPrint.setText("FingerPrint: "+uploadCurrent.getFingerPrint());
-        holder.connection.setText("Network: "+uploadCurrent.getConnection());
+
+      FirebaseDatabase.getInstance()
+              .getReference("user")
+              .addListenerForSingleValueEvent(new ValueEventListener() {
+                  @Override
+                  public void onDataChange(@NonNull DataSnapshot snapshot) {
+                      if(snapshot.exists())
+                      {
+                          userRole = snapshot.getValue(String.class);
+                          assert userRole != null;
+                          if(userRole.equals("seller"))
+                          {
+                              holder.edit.setVisibility(View.VISIBLE);
+                              holder.delete.setVisibility(View.VISIBLE);
+                          }
+                          PhoneDetails uploadCurrent = mPhoneDetailss.get(position);
+                          holder.phone.setText(uploadCurrent.getPhone());
+                          Glide.with(mContext)
+                                  .load(uploadCurrent.getImageUri())
+                                  .placeholder(R.mipmap.loading)
+                                  .into(holder.imageView);
+                          holder.description.setText("Description: " + uploadCurrent.getDescription());
+                          holder.price.setText("Phone price: " + uploadCurrent.getPrice() + " Rs");
+                          holder.battery.setText("Battery: " + uploadCurrent.getBattery());
+                          holder.camera.setText("Camera: " + uploadCurrent.getCamera());
+                          holder.ram.setText("Ram: " + uploadCurrent.getRam());
+                          holder.storage.setText("Storage: " + uploadCurrent.getStorage());
+                          holder.fingerPrint.setText("FingerPrint: " + uploadCurrent.getFingerPrint());
+                          holder.connection.setText("Network: " + uploadCurrent.getConnection());
+                      }
+                  }
+
+                  @Override
+                  public void onCancelled(@NonNull DatabaseError error) {
+
+                  }
+              });
+
+
         holder.edit.setOnClickListener(
                 v -> mClickListener.editClick(v,position)
         );
@@ -103,13 +134,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     .editClick(v, ImageViewHolder.this.getAdapterPosition()));
             linearLayoutManager.setOnClickListener(v -> mClickListener.
                     deleteClick(v,ImageViewHolder.this.getAdapterPosition()));
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(v -> mClickListener
+                    .itemClick(v,ImageViewHolder.this.getAdapterPosition()));
         }
 
     }
     public interface ImageAdapterListener{
         void editClick(View v,int position);
         void deleteClick(View v,int position);
+        void itemClick(View v,int postion);
     }
 
     public interface OnItemClickListener{

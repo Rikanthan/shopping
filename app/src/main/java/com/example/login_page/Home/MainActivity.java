@@ -30,9 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String CHANNEL_ID = "100 " ;
     EditText email,pass;
     Button login,consumerLogin;
-    DatabaseReference myRef;
+    DatabaseReference myRef,userRef;
     FirebaseAuth firebaseAuth;
-    FirebaseUser fuser;
     private CheckBox saveLoginCheckBox;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         login = (Button) findViewById(R.id.userlogin);
         consumerLogin = (Button) findViewById(R.id.consumerlogin);
         firebaseAuth = FirebaseAuth.getInstance();
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        userRef = FirebaseDatabase.getInstance().getReference("user");
         saveLoginCheckBox = (CheckBox)findViewById(R.id.rempasswordcheckbox);
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void ConsumerLogin(View v)
     {
+        userRef.setValue("Customer");
         Intent i= new Intent(MainActivity.this, ConsumerViewPhones.class);
         startActivity(i);
     }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
         userEmail = email.getText().toString();
         userPassword = pass.getText().toString();
-
+        userRef.setValue("seller");
         if (saveLoginCheckBox.isChecked()) {
             loginPrefsEditor.putBoolean("saveLogin", true);
             loginPrefsEditor.putString("username", userEmail);

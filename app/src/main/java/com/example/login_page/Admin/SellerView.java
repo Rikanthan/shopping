@@ -203,4 +203,10 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         alert.setCanceledOnTouchOutside(false);
         alert.show();
     }
+
+    @Override
+    public void itemClick(View v, int postion) {
+        Intent i = new Intent(this,ContactSeller.class);
+        startActivity(i);
+    }
 }
