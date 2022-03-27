@@ -162,7 +162,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.admin__new,menu);
         final View addPhone = menu.findItem(R.id.add_phone).getActionView();
-        //filter.setVisibility(View.GONE);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -197,7 +196,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
             mDatabaseRef.child(id).removeValue();
         });
         alertDialog.setNegativeButton("cancel", (dialog, which) -> {
-
         });
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);

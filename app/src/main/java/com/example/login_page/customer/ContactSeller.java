@@ -1,14 +1,10 @@
 package com.example.login_page.customer;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.login_page.R;
 import com.example.login_page.Views.Member;
 import com.example.login_page.Views.PhoneDetails;
@@ -101,7 +97,6 @@ public LinearLayout layout;
                     storage.setText(details.getStorage());
                     fingerPrint.setText(details.getFingerPrint());
                     connection.setText(details.getConnection());
-
                 }
             }
             @Override

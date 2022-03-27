@@ -1,15 +1,12 @@
 package com.example.login_page.Images;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,16 +14,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.login_page.Admin.SellerView;
-import com.example.login_page.customer.ConsumerViewPhones;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,15 +26,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
@@ -199,16 +187,13 @@ public class imageupload extends AppCompatActivity {
                             }
                         }, 500);
                         Toast.makeText(imageupload.this, action+" successful", Toast.LENGTH_LONG).show();
-                       Task<Uri> uriTask=uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                           @Override
-                           public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                               if(!task.isSuccessful())
-                               {
-                                   throw task.getException();
-                               }
-                               downloadImageUrl=fileReference.getDownloadUrl().toString();
-                               return fileReference.getDownloadUrl();
+                       Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
+                           if(!task.isSuccessful())
+                           {
+                               throw task.getException();
                            }
+                           downloadImageUrl = fileReference.getDownloadUrl().toString();
+                           return fileReference.getDownloadUrl();
                        }).addOnCompleteListener(task -> {
                            if(task.isSuccessful())
                            {

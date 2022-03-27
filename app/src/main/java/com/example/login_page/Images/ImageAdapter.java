@@ -1,31 +1,24 @@
 package com.example.login_page.Images;
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.List;
-
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private final Context mContext;
@@ -47,7 +40,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(ImageViewHolder holder,
                                  @SuppressLint("RecyclerView") final int position) {
-
       FirebaseDatabase.getInstance()
               .getReference("user")
               .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -137,18 +129,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     itemClick(v,ImageViewHolder.this.getAdapterPosition()));
             itemView.setOnClickListener(this);
         }
-
     }
     public interface ImageAdapterListener{
         void editClick(View v,int position);
         void deleteClick(View v,int position);
         void itemClick(View v,int postion);
     }
-
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
-
-
-
 }

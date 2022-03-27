@@ -1,26 +1,18 @@
 package com.example.login_page.customer;
-
-
-
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.login_page.Images.ImageAdapter;
-import com.example.login_page.Images.imageupload;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +52,6 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                     if(!query.isEmpty())
                     {
                         search(query);
-
                     }
                     else
                     {
@@ -126,7 +116,6 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                         mPhoneDetails.add(upload);
                     }
                 }
-
                 mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);
@@ -151,7 +140,6 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                         mPhoneDetails.add(upload);
                     }
                 }
-
                 mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);

@@ -9,17 +9,14 @@ import android.widget.Toast;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Views.Member;
 import com.example.login_page.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.regex.Pattern;
+
 public class SignIn extends AppCompatActivity {
     DatabaseReference reff;
     FirebaseAuth firebaseAuth;
@@ -143,9 +140,8 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void signin(View v) {
-
-        member.setName(fullname.getText().toString().trim());//fullname ;
-        member.setEmail(email.getText().toString().trim());//email = findViewById(R.id.userEmailId);
+        member.setName(fullname.getText().toString().trim());
+        member.setEmail(email.getText().toString().trim());
         try {
             Long phn=Long.parseLong(mobile.getText().toString().trim());
             member.setMobile(phn);
@@ -154,36 +150,28 @@ public class SignIn extends AppCompatActivity {
         {
             System.out.println(e);
         }
-        //mobile = findViewById(R.id.mobileNumber);
-        member.setLocation(location.getText().toString().trim());//location = findViewById(R.id.location);
-        member.setPassword(pswd.getText().toString().trim());//pswd = findViewById(R.id.password);
-        //conpswd = findViewById(R.id.confirmPassword);
-
+        member.setLocation(location.getText().toString().trim());
+        member.setPassword(pswd.getText().toString().trim());
 
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile()) {
             return;
         }
         String input = "Email: " + email.getText().toString();
         input += "\n";
-
-
         firebaseAuth.createUserWithEmailAndPassword(email.getText().toString().trim(),pswd.getText().toString().trim())
                 .addOnCompleteListener(
-                        new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful())
-                                {
-                                    String uid = task.getResult().getUser().getUid();
-                                    reff.child(uid).setValue(member);
-                                    Toast.makeText(SignIn.this, "Data input & user created successfully", Toast.LENGTH_SHORT).show();
-                                    Intent i=new Intent(SignIn.this, MainActivity.class);
-                                    startActivity(i);
-                                }
-                                else if(!task.isSuccessful())
-                                {
-                                    Toast.makeText(SignIn.this,"Email id already exists",Toast.LENGTH_SHORT).show();
-                                }
+                        task -> {
+                            if(task.isSuccessful())
+                            {
+                                String uid = task.getResult().getUser().getUid();
+                                reff.child(uid).setValue(member);
+                                Toast.makeText(SignIn.this, "Data input & user created successfully", Toast.LENGTH_SHORT).show();
+                                Intent i=new Intent(SignIn.this, MainActivity.class);
+                                startActivity(i);
+                            }
+                            else if(!task.isSuccessful())
+                            {
+                                Toast.makeText(SignIn.this,"Email id already exists",Toast.LENGTH_SHORT).show();
                             }
                         }
                 );
