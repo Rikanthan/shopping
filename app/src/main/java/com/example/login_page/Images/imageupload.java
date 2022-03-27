@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.login_page.Admin.SellerView;
 import com.example.login_page.customer.ConsumerViewPhones;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
@@ -55,6 +56,7 @@ public class imageupload extends AppCompatActivity {
     SimpleDateFormat format;
     Date currentTime;
     boolean isUpdate;
+    boolean isClicked;
     private StorageReference mStorageRef;
     private String  downloadImageUrl;
     private DatabaseReference mDatabaseRef;
@@ -63,6 +65,7 @@ public class imageupload extends AppCompatActivity {
     String uploadId = "";
     int count = 0;
     String uid;
+    String action = "upload";
     PhoneDetails phoneDetails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +92,8 @@ public class imageupload extends AppCompatActivity {
         {
             header.setText("Edit Phone");
             mButtonUpload.setText("Update");
+            action = "update";
         }
-
         currentTime = new Date();
         format = new SimpleDateFormat(DATE_FORMAT);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -114,6 +117,7 @@ public class imageupload extends AppCompatActivity {
                         if(details.getId().equals(uploadId) && isUpdate)
                         {
                             phoneDetails = snapshot1.getValue(PhoneDetails.class);
+                            downloadImageUrl = phoneDetails.getImageUri();
                             battery.setText(phoneDetails.getBattery());
                             camera.setText(phoneDetails.getCamera());
                             Glide
@@ -140,7 +144,7 @@ public class imageupload extends AppCompatActivity {
         mButtonChooseImage.setOnClickListener(v -> openFileChooser());
         mButtonUpload.setOnClickListener(v -> {
         if(mUploadTask !=null && mUploadTask.isInProgress()){
-            Toast.makeText(imageupload.this,"Upload in progress",Toast.LENGTH_SHORT).show();
+            Toast.makeText(imageupload.this,action+" in progress",Toast.LENGTH_SHORT).show();
         }
         else
             {
@@ -151,6 +155,7 @@ public class imageupload extends AppCompatActivity {
     }
     private void openFileChooser()
     {
+        isClicked = true;
         Intent intent=new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -178,60 +183,45 @@ public class imageupload extends AppCompatActivity {
     private void uploadFile()
     {
 
-        if (mImageUri != null && count <5) {
+        if (mImageUri != null && count <5 || !isUpdate && isClicked ) {
             System.out.println(count);
             System.out.print("count");
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
             final UploadTask uploadTask=fileReference.putFile(mImageUri);
             mUploadTask = fileReference.putFile(mImageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mProgressBar.setProgress(0);
-                                }
-                            }, 500);
-                            Toast.makeText(imageupload.this, "Upload successful", Toast.LENGTH_LONG).show();
-                           Task<Uri> uriTask=uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                               @Override
-                               public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                                   if(!task.isSuccessful())
-                                   {
-                                       throw task.getException();
-                                   }
-                                   downloadImageUrl=fileReference.getDownloadUrl().toString();
-                                   return fileReference.getDownloadUrl();
-                               }
-                           }).addOnCompleteListener(task -> {
-                               if(task.isSuccessful())
+                    .addOnSuccessListener(taskSnapshot -> {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mProgressBar.setProgress(0);
+                            }
+                        }, 500);
+                        Toast.makeText(imageupload.this, action+" successful", Toast.LENGTH_LONG).show();
+                       Task<Uri> uriTask=uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                           @Override
+                           public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                               if(!task.isSuccessful())
                                {
-                                   String dateNow = format.format(currentTime);
-                                   downloadImageUrl=task.getResult().toString();
-                                   String uploadId = mDatabaseRef.push().getKey();
-                                   PhoneDetails details = new PhoneDetails();
-                                   details.setBattery(battery.getText().toString());
-                                   details.setId(uploadId);
-                                   details.setCamera(camera.getText().toString());
-                                   details.setImageUri(downloadImageUrl);
-                                   details.setFingerPrint(fingerPrint.getText().toString());
-                                   details.setConnection(connection.getText().toString());
-                                   details.setDescription(description.getText().toString());
-                                   details.setRam(ram.getText().toString());
-                                   details.setStorage(storage.getText().toString());
-                                   details.setPrice(Double.parseDouble(price.getText().toString()));
-                                   details.setMember(uid);
-                                   details.setUploadTime(dateNow);
-                                   details.setPhone(phone.getText().toString());
-                                   mDatabaseRef.child(uploadId).setValue(details);
+                                   throw task.getException();
                                }
-                           });
+                               downloadImageUrl=fileReference.getDownloadUrl().toString();
+                               return fileReference.getDownloadUrl();
+                           }
+                       }).addOnCompleteListener(task -> {
+                           if(task.isSuccessful())
+                           {
+                               if(!isUpdate)
+                               {
+                                   uploadId = mDatabaseRef.push().getKey();
+                               }
+                               downloadImageUrl = task.getResult().toString();
+                               addDetails();
+                           }
+                       });
 
-                            /**/
-                        }
+                        /**/
                     })
                     .addOnFailureListener(e -> Toast.makeText(imageupload.this, e.getMessage(), Toast.LENGTH_SHORT).show())
                     .addOnProgressListener(taskSnapshot -> {
@@ -239,7 +229,14 @@ public class imageupload extends AppCompatActivity {
                         mProgressBar.setProgress((int) progress);
                     });
         }
-        else if(count >= 5){
+        else if(isUpdate && !isClicked)
+        {
+            addDetails();
+            Toast.makeText(this, "Update Success", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, SellerView.class);
+            startActivity(i);
+        }
+        else if(count >= 5 && !isUpdate){
             Toast.makeText(this, "Upload limit exceeds", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -247,5 +244,25 @@ public class imageupload extends AppCompatActivity {
             System.out.print("count : "+count);
         }
 
+    }
+
+    private void addDetails()
+    {
+        PhoneDetails details = new PhoneDetails();
+        String dateNow = format.format(currentTime);
+        details.setBattery(battery.getText().toString());
+        details.setId(uploadId);
+        details.setCamera(camera.getText().toString());
+        details.setImageUri(downloadImageUrl);
+        details.setFingerPrint(fingerPrint.getText().toString());
+        details.setConnection(connection.getText().toString());
+        details.setDescription(description.getText().toString());
+        details.setRam(ram.getText().toString());
+        details.setStorage(storage.getText().toString());
+        details.setPrice(Double.parseDouble(price.getText().toString()));
+        details.setMember(uid);
+        details.setUploadTime(dateNow);
+        details.setPhone(phone.getText().toString());
+        mDatabaseRef.child(uploadId).setValue(details);
     }
 }
