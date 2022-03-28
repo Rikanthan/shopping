@@ -1,5 +1,4 @@
 package com.example.login_page.Login_front;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,18 +8,16 @@ import android.widget.Toast;
 import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Views.Member;
 import com.example.login_page.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.regex.Pattern;
 
 public class SignIn extends AppCompatActivity {
     DatabaseReference reff;
+    FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
-    long maxid=0;
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[a-z])" +
@@ -50,19 +47,16 @@ public class SignIn extends AppCompatActivity {
         pswd = findViewById(R.id.password);
         conpswd = findViewById(R.id.confirmPassword);
         member=new Member();
-        reff= FirebaseDatabase.getInstance().getReference().child("Member");
-        firebaseAuth=FirebaseAuth.getInstance();
-        reff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                maxid=(snapshot.getChildrenCount());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        reff = FirebaseDatabase.getInstance().getReference().child("Member");
+        firestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
     }
+    private void addUser(Member member,String uid)
+    {
+        firestore.collection("Seller")
+                .document(uid).set(member);
+    }
+
     private boolean validefullname()
     {
         String full=fullname.getText().toString().trim();
@@ -158,13 +152,15 @@ public class SignIn extends AppCompatActivity {
         }
         String input = "Email: " + email.getText().toString();
         input += "\n";
-        firebaseAuth.createUserWithEmailAndPassword(email.getText().toString().trim(),pswd.getText().toString().trim())
+        firebaseAuth
+                .createUserWithEmailAndPassword(email.getText().toString().trim(),pswd.getText().toString().trim())
                 .addOnCompleteListener(
                         task -> {
                             if(task.isSuccessful())
                             {
                                 String uid = task.getResult().getUser().getUid();
                                 reff.child(uid).setValue(member);
+                                addUser(member,uid);
                                 Toast.makeText(SignIn.this, "Data input & user created successfully", Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(SignIn.this, MainActivity.class);
                                 startActivity(i);
@@ -175,6 +171,5 @@ public class SignIn extends AppCompatActivity {
                             }
                         }
                 );
-
     }
 }

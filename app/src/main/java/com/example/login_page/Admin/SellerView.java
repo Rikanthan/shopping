@@ -16,17 +16,25 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.login_page.Home.MainActivity;
 import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.Images.imageupload;
+import com.example.login_page.Login_front.SignIn;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
 import com.example.login_page.customer.ContactSeller;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +45,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
+    private FirebaseFirestore firestore;
     private List<PhoneDetails> mPhoneDetails;
     private List<PhoneDetails> backupDetails;
     private SearchView mSearchView;
@@ -55,7 +64,8 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         backupDetails = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
         firebaseAuth = FirebaseAuth.getInstance();
-        show();
+        firestore = FirebaseFirestore.getInstance();
+        showPhone();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -68,12 +78,12 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     }
                     else
                     {
-                        show();
+                        showPhone();
                     }
                 }
                 else
                 {
-                    show();
+                    showPhone();
                 }
                 return true;
             }
@@ -89,12 +99,12 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     }
                     else
                     {
-                        show();
+                        showPhone();
                     }
                 }
                 else
                 {
-                    show();
+                    showPhone();
                 }
                 return true;
             }
@@ -128,36 +138,35 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         }
         return newList;
     }
-    public void show()
+    public void showPhone()
     {
         String id = firebaseAuth.getCurrentUser().getUid();
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mPhoneDetails.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    if(postSnapshot.exists() ) {
-                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
-                        if(!mPhoneDetails.contains(upload) && upload.getMember().equals(id))
-                        {
-                            mPhoneDetails.add(upload);
-                            backupDetails.add(upload);
+        firestore.collection("Phone")
+                .whereEqualTo("member", id)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if(document.exists())
+                            {
+                                PhoneDetails upload = document.toObject(PhoneDetails.class);
+                                if(!mPhoneDetails.contains(upload))
+                                {
+                                    mPhoneDetails.add(upload);
+                                    backupDetails.add(upload);
+                                }
+                            }
+
                         }
+                        mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mProgressCircle.setVisibility(View.GONE);
                     }
-                }
-                mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                mRecyclerView.setAdapter(mAdapter);
-                mProgressCircle.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(SellerView.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                mProgressCircle.setVisibility(View.INVISIBLE);
-            }
-        });
+                    else {
+                        mProgressCircle.setVisibility(View.INVISIBLE);
+                    }
+                });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.admin__new,menu);
@@ -193,6 +202,15 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         alertDialog.setPositiveButton("ok", (dialog, which) -> {
             String id = mPhoneDetails.get(position).getId();
             mPhoneDetails.remove(position);
+            firestore
+                    .collection("Phone")
+                    .document(id)
+                    .delete()
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(getApplicationContext(),"Delete Success", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(SellerView.this,SellerView.class);
+                        startActivity(i);
+                    });
             mDatabaseRef.child(id).removeValue();
         });
         alertDialog.setNegativeButton("cancel", (dialog, which) -> {

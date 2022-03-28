@@ -15,11 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.login_page.Images.ImageAdapter;
 import com.example.login_page.R;
 import com.example.login_page.Views.PhoneDetails;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +32,10 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private List<PhoneDetails> mPhoneDetails;
+    private FirebaseAuth firebaseAuth;
     private SearchView mSearchView;
     private boolean isClicked = false;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,9 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
         mSearchView = findViewById(R.id.search_items);
         mPhoneDetails = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
-        show();
+        firestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        showPhone();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -55,12 +62,12 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                     }
                     else
                     {
-                        show();
+                        showPhone();
                     }
                 }
                 else
                 {
-                    show();
+                    showPhone();
                 }
                 return true;
             }
@@ -75,12 +82,12 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                     }
                     else
                     {
-                        show();
+                        showPhone();
                     }
                 }
                 else
                 {
-                    show();
+                    showPhone();
                 }
                 return true;
             }
@@ -104,30 +111,30 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
             mRecyclerView.setAdapter(mAdapter);
         }
     }
-    public void show()
-    {
-        mDatabaseRef.orderByChild("uploadTime").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mPhoneDetails.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    if(postSnapshot.exists()) {
-                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
-                        mPhoneDetails.add(upload);
-                    }
-                }
-                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
-                mRecyclerView.setAdapter(mAdapter);
-                mProgressCircle.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ConsumerViewPhones.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                mProgressCircle.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
+        public void showPhone()
+        {
+            String id = firebaseAuth.getCurrentUser().getUid();
+            firestore.collection("Phone")
+                    .orderBy("uploadTime")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.exists())
+                                {
+                                    PhoneDetails upload = document.toObject(PhoneDetails.class);
+                                    mPhoneDetails.add(upload);
+                                }
+                            }
+                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.GONE);
+                        }
+                        else {
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+        }
     public void filter(String field)
     {
         mDatabaseRef.orderByChild(field).addValueEventListener(new ValueEventListener() {

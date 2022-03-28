@@ -25,6 +25,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -48,6 +51,7 @@ public class imageupload extends AppCompatActivity {
     private StorageReference mStorageRef;
     private String  downloadImageUrl;
     private DatabaseReference mDatabaseRef;
+    private FirebaseFirestore firestore;
     private StorageTask mUploadTask;
     long id = 0;
     String uploadId = "";
@@ -85,49 +89,41 @@ public class imageupload extends AppCompatActivity {
         currentTime = new Date();
         format = new SimpleDateFormat(DATE_FORMAT);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        firestore = FirebaseFirestore.getInstance();
         mStorageRef= FirebaseStorage.getInstance().getReference("product");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                    id=(snapshot.getChildrenCount());
-                    count = 0;
-                for(DataSnapshot snapshot1: snapshot.getChildren())
-                {
-                    if(snapshot1.exists())
+        firestore.collection("Phone")
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful())
                     {
-                        PhoneDetails details = snapshot1.getValue(PhoneDetails.class);
-                        if(details.getMember().equals(uid))
+                        count = 0;
+                        for(QueryDocumentSnapshot snapshot1: task.getResult())
                         {
-                            count++;
-                        }
-                        if(details.getId().equals(uploadId) && isUpdate)
-                        {
-                            phoneDetails = snapshot1.getValue(PhoneDetails.class);
-                            downloadImageUrl = phoneDetails.getImageUri();
-                            battery.setText(phoneDetails.getBattery());
-                            camera.setText(phoneDetails.getCamera());
-                            Glide
-                                    .with(getApplicationContext())
-                                    .load(phoneDetails.getImageUri())
-                                    .placeholder(R.mipmap.loading).into(mImageView);
-                            fingerPrint.setText(phoneDetails.getFingerPrint());
-                            connection.setText(phoneDetails.getConnection());
-                            description.setText(phoneDetails.getDescription());
-                            ram.setText(phoneDetails.getRam());
-                            phone.setText(phoneDetails.getPhone());
-                            storage.setText(phoneDetails.getStorage());
-                            price.setText(String.valueOf(phoneDetails.getPrice()));
+                            PhoneDetails details = snapshot1.toObject(PhoneDetails.class);
+                            if(details.getMember().equals(uid))
+                            {
+                                count++;
+                            }
+                            if(details.getId().equals(uploadId) && isUpdate)
+                            {
+                                phoneDetails = snapshot1.toObject(PhoneDetails.class);
+                                downloadImageUrl = phoneDetails.getImageUri();
+                                battery.setText(phoneDetails.getBattery());
+                                camera.setText(phoneDetails.getCamera());
+                                Glide
+                                        .with(getApplicationContext())
+                                        .load(phoneDetails.getImageUri())
+                                        .placeholder(R.mipmap.loading).into(mImageView);
+                                fingerPrint.setText(phoneDetails.getFingerPrint());
+                                connection.setText(phoneDetails.getConnection());
+                                description.setText(phoneDetails.getDescription());
+                                ram.setText(phoneDetails.getRam());
+                                phone.setText(phoneDetails.getPhone());
+                                storage.setText(phoneDetails.getStorage());
+                                price.setText(String.valueOf(phoneDetails.getPrice()));
+                            }
                         }
                     }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
         mButtonChooseImage.setOnClickListener(v -> openFileChooser());
         mButtonUpload.setOnClickListener(v -> {
@@ -140,6 +136,13 @@ public class imageupload extends AppCompatActivity {
             }
         });
 
+    }
+    private void addPhone(PhoneDetails details,String id)
+    {
+        firestore
+                .collection("Phone")
+                .document(id)
+                .set(details);
     }
     private void openFileChooser()
     {
@@ -204,6 +207,7 @@ public class imageupload extends AppCompatActivity {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                         mProgressBar.setProgress((int) progress);
                     });
+            count++;
         }
         else if(isUpdate && !isClicked)
         {
@@ -239,6 +243,7 @@ public class imageupload extends AppCompatActivity {
         details.setMember(uid);
         details.setUploadTime(dateNow);
         details.setPhone(phone.getText().toString());
+        addPhone(details,uploadId);
         mDatabaseRef.child(uploadId).setValue(details);
     }
 }

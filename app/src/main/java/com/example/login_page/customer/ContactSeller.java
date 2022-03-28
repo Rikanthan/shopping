@@ -1,17 +1,12 @@
 package com.example.login_page.customer;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.login_page.R;
 import com.example.login_page.Views.Member;
 import com.example.login_page.Views.PhoneDetails;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ContactSeller extends AppCompatActivity {
 private TextView sellerName,
@@ -29,6 +24,7 @@ private TextView sellerName,
         connection;
 String sellerId, uploadId;
 public LinearLayout layout;
+private FirebaseFirestore firestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,61 +44,45 @@ public LinearLayout layout;
         fingerPrint = findViewById(R.id.fingerprint);
         connection = findViewById(R.id.network);
         layout = findViewById(R.id.seller_details);
+        firestore = FirebaseFirestore.getInstance();
         showSeller();
         showPhone();
     }
-    public void showSell(View v)
-    {
-        layout.setVisibility(View.VISIBLE);
-    }
+
     public void showSeller()
     {
-        FirebaseDatabase
-                .getInstance()
-                .getReference("Member")
-                .child(sellerId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                {
-                    Member member = snapshot.getValue(Member.class);
-                    sellerName.setText(member.getName());
-                    sellerEmail.setText(member.getEmail());
-                    sellerPhone.setText(String.valueOf(member.getMobile()));
-                    sellerLocation.setText(member.getLocation());
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        firestore.collection("Seller")
+                .document(sellerId)
+                .get()
+                .addOnSuccessListener(snapshot ->{
+                   if(snapshot.exists())
+                   {
+                       Member member = snapshot.toObject(Member.class);
+                       sellerName.setText(member.getName());
+                       sellerEmail.setText(member.getEmail());
+                       sellerPhone.setText(String.valueOf(member.getMobile()));
+                       sellerLocation.setText(member.getLocation());
+                   }
+                });
     }
     public void showPhone()
     {
-        FirebaseDatabase
-                .getInstance()
-                .getReference("Phone")
-                .child(uploadId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                {
-                    PhoneDetails details = snapshot.getValue(PhoneDetails.class);
-                    phone.setText(details.getPhone());
-                    description.setText(details.getDescription());
-                    battery.setText(details.getBattery());
-                    camera.setText(details.getCamera());
-                    ram.setText(details.getRam());
-                    storage.setText(details.getStorage());
-                    fingerPrint.setText(details.getFingerPrint());
-                    connection.setText(details.getConnection());
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        firestore.collection("Phone")
+                .document(uploadId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if(documentSnapshot.exists())
+                    {
+                        PhoneDetails details = documentSnapshot.toObject(PhoneDetails.class);
+                        phone.setText(details.getPhone());
+                        description.setText(details.getDescription());
+                        battery.setText(details.getBattery());
+                        camera.setText(details.getCamera());
+                        ram.setText(details.getRam());
+                        storage.setText(details.getStorage());
+                        fingerPrint.setText(details.getFingerPrint());
+                        connection.setText(details.getConnection());
+                    }
+                });
     }
 }
