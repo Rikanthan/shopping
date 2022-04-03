@@ -61,7 +61,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                                   .placeholder(R.mipmap.loading)
                                   .into(holder.imageView);
                           holder.description.setText("Description: " + uploadCurrent.getDescription());
-                          holder.price.setText("Phone price: " + uploadCurrent.getPrice() + " Rs");
+                          holder.price.setText("Phone price: Rs " + uploadCurrent.getPrice());
                           holder.battery.setText("Battery: " + uploadCurrent.getBattery());
                           holder.camera.setText("Camera: " + uploadCurrent.getCamera());
                           holder.ram.setText("Ram: " + uploadCurrent.getRam());
