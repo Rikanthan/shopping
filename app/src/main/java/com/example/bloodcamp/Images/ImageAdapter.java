@@ -1,4 +1,4 @@
-package com.example.login_page.Images;
+package com.example.bloodcamp.Images;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.example.login_page.R;
-import com.example.login_page.Views.PhoneDetails;
+import com.example.bloodcamp.R;
+import com.example.bloodcamp.Views.PhoneDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;

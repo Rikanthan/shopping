@@ -1,11 +1,12 @@
-package com.example.login_page.customer;
+package com.example.bloodcamp.customer;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.example.login_page.R;
-import com.example.login_page.Views.Member;
-import com.example.login_page.Views.PhoneDetails;
+
+import com.example.bloodcamp.Views.PhoneDetails;
+import com.example.bloodcamp.R;
+import com.example.bloodcamp.Views.Member;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ContactSeller extends AppCompatActivity {

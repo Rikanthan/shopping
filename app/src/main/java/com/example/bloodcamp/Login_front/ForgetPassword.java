@@ -1,12 +1,13 @@
-package com.example.login_page.Login_front;
+package com.example.bloodcamp.Login_front;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.login_page.Home.MainActivity;
-import com.example.login_page.R;
+
+import com.example.bloodcamp.Home.MainActivity;
+import com.example.bloodcamp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgetPassword extends AppCompatActivity {

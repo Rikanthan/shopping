@@ -1,4 +1,4 @@
-package com.example.login_page.Views;
+package com.example.bloodcamp.Views;
 
 public class PhoneDetails {
     private String member;

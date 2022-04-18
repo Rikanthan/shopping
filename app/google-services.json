@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "413988455889",
-    "firebase_url": "https://e-phony-default-rtdb.firebaseio.com",
-    "project_id": "e-phony",
-    "storage_bucket": "e-phony.appspot.com"
+    "project_number": "125266170729",
+    "project_id": "bloodcamp-b1f61",
+    "storage_bucket": "bloodcamp-b1f61.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:413988455889:android:29be92d1f9417786aeccf0",
+        "mobilesdk_app_id": "1:125266170729:android:67cbee988957912510e3f8",
         "android_client_info": {
-          "package_name": "com.example.login_page"
+          "package_name": "com.example.bloodcamp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "413988455889-0am223abq3o1q1m4hkoqvac0fpbmv3mo.apps.googleusercontent.com",
+          "client_id": "125266170729-ucr0r5ojotkkfqshe4cvj5i5mnc2g291.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDWp4XaH21cTNY0DN9WP-uF-JQ_PeDoI5U"
+          "current_key": "AIzaSyBA0qcH4Z1P5eVNmtNgMEcBwh4-iebQsxM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "413988455889-0am223abq3o1q1m4hkoqvac0fpbmv3mo.apps.googleusercontent.com",
+              "client_id": "125266170729-ucr0r5ojotkkfqshe4cvj5i5mnc2g291.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

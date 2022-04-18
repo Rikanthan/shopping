@@ -1,12 +1,5 @@
-package com.example.login_page.Admin;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+package com.example.bloodcamp.customer;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,17 +8,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
-
-import com.example.login_page.Home.MainActivity;
-import com.example.login_page.Images.ImageAdapter;
-import com.example.login_page.Images.imageupload;
-import com.example.login_page.Login_front.SignIn;
-import com.example.login_page.R;
-import com.example.login_page.Views.PhoneDetails;
-import com.example.login_page.customer.ContactSeller;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.bloodcamp.Images.ImageAdapter;
+import com.example.bloodcamp.R;
+import com.example.bloodcamp.Views.PhoneDetails;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,23 +23,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class SellerView extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
+public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
-    private FirebaseFirestore firestore;
     private List<PhoneDetails> mPhoneDetails;
-    private List<PhoneDetails> backupDetails;
+    private FirebaseAuth firebaseAuth;
     private SearchView mSearchView;
     private boolean isClicked = false;
-    FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +47,9 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         mProgressCircle = findViewById(R.id.progress_circle);
         mSearchView = findViewById(R.id.search_items);
         mPhoneDetails = new ArrayList<>();
-        backupDetails = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
-        firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         showPhone();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -74,7 +59,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     if(!query.isEmpty())
                     {
                         search(query);
-
                     }
                     else
                     {
@@ -95,7 +79,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     if(!query.isEmpty())
                     {
                         search(query);
-
                     }
                     else
                     {
@@ -124,100 +107,118 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
             {
                 mPhoneDetails.add(details);
             }
-            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
-    public static  ArrayList<PhoneDetails> removeDuplicates(ArrayList<PhoneDetails> list)
-    {
-        ArrayList<PhoneDetails> newList = new ArrayList<PhoneDetails>();
-        for (PhoneDetails element : list) {
-            if (!newList.contains(element)) {
-                newList.add(element);
-            }
-        }
-        return newList;
-    }
-    public void showPhone()
-    {
-        String id = firebaseAuth.getCurrentUser().getUid();
-        firestore.collection("Phone")
-                .whereEqualTo("member", id)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.exists())
-                            {
-                                PhoneDetails upload = document.toObject(PhoneDetails.class);
-                                if(!mPhoneDetails.contains(upload))
+        public void showPhone()
+        {
+            String id = firebaseAuth.getCurrentUser().getUid();
+            firestore.collection("Phone")
+                    .orderBy("uploadTime")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.exists())
                                 {
+                                    PhoneDetails upload = document.toObject(PhoneDetails.class);
                                     mPhoneDetails.add(upload);
-                                    backupDetails.add(upload);
                                 }
                             }
-
+                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.GONE);
                         }
-                        mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
-                        mRecyclerView.setAdapter(mAdapter);
-                        mProgressCircle.setVisibility(View.GONE);
+                        else {
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+        }
+    public void filter(String field)
+    {
+        mDatabaseRef.orderByChild(field).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mPhoneDetails.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    if(postSnapshot.exists()) {
+                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
+                        mPhoneDetails.add(upload);
                     }
-                    else {
-                        mProgressCircle.setVisibility(View.INVISIBLE);
-                    }
-                });
+                }
+                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                mRecyclerView.setAdapter(mAdapter);
+                mProgressCircle.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(ConsumerViewPhones.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                mProgressCircle.setVisibility(View.INVISIBLE);
+            }
+        });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.admin__new,menu);
-        final View addPhone = menu.findItem(R.id.add_phone).getActionView();
+        getMenuInflater().inflate(R.menu.consumermenu,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.add_phone:
-                Intent intent = new Intent(this, imageupload.class);
-                intent.putExtra("isUpdate",false);
-                startActivity(intent);
+            case R.id.filter:
+                showAlertDialog();
         }
         return super.onOptionsItemSelected(item);
     }
+    private void showAlertDialog() {
 
-    @Override
-    public void editClick(View v, int position) {
-        Intent i = new Intent(this,imageupload.class);
-        i.putExtra("isUpdate",true);
-        String id = mPhoneDetails.get(position).getId();
-        i.putExtra("itemid",id);
-        startActivity(i);
-    }
-
-    @Override
-    public void deleteClick(View v, int position) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SellerView.this);
-        alertDialog.setTitle("Confirmation");
-        alertDialog.setMessage("Are you want to delete this item?");
-        alertDialog.setPositiveButton("ok", (dialog, which) -> {
-            String id = mPhoneDetails.get(position).getId();
-            mPhoneDetails.remove(position);
-            firestore
-                    .collection("Phone")
-                    .document(id)
-                    .delete()
-                    .addOnSuccessListener(unused -> {
-                        Toast.makeText(getApplicationContext(),"Delete Success", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(SellerView.this,SellerView.class);
-                        startActivity(i);
-                    });
-            mDatabaseRef.child(id).removeValue();
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ConsumerViewPhones.this);
+        alertDialog.setTitle("Filter by Names");
+        final String[] items = {"All","Samsung","Redmi","Iphone","Other"};
+        final String[] sortedItems ={"Name","Location","Seller","Date","Price"};
+        final boolean[] checkedItems = {false, false, false, false, false};
+        final List<PhoneDetails> searchDetails = new ArrayList<>();
+        searchDetails.addAll(mPhoneDetails);
+        mPhoneDetails.clear();
+        alertDialog.setSingleChoiceItems(sortedItems, 0, (dialog, which) -> {
+            switch (which){
+                case 0:
+                    filter("Phone");
+                    break;
+                case 1:
+                    filter("id");
+                    break;
+                case 2:
+                    filter("Member");
+                    break;
+                case 3:
+                    filter("uploadTime");
+                    break;
+                case 4:
+                    filter("price");
+                    break;
+            }
         });
-        alertDialog.setNegativeButton("cancel", (dialog, which) -> {
+
+        alertDialog.setPositiveButton("Ok", (dialog, which) -> {
         });
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);
         alert.show();
+    }
+
+    @Override
+    public void editClick(View v, int position) {
+
+    }
+
+    @Override
+    public void deleteClick(View v, int position) {
+
     }
 
     @Override

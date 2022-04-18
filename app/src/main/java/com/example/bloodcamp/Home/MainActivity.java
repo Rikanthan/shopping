@@ -1,4 +1,4 @@
-package com.example.login_page.Home;
+package com.example.bloodcamp.Home;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +10,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.os.Bundle;
 import android.widget.Toast;
-import com.example.login_page.Admin.SellerView;
-import com.example.login_page.customer.ConsumerViewPhones;
-import com.example.login_page.Images.imageupload;
-import com.example.login_page.Login_front.SignIn;
-import com.example.login_page.R;
+
+import com.example.bloodcamp.customer.ConsumerViewPhones;
+import com.example.bloodcamp.Admin.SellerView;
+import com.example.bloodcamp.Images.imageupload;
+import com.example.bloodcamp.Login_front.SignIn;
+import com.example.bloodcamp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
