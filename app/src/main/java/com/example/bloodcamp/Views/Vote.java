@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Vote {
     private List<String> votedPeople;
-    private int totalVote = 0;
-    private int interestedVote = 0;
-    private int attendVote = 0;
-    private int notAttendVote = 0;
+    private int totalVote;
+    private int interestedVote;
+    private int attendVote;
+    private int notAttendVote;
 
     public Vote(List<String> votedPeople, int totalVote, int interestedVote, int attendVote, int notAttendVote) {
         this.votedPeople = votedPeople;
@@ -46,8 +46,8 @@ public class Vote {
     }
 
     public void setAttendVote() {
-        this.attendVote++;
-        this.totalVote++;
+        this.attendVote = getAttendVote()+1;
+        this.totalVote = getTotalVote()+1;
     }
 
     public int getNotAttendVote() {

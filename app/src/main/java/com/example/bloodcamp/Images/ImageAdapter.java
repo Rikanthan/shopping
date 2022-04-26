@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.R;
-import com.example.bloodcamp.Views.PhoneDetails;
+import com.example.bloodcamp.Views.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,12 +24,12 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private final Context mContext;
     public static ImageAdapterListener mClickListener;
-    private final List<PhoneDetails> mPhoneDetailss;
+    private final List<Post> mPosts;
     private static OnItemClickListener mListener;
     String userRole = "";
-    public ImageAdapter(Context context, List<PhoneDetails> uploads,ImageAdapterListener listener) {
+    public ImageAdapter(Context context, List<Post> uploads,ImageAdapterListener listener) {
         mContext = context;
-        mPhoneDetailss = uploads;
+        mPosts = uploads;
         this.mClickListener = listener;
     }
     @NonNull
@@ -54,20 +55,24 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                               holder.edit.setVisibility(View.VISIBLE);
                               holder.delete.setVisibility(View.VISIBLE);
                           }
-                          PhoneDetails uploadCurrent = mPhoneDetailss.get(position);
-                          holder.phone.setText(uploadCurrent.getPhone());
+                          Post uploadCurrent = mPosts.get(position);
+                          holder.bloodcamp.setText(uploadCurrent.getBloodCampName());
+                          holder.organizer.setText(uploadCurrent.getOrganizerName());
+                          holder.location.setText(uploadCurrent.getLocation());
+                          holder.posted.setText(uploadCurrent.getPostedDate());
                           Glide.with(mContext)
                                   .load(uploadCurrent.getImageUri())
                                   .placeholder(R.mipmap.loading)
                                   .into(holder.imageView);
-                          holder.description.setText("Description: " + uploadCurrent.getDescription());
-                          holder.price.setText("Phone price: Rs " + uploadCurrent.getPrice());
-                          holder.battery.setText("Battery: " + uploadCurrent.getBattery());
-                          holder.camera.setText("Camera: " + uploadCurrent.getCamera());
-                          holder.ram.setText("Ram: " + uploadCurrent.getRam());
-                          holder.storage.setText("Storage: " + uploadCurrent.getStorage());
-                          holder.fingerPrint.setText("FingerPrint: " + uploadCurrent.getFingerPrint());
-                          holder.connection.setText("Network: " + uploadCurrent.getConnection());
+                          holder.description.setText(uploadCurrent.getDescription());
+                          int total = uploadCurrent.getVote().getTotalVote();
+                          int interst = uploadCurrent.getVote().getInterestedVote()*100;
+                          int notInter = uploadCurrent.getVote().getNotAttendVote()*100;
+                          int attend = uploadCurrent.getVote().getAttendVote()*100;
+                          holder.interestedBar.setProgress((int) interst/total) ;
+                          holder.notAttedBar.setProgress((int) notInter/total);
+                          holder.attendBar.setProgress((int)attend/total);
+
                       }
                   }
 
@@ -83,26 +88,27 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 v -> mClickListener.deleteClick(v,position)
         );
         holder.attend.setOnClickListener(
-                v -> mClickListener.deleteClick(v,position)
+                v -> mClickListener.attendClick(v,position)
         );
         holder.notAttend.setOnClickListener(
-                v -> mClickListener.deleteClick(v,position)
+                v -> mClickListener.notAttendClick(v,position)
         );
         holder.interested.setOnClickListener(
-                v -> mClickListener.deleteClick(v,position)
+                v -> mClickListener.interestedClick(v,position)
         );
 
 
     }
     @Override
     public int getItemCount() {
-        return mPhoneDetailss.size();
+        return mPosts.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        public TextView phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
+        public TextView bloodcamp,organizer,location,description,posted;
         public ImageButton edit,delete,view, attend,notAttend, interested;
         public ImageView imageView;
         public LinearLayout linearLayoutManager;
+        public ProgressBar attendBar,notAttedBar, interestedBar;
         @Override
         public void onClick(View v) {
             if(mListener !=null)
@@ -117,15 +123,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-            phone = itemView.findViewById(R.id.phone_text);
-            camera = itemView.findViewById(R.id.camera_text);
-            battery = itemView.findViewById(R.id.battery_text);
-            ram = itemView.findViewById(R.id.ram_text);
-            storage = itemView.findViewById(R.id.storage_text);
-            description = itemView.findViewById(R.id.description_text);
-            fingerPrint = itemView.findViewById(R.id.fingerprint_text);
-            connection = itemView.findViewById(R.id.connection_text);
-            price = itemView.findViewById(R.id.price_text);
+            bloodcamp = itemView.findViewById(R.id.blood_camp_name);
+            organizer = itemView.findViewById(R.id.organizer_name);
+            location = itemView.findViewById(R.id.location);
+            posted = itemView.findViewById(R.id.posteddate);
+            description = itemView.findViewById(R.id.description);
             imageView = itemView.findViewById(R.id.image_view_upload);
             linearLayoutManager = (LinearLayout)itemView.findViewById(R.id.show_phone);
             edit = itemView.findViewById(R.id.edit);
@@ -134,6 +136,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             attend = itemView.findViewById(R.id.voteattend);
             notAttend = itemView.findViewById(R.id.votenot);
             interested = itemView.findViewById(R.id.voteintersted);
+            attendBar = itemView.findViewById(R.id.progressBarAttend);
+            notAttedBar = itemView.findViewById(R.id.progressBarNot);
+            interestedBar = itemView.findViewById(R.id.progressBarInterested);
             linearLayoutManager.setOnClickListener(v -> mClickListener
                     .editClick(v, ImageViewHolder.this.getAdapterPosition()));
             linearLayoutManager.setOnClickListener(v -> mClickListener.

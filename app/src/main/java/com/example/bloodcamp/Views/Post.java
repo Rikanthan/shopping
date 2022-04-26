@@ -6,6 +6,16 @@ public class Post {
     private String description;
     private String location;
 
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    private String imageUri;
+
     public String getPostedDate() {
         return postedDate;
     }
@@ -26,13 +36,14 @@ public class Post {
 
     private Vote vote;
 
-    public Post(String bloodCampName, String organizerName, String description, String location,Vote vote,String postedDate) {
+    public Post(String imageUri, String bloodCampName, String organizerName, String description, String location,Vote vote,String postedDate) {
         this.bloodCampName = bloodCampName;
         this.organizerName = organizerName;
         this.description = description;
         this.location = location;
         this.vote = vote;
         this.postedDate = postedDate;
+        this.imageUri = imageUri;
     }
 
     public Post() {

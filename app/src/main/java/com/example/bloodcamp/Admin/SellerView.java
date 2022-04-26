@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.example.bloodcamp.Images.ImageAdapter;
 import com.example.bloodcamp.Images.imageupload;
 import com.example.bloodcamp.R;
-import com.example.bloodcamp.Views.PhoneDetails;
+import com.example.bloodcamp.Views.Post;
+import com.example.bloodcamp.Views.Vote;
 import com.example.bloodcamp.customer.ContactSeller;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -36,8 +37,8 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private FirebaseFirestore firestore;
-    private List<PhoneDetails> mPhoneDetails;
-    private List<PhoneDetails> backupDetails;
+    private List<Post> mPost;
+    private List<Post> backupPost;
     private SearchView mSearchView;
     private boolean isClicked = false;
     FirebaseAuth firebaseAuth;
@@ -50,8 +51,8 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressCircle = findViewById(R.id.progress_circle);
         mSearchView = findViewById(R.id.search_items);
-        mPhoneDetails = new ArrayList<>();
-        backupDetails = new ArrayList<>();
+        mPost = new ArrayList<>();
+        backupPost = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -103,25 +104,25 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
 
     public void search(String s)
     {
-        List<PhoneDetails> searchDetails = new ArrayList<>();
-        searchDetails.addAll(mPhoneDetails);
-        mPhoneDetails.clear();
-        for(PhoneDetails details: searchDetails)
+        List<Post> searchPost = new ArrayList<>();
+        searchPost.addAll(mPost);
+        mPost.clear();
+        for(Post post: searchPost)
         {
-            System.out.println(details.getPhone().toLowerCase());
-            if(details.getPhone() != null
-                    && details.getPhone().toLowerCase().contains(s.toLowerCase()))
+            System.out.println(post.getBloodCampName().toLowerCase());
+            if(post.getBloodCampName() != null
+                    && post.getBloodCampName().toLowerCase().contains(s.toLowerCase()))
             {
-                mPhoneDetails.add(details);
+                mPost.add(post);
             }
-            mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+            mAdapter = new ImageAdapter(SellerView.this, mPost,SellerView.this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
-    public static  ArrayList<PhoneDetails> removeDuplicates(ArrayList<PhoneDetails> list)
+    public static  ArrayList<Post> removeDuplicates(ArrayList<Post> list)
     {
-        ArrayList<PhoneDetails> newList = new ArrayList<PhoneDetails>();
-        for (PhoneDetails element : list) {
+        ArrayList<Post> newList = new ArrayList<Post>();
+        for (Post element : list) {
             if (!newList.contains(element)) {
                 newList.add(element);
             }
@@ -131,24 +132,24 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     public void showPhone()
     {
         String id = firebaseAuth.getCurrentUser().getUid();
-        firestore.collection("Phone")
-                .whereEqualTo("member", id)
+        firestore.collection("Post")
+                .orderBy("postedDate")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if(document.exists())
                             {
-                                PhoneDetails upload = document.toObject(PhoneDetails.class);
-                                if(!mPhoneDetails.contains(upload))
+                                Post upload = document.toObject(Post.class);
+                                if(!mPost.contains(upload))
                                 {
-                                    mPhoneDetails.add(upload);
-                                    backupDetails.add(upload);
+                                    mPost.add(upload);
+                                    backupPost.add(upload);
                                 }
                             }
 
                         }
-                        mAdapter = new ImageAdapter(SellerView.this, mPhoneDetails,SellerView.this);
+                        mAdapter = new ImageAdapter(SellerView.this, mPost,SellerView.this);
                         mRecyclerView.setAdapter(mAdapter);
                         mProgressCircle.setVisibility(View.GONE);
                     }
@@ -179,8 +180,8 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     public void editClick(View v, int position) {
         Intent i = new Intent(this,imageupload.class);
         i.putExtra("isUpdate",true);
-        String id = mPhoneDetails.get(position).getId();
-        i.putExtra("itemid",id);
+        //String id = mPost.get(position).getId();
+        i.putExtra("itemid","id");
         startActivity(i);
     }
 
@@ -190,18 +191,18 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         alertDialog.setTitle("Confirmation");
         alertDialog.setMessage("Are you want to delete this item?");
         alertDialog.setPositiveButton("ok", (dialog, which) -> {
-            String id = mPhoneDetails.get(position).getId();
-            mPhoneDetails.remove(position);
-            firestore
-                    .collection("Phone")
-                    .document(id)
-                    .delete()
-                    .addOnSuccessListener(unused -> {
-                        Toast.makeText(getApplicationContext(),"Delete Success", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(SellerView.this,SellerView.class);
-                        startActivity(i);
-                    });
-            mDatabaseRef.child(id).removeValue();
+           // String id = mPost.get(position).getId();
+            mPost.remove(position);
+//            firestore
+//                    .collection("Phone")
+//                    .document(id)
+//                    .delete()
+//                    .addOnSuccessListener(unused -> {
+//                        Toast.makeText(getApplicationContext(),"Delete Success", Toast.LENGTH_LONG).show();
+//                        Intent i = new Intent(SellerView.this,SellerView.class);
+//                        startActivity(i);
+//                    });
+           // mDatabaseRef.child(id).removeValue();
         });
 
         alertDialog.setNegativeButton("cancel", (dialog, which) -> {
@@ -213,24 +214,44 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
 
     @Override
     public void itemClick(View v, int postion) {
-        Intent i = new Intent(this,ContactSeller.class);
-        i.putExtra("seller",mPhoneDetails.get(postion).getMember());
-        i.putExtra("id",mPhoneDetails.get(postion).getId());
-        startActivity(i);
+//        Intent i = new Intent(this,ContactSeller.class);
+//        i.putExtra("seller",mPost.get(postion).getMember());
+//        i.putExtra("id",mPost.get(postion).getId());
+//        startActivity(i);
     }
 
     @Override
     public void attendClick(View v, int position) {
-
+        Post rePost = mPost.get(0);
+        Vote vote = rePost.getVote();
+        vote.setAttendVote();
+        rePost.setVote(vote);
+        firestore.collection("Post")
+                .document("-N0azjGIgnuc7HjmtMDP").set(rePost);
+        mPost.clear();
+        mPost.add(rePost);
     }
 
     @Override
     public void notAttendClick(View v, int position) {
-
+        Post rePost = mPost.get(0);
+        Vote vote = rePost.getVote();
+        vote.setNotAttendVote();
+        rePost.setVote(vote);
+        firestore.collection("Post")
+                .document("-N0azjGIgnuc7HjmtMDP").set(rePost);
+        mPost.set(0,rePost);
     }
 
     @Override
     public void interestedClick(View v, int position) {
-
+        Post rePost = mPost.get(0);
+        Vote vote = rePost.getVote();
+        vote.setInterestedVote();
+        rePost.setVote(vote);
+        firestore.collection("Post")
+                .document("-N0azjGIgnuc7HjmtMDP").set(rePost);
+        mPost.clear();
+        showPhone();
     }
 }

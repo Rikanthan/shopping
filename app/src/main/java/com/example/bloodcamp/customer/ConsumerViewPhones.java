@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bloodcamp.Images.ImageAdapter;
 import com.example.bloodcamp.R;
-import com.example.bloodcamp.Views.PhoneDetails;
+import com.example.bloodcamp.Views.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +31,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
-    private List<PhoneDetails> mPhoneDetails;
+    private List<Post> mPost;
     private FirebaseAuth firebaseAuth;
     private SearchView mSearchView;
     private boolean isClicked = false;
@@ -46,7 +46,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressCircle = findViewById(R.id.progress_circle);
         mSearchView = findViewById(R.id.search_items);
-        mPhoneDetails = new ArrayList<>();
+        mPost = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -96,37 +96,37 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
 
     public void search(String s)
     {
-        List<PhoneDetails> searchDetails = new ArrayList<>();
-        searchDetails.addAll(mPhoneDetails);
-        mPhoneDetails.clear();
-        for(PhoneDetails details: searchDetails)
+        List<Post> searchPost = new ArrayList<>();
+        searchPost.addAll(mPost);
+        mPost.clear();
+        for(Post details: searchPost)
         {
-            System.out.println(details.getPhone().toLowerCase());
-            if(details.getPhone() != null
-                    && details.getPhone().toLowerCase().contains(s.toLowerCase()))
+            System.out.println(details.getBloodCampName().toLowerCase());
+            if(details.getBloodCampName() != null
+                    && details.getBloodCampName().toLowerCase().contains(s.toLowerCase()))
             {
-                mPhoneDetails.add(details);
+                mPost.add(details);
             }
-            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
         public void showPhone()
         {
             String id = firebaseAuth.getCurrentUser().getUid();
-            firestore.collection("Phone")
-                    .orderBy("uploadTime")
+            firestore.collection("Post")
+                    .orderBy("PostedDate")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(document.exists())
                                 {
-                                    PhoneDetails upload = document.toObject(PhoneDetails.class);
-                                    mPhoneDetails.add(upload);
+                                    Post upload = document.toObject(Post.class);
+                                    mPost.add(upload);
                                 }
                             }
-                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
                             mRecyclerView.setAdapter(mAdapter);
                             mProgressCircle.setVisibility(View.GONE);
                         }
@@ -140,14 +140,14 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
         mDatabaseRef.orderByChild(field).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mPhoneDetails.clear();
+                mPost.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     if(postSnapshot.exists()) {
-                        PhoneDetails upload = postSnapshot.getValue(PhoneDetails.class);
-                        mPhoneDetails.add(upload);
+                        Post upload = postSnapshot.getValue(Post.class);
+                        mPost.add(upload);
                     }
                 }
-                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPhoneDetails,ConsumerViewPhones.this);
+                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);
             }
@@ -181,9 +181,9 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
         final String[] items = {"All","Samsung","Redmi","Iphone","Other"};
         final String[] sortedItems ={"Name","Location","Seller","Date","Price"};
         final boolean[] checkedItems = {false, false, false, false, false};
-        final List<PhoneDetails> searchDetails = new ArrayList<>();
-        searchDetails.addAll(mPhoneDetails);
-        mPhoneDetails.clear();
+        final List<Post> searchPost = new ArrayList<>();
+        searchPost.addAll(mPost);
+        mPost.clear();
         alertDialog.setSingleChoiceItems(sortedItems, 0, (dialog, which) -> {
             switch (which){
                 case 0:
@@ -223,10 +223,10 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
 
     @Override
     public void itemClick(View v, int postion) {
-        Intent i = new Intent(this,ContactSeller.class);
-        i.putExtra("seller",mPhoneDetails.get(postion).getMember());
-        i.putExtra("id",mPhoneDetails.get(postion).getId());
-        startActivity(i);
+//        Intent i = new Intent(this,ContactSeller.class);
+//        i.putExtra("seller",mPost.get(postion).getMember());
+//        i.putExtra("id",mPost.get(postion).getId());
+//        startActivity(i);
     }
 
     @Override

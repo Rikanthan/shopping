@@ -195,6 +195,7 @@ public class imageupload extends AppCompatActivity {
         post.setOrganizerName(organizer.getText().toString());
         post.setDescription(description.getText().toString());
         post.setBloodCampName(bloodCampName.getText().toString());
+        post.setImageUri(downloadImageUrl);
         addPhone(post,uploadId);
         mDatabaseRef.child(uploadId).setValue(post);
     }
