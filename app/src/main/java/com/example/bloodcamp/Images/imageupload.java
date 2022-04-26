@@ -15,8 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.Admin.SellerView;
-import com.example.bloodcamp.Views.PhoneDetails;
+import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.R;
+import com.example.bloodcamp.Views.Vote;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +36,7 @@ public class imageupload extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=1;
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private TextView header;
-    private EditText phone, description, price, battery,camera,ram,storage,fingerPrint,connection;
+    private EditText bloodCampName,organizer,description,location;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private Uri mImageUri;
@@ -53,7 +54,7 @@ public class imageupload extends AppCompatActivity {
     int count = 0;
     String uid;
     String action = "upload";
-    PhoneDetails phoneDetails;
+    Post post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,17 +63,12 @@ public class imageupload extends AppCompatActivity {
         Button mButtonUpload = findViewById(R.id.button_upload);
         mImageView = findViewById(R.id.image_view);
         mProgressBar = findViewById(R.id.progress_bar);
-        phone = findViewById(R.id.phone_name);
-        camera = findViewById(R.id.camera);
-        battery = findViewById(R.id.battery);
-        ram = findViewById(R.id.ram);
-        storage = findViewById(R.id.storage);
         description = findViewById(R.id.description);
-        fingerPrint = findViewById(R.id.fingerprint);
-        connection = findViewById(R.id.network);
-        price = findViewById(R.id.price);
+        bloodCampName = findViewById(R.id.blood_camp_name);
+        organizer = findViewById(R.id.organizer_name);
+        location = findViewById(R.id.location);
         header = findViewById(R.id.addnew);
-        phoneDetails = new PhoneDetails();
+        post = new Post();
         isUpdate = getIntent().getBooleanExtra("isUpdate",false);
         uploadId = getIntent().getStringExtra("itemid");
         if(isUpdate)
@@ -86,40 +82,7 @@ public class imageupload extends AppCompatActivity {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firestore = FirebaseFirestore.getInstance();
         mStorageRef= FirebaseStorage.getInstance().getReference("product");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
-        firestore.collection("Phone")
-                .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful())
-                    {
-                        count = 0;
-                        for(QueryDocumentSnapshot snapshot1: task.getResult())
-                        {
-                            PhoneDetails details = snapshot1.toObject(PhoneDetails.class);
-                            if(details.getMember().equals(uid))
-                            {
-                                count++;
-                            }
-                            if(details.getId().equals(uploadId) && isUpdate)
-                            {
-                                phoneDetails = snapshot1.toObject(PhoneDetails.class);
-                                downloadImageUrl = phoneDetails.getImageUri();
-                                battery.setText(phoneDetails.getBattery());
-                                camera.setText(phoneDetails.getCamera());
-                                Glide
-                                        .with(getApplicationContext())
-                                        .load(phoneDetails.getImageUri())
-                                        .placeholder(R.mipmap.loading).into(mImageView);
-                                fingerPrint.setText(phoneDetails.getFingerPrint());
-                                connection.setText(phoneDetails.getConnection());
-                                description.setText(phoneDetails.getDescription());
-                                ram.setText(phoneDetails.getRam());
-                                phone.setText(phoneDetails.getPhone());
-                                storage.setText(phoneDetails.getStorage());
-                                price.setText(String.valueOf(phoneDetails.getPrice()));
-                            }
-                        }
-                    }
-        });
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("post");
         mButtonChooseImage.setOnClickListener(v -> openFileChooser());
         mButtonUpload.setOnClickListener(v -> {
         if(mUploadTask !=null && mUploadTask.isInProgress()){
@@ -132,12 +95,12 @@ public class imageupload extends AppCompatActivity {
         });
 
     }
-    private void addPhone(PhoneDetails details,String id)
+    private void addPhone(Post post,String id)
     {
         firestore
-                .collection("Phone")
+                .collection("Post")
                 .document(id)
-                .set(details);
+                .set(post);
     }
     private void openFileChooser()
     {
@@ -223,22 +186,16 @@ public class imageupload extends AppCompatActivity {
 
     private void addDetails()
     {
-        PhoneDetails details = new PhoneDetails();
+        Post post = new Post();
         String dateNow = format.format(currentTime);
-        details.setBattery(battery.getText().toString());
-        details.setId(uploadId);
-        details.setCamera(camera.getText().toString());
-        details.setImageUri(downloadImageUrl);
-        details.setFingerPrint(fingerPrint.getText().toString());
-        details.setConnection(connection.getText().toString());
-        details.setDescription(description.getText().toString());
-        details.setRam(ram.getText().toString());
-        details.setStorage(storage.getText().toString());
-        details.setPrice(Double.parseDouble(price.getText().toString()));
-        details.setMember(uid);
-        details.setUploadTime(dateNow);
-        details.setPhone(phone.getText().toString());
-        addPhone(details,uploadId);
-        mDatabaseRef.child(uploadId).setValue(details);
+        Vote vote = new Vote();
+        post.setLocation(location.getText().toString());
+        post.setPostedDate(dateNow);
+        post.setVote(vote);
+        post.setOrganizerName(organizer.getText().toString());
+        post.setDescription(description.getText().toString());
+        post.setBloodCampName(bloodCampName.getText().toString());
+        addPhone(post,uploadId);
+        mDatabaseRef.child(uploadId).setValue(post);
     }
 }

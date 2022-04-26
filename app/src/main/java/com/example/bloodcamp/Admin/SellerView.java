@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -202,6 +203,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     });
             mDatabaseRef.child(id).removeValue();
         });
+
         alertDialog.setNegativeButton("cancel", (dialog, which) -> {
         });
         AlertDialog alert = alertDialog.create();
@@ -215,5 +217,20 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         i.putExtra("seller",mPhoneDetails.get(postion).getMember());
         i.putExtra("id",mPhoneDetails.get(postion).getId());
         startActivity(i);
+    }
+
+    @Override
+    public void attendClick(View v, int position) {
+
+    }
+
+    @Override
+    public void notAttendClick(View v, int position) {
+
+    }
+
+    @Override
+    public void interestedClick(View v, int position) {
+
     }
 }

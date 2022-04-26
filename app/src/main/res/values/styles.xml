@@ -14,6 +14,11 @@
         <item name="colorAccent">@color/lightblue</item>
     </style>
 
+    <style name="hintStyle" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/lightblue</item>
+        <item name="colorPrimaryDark">@color/lightblue</item>
+        <item name="colorAccent">@color/lightblue</item>
+    </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

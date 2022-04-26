@@ -150,8 +150,104 @@
             android:id="@+id/delete"
             android:src="@drawable/ic_baseline_delete_24"
             android:layout_margin="10dp"
-            android:visibility="invisible"
+            android:visibility="visible"
             />
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="left"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Attend"/>
+
+            <ProgressBar
+                android:id="@+id/progressBarAttend"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:progress="85"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:id="@+id/voteattend"
+                android:src="@drawable/ic_baseline_how_to_vote_24"
+                android:layout_margin="1dp"
+                android:visibility="visible"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="left"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Not Attend"/>
+
+            <ProgressBar
+                android:id="@+id/progressBarNot"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:progress="25"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:id="@+id/votenot"
+                android:src="@drawable/ic_baseline_how_to_vote_24"
+                android:layout_margin="1dp"
+                android:visibility="visible"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="left"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Interested"/>
+
+            <ProgressBar
+                android:id="@+id/progressBarInterested"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:progress="65"
+                android:layout_weight="1" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:id="@+id/voteintersted"
+                android:src="@drawable/ic_baseline_how_to_vote_24"
+                android:layout_margin="1dp"
+                android:visibility="visible"
+                />
+        </LinearLayout>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

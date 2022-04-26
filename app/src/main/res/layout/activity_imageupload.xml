@@ -13,7 +13,7 @@
         android:fontFamily="@font/abril_fatface"
         android:textColor="@color/black"
         android:textSize="30sp"
-        android:text="Add New product" />
+        android:text="Add New post" />
 
 
     <LinearLayout
@@ -48,99 +48,14 @@
             android:orientation="vertical">
 
         <EditText
-            android:id="@+id/phone_name"
+            android:id="@+id/blood_camp_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint=" Phone name"
+            android:hint=" Camp name"
             android:textColorHint="@color/lightblue"
             android:inputType="text"
-            android:drawableLeft="@drawable/ic_baseline_smartphone_24"
-            android:background="@drawable/overlay"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingStart="10dp"
-            android:layout_margin="15dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"
-            />
-        <EditText
-            android:id="@+id/battery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" Battery Details"
-            android:textColorHint="@color/lightblue"
-            android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_battery_std_24"
-            android:background="@drawable/overlay"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingStart="10dp"
-            android:layout_margin="15dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"
-            />
-        <EditText
-            android:id="@+id/camera"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" Camera Details"
-            android:textColorHint="@color/lightblue"
-            android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_camera_24"
-            android:background="@drawable/overlay"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingStart="10dp"
-            android:layout_margin="15dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"
-            />
-        <EditText
-            android:id="@+id/ram"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" Ram Details"
-            android:textColorHint="@color/lightblue"
-            android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_subtitles_24"
-            android:background="@drawable/overlay"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingStart="10dp"
-            android:layout_margin="15dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"
-            />
-        <EditText
-            android:id="@+id/storage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" Storage Details"
-            android:textColorHint="@color/lightblue"
-            android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_storage_24"
-            android:background="@drawable/overlay"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingStart="10dp"
-            android:layout_margin="15dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"
-            />
-        <EditText
-            android:id="@+id/fingerprint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint=" Fingerprint Details"
-            android:textColorHint="@color/lightblue"
-            android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_baseline_fingerprint_24"
+            android:drawableLeft="@drawable/ic_baseline_campaign_24"
             android:background="@drawable/overlay"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -150,14 +65,14 @@
             android:paddingLeft="20dp"
             />
             <EditText
-                android:id="@+id/network"
+                android:id="@+id/organizer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint=" Connection Details"
+                android:hint=" Organizer name"
                 android:textColorHint="@color/lightblue"
-                android:inputType="textPersonName"
-                android:drawableLeft="@drawable/ic_baseline_network"
+                android:inputType="text"
+                android:drawableLeft="@drawable/ic_baseline_person_24"
                 android:background="@drawable/overlay"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
@@ -173,10 +88,8 @@
                 android:ems="10"
                 android:hint=" Description"
                 android:textColorHint="@color/lightblue"
-                android:inputType="textMultiLine"
+                android:inputType="text"
                 android:drawableLeft="@drawable/ic_baseline_description_24"
-                android:lines="4"
-                android:maxLines="4"
                 android:background="@drawable/overlay"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
@@ -186,14 +99,14 @@
                 android:paddingLeft="20dp"
                 />
             <EditText
-                android:id="@+id/price"
+                android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint=" Price"
+                android:hint=" Location"
                 android:textColorHint="@color/lightblue"
-                android:inputType="number"
-                android:drawableLeft="@drawable/ic_baseline_attach_money_24"
+                android:inputType="text"
+                android:drawableLeft="@drawable/ic_baseline_location_on_24"
                 android:background="@drawable/overlay"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
@@ -202,6 +115,7 @@
                 android:layout_marginTop="20dp"
                 android:paddingLeft="20dp"
                 />
+
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -222,3 +136,11 @@
     </LinearLayout>
 
 </RelativeLayout>
+
+<!-- bood camp name
+ organizer's name
+ description
+ image
+ locations as text
+ location choosed in map
+ option to add attend/ interested / not attending-->

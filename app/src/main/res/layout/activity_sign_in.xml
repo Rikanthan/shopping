@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/overlay"
-        android:drawableStart="@drawable/ic_baseline_perm_identity_24"
+        android:drawableStart="@drawable/ic_baseline_person_24"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:hint="@string/fullName"
@@ -120,20 +120,21 @@
 
         <EditText
             android:id="@+id/password"
+            style="@android:style/Widget.Holo.Light.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/overlay"
+            android:drawableStart="@drawable/ic_baseline_lock_24"
             android:drawableLeft="@drawable/ic_baseline_lock_24"
             android:ems="10"
             android:hint=" Password"
-            android:textColor="@color/black"
-            app:passwordToggleEnabled="true"
-            android:padding="10dp"
-            android:textColorHint="@color/lightblue"
             android:inputType="textPassword"
+            android:padding="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:background="@drawable/overlay"
-            android:drawableStart="@drawable/ic_baseline_lock_24" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/lightblue"
+            app:passwordToggleEnabled="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <View

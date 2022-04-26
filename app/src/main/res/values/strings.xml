@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Primavera</string>
+    <string name="app_name">Bloodcamp</string>
     <string name="welcome">Welcome to </string>
     <string name="eshopping">E-Shopping</string>
     <string name="show_pwd">Show password</string>
@@ -48,4 +48,5 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

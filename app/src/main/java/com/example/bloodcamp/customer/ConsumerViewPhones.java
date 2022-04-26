@@ -228,4 +228,19 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
         i.putExtra("id",mPhoneDetails.get(postion).getId());
         startActivity(i);
     }
+
+    @Override
+    public void attendClick(View v, int position) {
+
+    }
+
+    @Override
+    public void notAttendClick(View v, int position) {
+
+    }
+
+    @Override
+    public void interestedClick(View v, int position) {
+
+    }
 }
