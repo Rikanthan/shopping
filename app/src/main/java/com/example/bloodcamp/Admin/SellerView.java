@@ -53,10 +53,10 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         mSearchView = findViewById(R.id.search_items);
         mPost = new ArrayList<>();
         backupPost = new ArrayList<>();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Phone");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Post");
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        showPhone();
+        showPost();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -69,12 +69,12 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     }
                     else
                     {
-                        showPhone();
+                        showPost();
                     }
                 }
                 else
                 {
-                    showPhone();
+                    showPost();
                 }
                 return true;
             }
@@ -90,12 +90,12 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     }
                     else
                     {
-                        showPhone();
+                        showPost();
                     }
                 }
                 else
                 {
-                    showPhone();
+                    showPost();
                 }
                 return true;
             }
@@ -129,7 +129,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         }
         return newList;
     }
-    public void showPhone()
+    public void showPost()
     {
         String id = firebaseAuth.getCurrentUser().getUid();
         firestore.collection("Post")
@@ -161,7 +161,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.admin__new,menu);
-        final View addPhone = menu.findItem(R.id.add_phone).getActionView();
+        final View addPost = menu.findItem(R.id.add_phone).getActionView();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -194,7 +194,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
            // String id = mPost.get(position).getId();
             mPost.remove(position);
 //            firestore
-//                    .collection("Phone")
+//                    .collection("Post")
 //                    .document(id)
 //                    .delete()
 //                    .addOnSuccessListener(unused -> {
@@ -222,36 +222,44 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
 
     @Override
     public void attendClick(View v, int position) {
-        Post rePost = mPost.get(0);
+        Post rePost = mPost.get(position);
+        List<Post> attendPost = new ArrayList<>();
+        attendPost.addAll(mPost);
+        attendPost.remove(position);
         Vote vote = rePost.getVote();
         vote.setAttendVote();
         rePost.setVote(vote);
         firestore.collection("Post")
-                .document("-N0azjGIgnuc7HjmtMDP").set(rePost);
+                .document(rePost.getPostId()).set(rePost);
         mPost.clear();
-        mPost.add(rePost);
+        mProgressCircle.setVisibility(View.VISIBLE);
+       showPost();
     }
 
     @Override
     public void notAttendClick(View v, int position) {
-        Post rePost = mPost.get(0);
+        Post rePost = mPost.get(position);
         Vote vote = rePost.getVote();
         vote.setNotAttendVote();
         rePost.setVote(vote);
         firestore.collection("Post")
-                .document("-N0azjGIgnuc7HjmtMDP").set(rePost);
-        mPost.set(0,rePost);
+                .document(rePost.getPostId()).set(rePost);
+        mPost.clear();
+        mProgressCircle.setVisibility(View.VISIBLE);
+        showPost();
     }
 
     @Override
     public void interestedClick(View v, int position) {
-        Post rePost = mPost.get(0);
+        Post rePost = mPost.get(position);
         Vote vote = rePost.getVote();
         vote.setInterestedVote();
         rePost.setVote(vote);
         firestore.collection("Post")
-                .document("-N0azjGIgnuc7HjmtMDP").set(rePost);
+                .document(rePost.getPostId()).set(rePost);
         mPost.clear();
-        showPhone();
+        mProgressCircle.setVisibility(View.VISIBLE);
+        vote = null;
+        showPost();
     }
 }

@@ -24,6 +24,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
+            android:src="@drawable/loader"
             android:contentDescription="TODO" />
 
         <TextView
@@ -110,7 +111,7 @@
             android:layout_gravity="left"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Attend"/>
@@ -121,13 +122,20 @@
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:progress="85"
+                android:progress="0"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+            <TextView
+                android:id="@+id/attendper"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="0%"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:background="@drawable/vote"
                 android:id="@+id/voteattend"
                 android:src="@drawable/ic_baseline_how_to_vote_24"
                 android:layout_margin="1dp"
@@ -142,7 +150,7 @@
             android:layout_gravity="left"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Not Attend"/>
@@ -152,14 +160,21 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
-                android:progress="25"
+                android:progress="0"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+            <TextView
+                android:id="@+id/notattendper"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="0%"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:background="@drawable/vote"
                 android:id="@+id/votenot"
                 android:src="@drawable/ic_baseline_how_to_vote_24"
                 android:layout_margin="1dp"
@@ -174,7 +189,7 @@
             android:layout_gravity="left"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Interested"/>
@@ -186,12 +201,19 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:progress="65"
+                android:progress="0"
                 android:layout_weight="1" />
+            <TextView
+                android:id="@+id/interstedper"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="0%"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:background="@drawable/vote"
                 android:id="@+id/voteintersted"
                 android:src="@drawable/ic_baseline_how_to_vote_24"
                 android:layout_margin="1dp"

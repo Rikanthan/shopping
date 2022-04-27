@@ -62,17 +62,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                           holder.posted.setText(uploadCurrent.getPostedDate());
                           Glide.with(mContext)
                                   .load(uploadCurrent.getImageUri())
-                                  .placeholder(R.mipmap.loading)
+                                  .placeholder(R.drawable.loader)
                                   .into(holder.imageView);
                           holder.description.setText(uploadCurrent.getDescription());
                           int total = uploadCurrent.getVote().getTotalVote();
                           int interst = uploadCurrent.getVote().getInterestedVote()*100;
                           int notInter = uploadCurrent.getVote().getNotAttendVote()*100;
                           int attend = uploadCurrent.getVote().getAttendVote()*100;
-                          holder.interestedBar.setProgress((int) interst/total) ;
-                          holder.notAttedBar.setProgress((int) notInter/total);
-                          holder.attendBar.setProgress((int)attend/total);
-
+                          if(total > 0)
+                          {
+                              holder.interestedBar.setProgress((int) interst/total) ;
+                              holder.notAttedBar.setProgress((int) notInter/total);
+                              holder.attendBar.setProgress((int)attend/total);
+                              holder.attendper.setText(String.valueOf(attend/total)+"%");
+                              holder.notattendper.setText(String.valueOf(notInter/total)+"%");
+                              holder.interestper.setText(String.valueOf(interst/total)+"%");
+                          }
+                          else
+                          {
+                              holder.interestedBar.setProgress(total) ;
+                              holder.notAttedBar.setProgress(total);
+                              holder.attendBar.setProgress(total);
+                          }
                       }
                   }
 
@@ -104,7 +115,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         return mPosts.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        public TextView bloodcamp,organizer,location,description,posted;
+        public TextView bloodcamp,organizer,location,description,posted,attendper,notattendper,interestper;
         public ImageButton edit,delete,view, attend,notAttend, interested;
         public ImageView imageView;
         public LinearLayout linearLayoutManager;
@@ -131,6 +142,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             imageView = itemView.findViewById(R.id.image_view_upload);
             linearLayoutManager = (LinearLayout)itemView.findViewById(R.id.show_phone);
             edit = itemView.findViewById(R.id.edit);
+            interestper = itemView.findViewById(R.id.interstedper);
+            attendper = itemView.findViewById(R.id.attendper);
+            notattendper = itemView.findViewById(R.id.notattendper);
             delete = itemView.findViewById(R.id.delete);
             view = itemView.findViewById(R.id.view);
             attend = itemView.findViewById(R.id.voteattend);

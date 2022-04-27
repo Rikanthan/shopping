@@ -5,6 +5,37 @@ public class Post {
     private String organizerName;
     private String description;
     private String location;
+    private String postId;
+
+    public Post(String bloodCampName, String organizerName, String description, String location, String postId, String bloodCampId, String imageUri, String postedDate, Vote vote) {
+        this.bloodCampName = bloodCampName;
+        this.organizerName = organizerName;
+        this.description = description;
+        this.location = location;
+        this.postId = postId;
+        this.bloodCampId = bloodCampId;
+        this.imageUri = imageUri;
+        this.postedDate = postedDate;
+        this.vote = vote;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
+    public String getBloodCampId() {
+        return bloodCampId;
+    }
+
+    public void setBloodCampId(String bloodCampId) {
+        this.bloodCampId = bloodCampId;
+    }
+
+    private String bloodCampId;
 
     public String getImageUri() {
         return imageUri;
@@ -36,15 +67,7 @@ public class Post {
 
     private Vote vote;
 
-    public Post(String imageUri, String bloodCampName, String organizerName, String description, String location,Vote vote,String postedDate) {
-        this.bloodCampName = bloodCampName;
-        this.organizerName = organizerName;
-        this.description = description;
-        this.location = location;
-        this.vote = vote;
-        this.postedDate = postedDate;
-        this.imageUri = imageUri;
-    }
+
 
     public Post() {
     }
