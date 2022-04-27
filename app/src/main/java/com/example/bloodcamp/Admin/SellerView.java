@@ -191,18 +191,18 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         alertDialog.setTitle("Confirmation");
         alertDialog.setMessage("Are you want to delete this item?");
         alertDialog.setPositiveButton("ok", (dialog, which) -> {
-           // String id = mPost.get(position).getId();
+            String id = mPost.get(position).getPostId();
             mPost.remove(position);
-//            firestore
-//                    .collection("Post")
-//                    .document(id)
-//                    .delete()
-//                    .addOnSuccessListener(unused -> {
-//                        Toast.makeText(getApplicationContext(),"Delete Success", Toast.LENGTH_LONG).show();
-//                        Intent i = new Intent(SellerView.this,SellerView.class);
-//                        startActivity(i);
-//                    });
-           // mDatabaseRef.child(id).removeValue();
+            firestore
+                    .collection("Post")
+                    .document(id)
+                    .delete()
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(getApplicationContext(),"Delete Success", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(SellerView.this,SellerView.class);
+                        startActivity(i);
+                    });
+            mDatabaseRef.child(id).removeValue();
         });
 
         alertDialog.setNegativeButton("cancel", (dialog, which) -> {
@@ -239,12 +239,23 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
     @Override
     public void notAttendClick(View v, int position) {
         Post rePost = mPost.get(position);
-        Vote vote = rePost.getVote();
+        Vote vote = new Vote();
+              vote = rePost.getVote();
+        List<String> voted = new ArrayList<>();
+//        if(vote.getVotedPeople().size() > 0)
+//        {
+//            //voted.addAll(vote.getVotedPeople());
+//        }
+        voted.add(firebaseAuth.getUid());
+        vote.setVotedPeople(voted);
         vote.setNotAttendVote();
         rePost.setVote(vote);
         firestore.collection("Post")
                 .document(rePost.getPostId()).set(rePost);
         mPost.clear();
+//        firestore.collection("Vote")
+//                .document(rePost.getPostId())
+//                .set(voted);
         mProgressCircle.setVisibility(View.VISIBLE);
         showPost();
     }
@@ -259,7 +270,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                 .document(rePost.getPostId()).set(rePost);
         mPost.clear();
         mProgressCircle.setVisibility(View.VISIBLE);
-        vote = null;
         showPost();
     }
 }
