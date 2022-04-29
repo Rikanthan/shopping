@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.bloodcamp.Home.MainActivity;
@@ -36,6 +37,7 @@ public class SignIn extends AppCompatActivity {
     private EditText pswd;
     private EditText conpswd;
     Member member;
+    private String userType ="BloodCamp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class SignIn extends AppCompatActivity {
     }
     private void addUser(Member member,String uid)
     {
-        firestore.collection("Seller")
+        firestore.collection("Member")
                 .document(uid).set(member);
     }
 
@@ -133,6 +135,23 @@ public class SignIn extends AppCompatActivity {
             return true;
         }
     }
+    public void onUserClicked(View v)
+    {
+        boolean checked = ((RadioButton) v).isChecked();
+
+        // Check which radio button was clicked
+        switch(v.getId()) {
+            case R.id.bloodcamp:
+                if (checked)
+                    userType = "BloodCamp";
+                    break;
+            case R.id.donor:
+                if (checked)
+                    userType = "Donor";
+                    break;
+        }
+
+    }
 
     public void signin(View v) {
         member.setName(fullname.getText().toString().trim());
@@ -146,8 +165,7 @@ public class SignIn extends AppCompatActivity {
             System.out.println(e);
         }
         member.setLocation(location.getText().toString().trim());
-        member.setPassword(pswd.getText().toString().trim());
-
+        member.setUserType(userType);
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile()) {
             return;
         }

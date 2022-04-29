@@ -29,6 +29,7 @@
     <string name="date_label_set">Press the button to set the date</string>
     <string name="date_button_set">Set Date</string>
     <string name="date_view_set">The Date is: </string>
+    <string name="google_map_api">AIzaSyD4nfPneQe7Gs_FTFvGcZwfVjcb3s81mg4</string>
     <string name="date_selected"></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

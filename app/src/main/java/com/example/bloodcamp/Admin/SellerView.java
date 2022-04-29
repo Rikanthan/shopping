@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.bloodcamp.Images.ImageAdapter;
 import com.example.bloodcamp.Images.imageupload;
+import com.example.bloodcamp.MapsActivity;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.Views.Vote;
@@ -214,9 +215,11 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
 
     @Override
     public void itemClick(View v, int postion) {
-//        Intent i = new Intent(this,ContactSeller.class);
-//        i.putExtra("seller",mPost.get(postion).getMember());
-//        i.putExtra("id",mPost.get(postion).getId());
+        Intent i = new Intent(this, MapsActivity.class);
+        i.putExtra("long",mPost.get(postion).getLongitude());
+        i.putExtra("lat",mPost.get(postion).getLatitude());
+        i.putExtra("name",mPost.get(postion).getBloodCampName());
+        startActivity(i);
 //        startActivity(i);
     }
 

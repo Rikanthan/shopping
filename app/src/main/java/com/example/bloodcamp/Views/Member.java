@@ -5,7 +5,25 @@ public class Member {
     private String Email;
     private long Mobile;
     private  String Location;
-    private String Password;
+
+
+    public Member(String name, String email, long mobile, String location, String userType) {
+        Name = name;
+        Email = email;
+        Mobile = mobile;
+        Location = location;
+        this.userType = userType;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    private String userType;
 
     public String getName() {
         return Name;
@@ -39,13 +57,6 @@ public class Member {
         Location = location;
     }
 
-    public String getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String password) {
-        Password = password;
-    }
 
     public Member()
     {

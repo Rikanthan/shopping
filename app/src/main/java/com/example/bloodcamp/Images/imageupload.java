@@ -1,8 +1,18 @@
 package com.example.bloodcamp.Images;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +23,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.Admin.SellerView;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Vote;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -29,14 +46,18 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class imageupload extends AppCompatActivity {
-    private static final int PICK_IMAGE_REQUEST=1;
+public class imageupload extends AppCompatActivity implements OnMapReadyCallback{
+    private GoogleMap mMap;
+    protected Context context;
+    private double latitude, longitude;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private TextView header;
-    private EditText bloodCampName,organizer,description,location;
+    private EditText bloodCampName, organizer, description, location;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private Uri mImageUri;
@@ -45,16 +66,24 @@ public class imageupload extends AppCompatActivity {
     boolean isUpdate;
     boolean isClicked;
     private StorageReference mStorageRef;
-    private String  downloadImageUrl;
+    private String downloadImageUrl;
     private DatabaseReference mDatabaseRef;
     private FirebaseFirestore firestore;
     private StorageTask mUploadTask;
+    private LocationListener locationListener;
+    private LocationManager locationManager;
+
+    private final long MIN_TIME = 1000; // 1 second
+    private final long MIN_DIST = 5; // 5 Meters
+
+    private LatLng latLng;
     long id = 0;
     String uploadId = "";
     int count = 0;
     String uid;
     String action = "upload";
     Post post;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +97,9 @@ public class imageupload extends AppCompatActivity {
         organizer = findViewById(R.id.organizer_name);
         location = findViewById(R.id.location);
         header = findViewById(R.id.addnew);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         post = new Post();
         isUpdate = getIntent().getBooleanExtra("isUpdate",false);
         uploadId = getIntent().getStringExtra("itemid");
@@ -82,6 +114,10 @@ public class imageupload extends AppCompatActivity {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firestore = FirebaseFirestore.getInstance();
         mStorageRef= FirebaseStorage.getInstance().getReference("product");
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        //SupportMapFragment googleMap=(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("post");
         mButtonChooseImage.setOnClickListener(v -> openFileChooser());
         mButtonUpload.setOnClickListener(v -> {
@@ -113,9 +149,9 @@ public class imageupload extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data !=null && data.getData() !=null)
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
         {
-            mImageUri=data.getData();
+            mImageUri = data.getData();
             // mImageView.setImageURI(mImageUri);
             Picasso.get().load(mImageUri).into(mImageView);
         }
@@ -198,7 +234,42 @@ public class imageupload extends AppCompatActivity {
         post.setImageUri(downloadImageUrl);
         post.setPostId(uploadId);
         post.setBloodCampId(uid);
+        post.setLongitude(longitude);
+        post.setLatitude(latitude);
         addPhone(post,uploadId);
         mDatabaseRef.child(uploadId).setValue(post);
     }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+
+        locationListener = location -> {
+            try{
+                latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(latLng).title("My position"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+            catch (SecurityException e)
+            {
+                e.printStackTrace();
+            }
+        };
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, locationListener);
+        }
+        catch (SecurityException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
 }
