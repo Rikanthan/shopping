@@ -4,6 +4,25 @@ public class Post {
     private String bloodCampName;
     private String organizerName;
     private String description;
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time;
     private String location;
     private double longitude;
 
@@ -26,7 +45,8 @@ public class Post {
     private double latitude;
     private String postId;
 
-    public Post(double longitude,double latitude,String bloodCampName, String organizerName, String description, String location, String postId, String bloodCampId, String imageUri, String postedDate, Vote vote) {
+    public Post(double longitude,double latitude,String date,String time,
+                String bloodCampName, String organizerName, String description, String location, String postId, String bloodCampId, String imageUri, String postedDate, Vote vote) {
         this.bloodCampName = bloodCampName;
         this.organizerName = organizerName;
         this.description = description;

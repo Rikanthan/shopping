@@ -6,13 +6,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import com.example.bloodcamp.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.bloodcamp.databinding.ActivityMapsBinding;
+
 import com.example.bloodcamp.DirectionHelpers.FetchURL;
 import com.example.bloodcamp.DirectionHelpers.TaskLoadedCallback;
 import com.google.android.gms.maps.model.Polyline;

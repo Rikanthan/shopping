@@ -57,7 +57,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                           }
                           Post uploadCurrent = mPosts.get(position);
                           holder.bloodcamp.setText(uploadCurrent.getBloodCampName());
-                          holder.organizer.setText(uploadCurrent.getOrganizerName());
+                          holder.organizer.setText("Organized By \n"+uploadCurrent.getOrganizerName());
                           holder.location.setText(uploadCurrent.getLocation());
                           holder.posted.setText(uploadCurrent.getPostedDate());
                           Glide.with(mContext)
