@@ -58,8 +58,10 @@
         <entry key="app/src/main/res/layout/activity_images.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_imageupload.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13269927536231885" />
+        <entry key="app/src/main/res/layout/activity_seller_view.xml" value="0.10461956521739131" />
         <entry key="app/src/main/res/layout/activity_show_items_.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_view_users.xml" value="0.1" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.12001811594202899" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.12001811594202899" />
         <entry key="app/src/main/res/layout/header.xml" value="0.12001811594202899" />
@@ -68,6 +70,7 @@
         <entry key="app/src/main/res/layout/layout_customer.xml" value="0.22" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.12001811594202899" />
         <entry key="app/src/main/res/layout/product_items_layout.xml" value="0.12001811594202899" />
+        <entry key="app/src/main/res/layout/show_users.xml" value="0.22" />
         <entry key="app/src/main/res/layout/update_bookings.xml" value="0.19375" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.19375" />
         <entry key="app/src/main/res/menu/menu_scrolling.xml" value="0.19375" />
