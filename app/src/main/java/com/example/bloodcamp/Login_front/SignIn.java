@@ -265,6 +265,7 @@ public class SignIn extends AppCompatActivity {
                                 }
                                 else
                                 {
+                                    donor.setId(uid);
                                     reff.child(uid).setValue(donor);
                                     addDonor(donor,uid);
                                 }

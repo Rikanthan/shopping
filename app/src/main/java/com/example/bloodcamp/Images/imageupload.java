@@ -10,7 +10,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
@@ -21,14 +20,13 @@ import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bloodcamp.Admin.SellerView;
+import com.example.bloodcamp.Admin.ShowPosts;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Vote;
@@ -52,7 +50,6 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class imageupload extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
@@ -219,7 +216,7 @@ public class imageupload extends AppCompatActivity implements OnMapReadyCallback
         {
             addDetails();
             Toast.makeText(this, "Update Success", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, SellerView.class);
+            Intent i = new Intent(this, ShowPosts.class);
             startActivity(i);
         }
         else {

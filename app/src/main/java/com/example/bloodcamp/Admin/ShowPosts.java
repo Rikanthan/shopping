@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,14 +13,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.example.bloodcamp.Images.ImageAdapter;
 import com.example.bloodcamp.Images.imageupload;
 import com.example.bloodcamp.MapsActivity;
 import com.example.bloodcamp.R;
+import com.example.bloodcamp.Views.Donor;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.Views.Vote;
-import com.example.bloodcamp.customer.ContactSeller;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,7 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellerView extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
+public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
@@ -57,7 +54,8 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Post");
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        showPost();
+        mSearchView.setVisibility(View.GONE);
+        getDonorLocation();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -70,12 +68,12 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     }
                     else
                     {
-                        showPost();
+                      getDonorLocation();
                     }
                 }
                 else
                 {
-                    showPost();
+                  getDonorLocation();
                 }
                 return true;
             }
@@ -91,12 +89,12 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     }
                     else
                     {
-                        showPost();
+                       getDonorLocation();
                     }
                 }
                 else
                 {
-                    showPost();
+                   getDonorLocation();
                 }
                 return true;
             }
@@ -116,7 +114,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
             {
                 mPost.add(post);
             }
-            mAdapter = new ImageAdapter(SellerView.this, mPost,SellerView.this);
+            mAdapter = new ImageAdapter(ShowPosts.this, mPost, ShowPosts.this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -130,27 +128,40 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
         }
         return newList;
     }
-    public void showPost()
+    public void getDonorLocation()
     {
-        String id = firebaseAuth.getCurrentUser().getUid();
+            firestore.collection("Donor")
+                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful())
+                        {
+                            Donor donor = task.getResult().toObject(Donor.class);
+                            showPost(donor.getLongitude(),donor.getLatitude());
+                        }
+                    });
+    }
+
+    public void showPost(double longitude, double latitude)
+    {
         firestore.collection("Post")
-                .orderBy("postedDate")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if(document.exists())
                             {
-                                Post upload = document.toObject(Post.class);
-                                if(!mPost.contains(upload))
+                                Post post = document.toObject(Post.class);
+                                if(post.getLatitude() - latitude < 1.0 &&
+                                        post.getLongitude() - longitude < 1.0)
                                 {
-                                    mPost.add(upload);
-                                    backupPost.add(upload);
+                                    mPost.add(post);
+                                    backupPost.add(post);
                                 }
                             }
 
                         }
-                        mAdapter = new ImageAdapter(SellerView.this, mPost,SellerView.this);
+                        mAdapter = new ImageAdapter(ShowPosts.this, mPost, ShowPosts.this);
                         mRecyclerView.setAdapter(mAdapter);
                         mProgressCircle.setVisibility(View.GONE);
                     }
@@ -188,7 +199,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
 
     @Override
     public void deleteClick(View v, int position) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SellerView.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ShowPosts.this);
         alertDialog.setTitle("Confirmation");
         alertDialog.setMessage("Are you want to delete this item?");
         alertDialog.setPositiveButton("ok", (dialog, which) -> {
@@ -200,7 +211,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                     .delete()
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(getApplicationContext(),"Delete Success", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(SellerView.this,SellerView.class);
+                        Intent i = new Intent(ShowPosts.this, ShowPosts.class);
                         startActivity(i);
                     });
             mDatabaseRef.child(id).removeValue();
@@ -236,7 +247,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                 .document(rePost.getPostId()).set(rePost);
         mPost.clear();
         mProgressCircle.setVisibility(View.VISIBLE);
-       showPost();
+      getDonorLocation();
     }
 
     @Override
@@ -260,7 +271,7 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
 //                .document(rePost.getPostId())
 //                .set(voted);
         mProgressCircle.setVisibility(View.VISIBLE);
-        showPost();
+        getDonorLocation();;
     }
 
     @Override
@@ -273,6 +284,6 @@ public class SellerView extends AppCompatActivity implements ImageAdapter.ImageA
                 .document(rePost.getPostId()).set(rePost);
         mPost.clear();
         mProgressCircle.setVisibility(View.VISIBLE);
-        showPost();
+        getDonorLocation();
     }
 }

@@ -22,7 +22,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
     private final Context mContext;
     public static UserAdapterListener mClickListener;
     private final List<Donor> mDonor;
-    private static OnItemClickListener mListener;
     public UserAdapter(Context context, List<Donor> Donors, UserAdapterListener listener) {
         mContext = context;
         mDonor = Donors;
@@ -47,6 +46,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         holder.dob.setText(donor.getDOB());
         holder.nic.setText(donor.getNIC());
         holder.email.setText(donor.getEmail());
+        holder.delete.setOnClickListener(
+                v -> mClickListener.deleteClick(v,position)
+        );
     }
     @Override
     public int getItemCount() {
@@ -59,14 +61,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
 
         @Override
         public void onClick(View v) {
-            if(mListener !=null)
-            {
-                int position=getAdapterPosition();
-                if(position!= RecyclerView.NO_POSITION)
-                {
-                    mListener.onItemClick(position);
-                }
-            }
+
+
         }
 
         public ImageViewHolder(View itemView) {
@@ -85,9 +81,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         }
 
     }
-    public interface OnItemClickListener{
-        void onItemClick(int position);
-    }
+
 
     public interface UserAdapterListener{
         void deleteClick(View v, int position);

@@ -15,14 +15,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".Admin.ViewUsers"
-          >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".Bloodcamp.SeePosts"
+            android:exported="false" />
+        <activity android:name=".Admin.ViewUsers"></activity>
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -42,11 +37,7 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".Admin.SellerView"
-            >
-
-        </activity>
+        <activity android:name=".Admin.ShowPosts"></activity>
         <activity
             android:name=".customer.ContactSeller"
             android:exported="false" />
@@ -55,7 +46,11 @@
         <activity android:name=".Login_front.ForgetPassword" />
         <activity android:name=".customer.ConsumerViewPhones" />
         <activity android:name=".Home.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data

@@ -1,6 +1,15 @@
 package com.example.bloodcamp.Views;
 
 public class Donor {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String name;
     private String DOB;
     private String address;
@@ -11,7 +20,7 @@ public class Donor {
     private double latitude;
     private double longitude;
 
-    public Donor(double longitude, double latitude, String name, String DOB, String address, String city, String NIC, String phoneNumber, String email) {
+    public Donor(String id, double longitude, double latitude, String name, String DOB, String address, String city, String NIC, String phoneNumber, String email) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -21,6 +30,7 @@ public class Donor {
         this.NIC = NIC;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.id = id;
     }
 
     public Donor() {
