@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.bloodcamp.Admin.ViewUsers;
 import com.example.bloodcamp.Bloodcamp.SeePosts;
+import com.example.bloodcamp.Login_front.ForgetPassword;
 import com.example.bloodcamp.customer.ConsumerViewPhones;
 import com.example.bloodcamp.Admin.ShowPosts;
 import com.example.bloodcamp.Images.imageupload;
@@ -78,12 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return  true;
     }
-    public void ConsumerLogin(View v)
-    {
-        userRef.setValue("Customer");
-        Intent i= new Intent(MainActivity.this, ConsumerViewPhones.class);
-        startActivity(i);
-    }
     public  void signup(View v)
     {
         Intent i=new Intent(this, SignIn.class);
@@ -91,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public  void forgetpassword(View v)
     {
-        Intent i=new Intent(this, imageupload.class);
+        Intent i=new Intent(this, ForgetPassword.class);
         startActivity(i);
     }
     public void setValidLogin()

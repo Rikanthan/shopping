@@ -219,7 +219,7 @@ public class SignIn extends AppCompatActivity {
 
     public void signin(View v) {
 
-        if(userType.equals("BloodCamp"))
+        if(userType.contains("BloodCamp"))
         {
             member.setName(fullname.getText().toString().trim());
             member.setEmail(email.getText().toString().trim());
@@ -258,7 +258,7 @@ public class SignIn extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 String uid = task.getResult().getUser().getUid();
-                                if(userType.equals("Bloodcamp"))
+                                if(userType.contains("BloodCamp"))
                                 {
                                     reff.child(uid).setValue(member);
                                     addUser(member,uid);

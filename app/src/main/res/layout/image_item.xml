@@ -121,6 +121,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/edit"
             android:src="@drawable/ic_baseline_edit_24"
+            android:background="@drawable/vote"
             android:layout_margin="10dp"
             android:visibility="gone"
             />
@@ -129,6 +130,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/delete"
             android:src="@drawable/ic_baseline_delete_24"
+            android:background="@drawable/vote"
             android:layout_margin="10dp"
             android:visibility="visible"
             />
@@ -166,7 +168,7 @@
                 android:layout_gravity="right"
                 android:background="@drawable/vote"
                 android:id="@+id/voteattend"
-                android:src="@drawable/ic_baseline_how_to_vote_24"
+                android:src="@drawable/ic_baseline_check_24"
                 android:layout_margin="1dp"
                 android:visibility="visible"
                 />
@@ -205,7 +207,7 @@
                 android:layout_gravity="right"
                 android:background="@drawable/vote"
                 android:id="@+id/votenot"
-                android:src="@drawable/ic_baseline_how_to_vote_24"
+                android:src="@drawable/ic_baseline_close_24"
                 android:layout_margin="1dp"
                 android:visibility="visible"
                 />
@@ -244,7 +246,7 @@
                 android:layout_gravity="right"
                 android:background="@drawable/vote"
                 android:id="@+id/voteintersted"
-                android:src="@drawable/ic_baseline_how_to_vote_24"
+                android:src="@drawable/ic_baseline_favorite_24"
                 android:layout_margin="1dp"
                 android:visibility="visible"
                 />
