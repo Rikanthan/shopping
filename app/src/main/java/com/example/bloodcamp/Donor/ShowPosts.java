@@ -220,16 +220,16 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
 
     @Override
     public void attendClick(View v, int position) {
-       voted(v,position);
+       voted(v,position,"attend");
     }
 
 
 
     @Override
     public void notAttendClick(View v, int position) {
-       voted(v,position);
+       voted(v,position,"not");
     }
-    public void voted(View v,int position)
+    public void voted(View v,int position,String type)
     {
         Post rePost = mPost.get(position);
         List<Post> attendPost = new ArrayList<>();
@@ -238,8 +238,17 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
         Vote vote = rePost.getVote();
         List <String> voted = new ArrayList<>();
         voted.addAll(vote.getVotedPeople());
-        if(!voted.contains(firebaseAuth.getUid())) {
-            voted.add(firebaseAuth.getUid());
+        boolean found = false;
+        for(String s: voted)
+        {
+            if(s.contains(firebaseAuth.getUid()))
+            {
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            voted.add(firebaseAuth.getUid()+type);
             vote.setVotedPeople(voted);
             vote.setAttendVote();
             rePost.setVote(vote);
@@ -254,10 +263,11 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
             Toast.makeText(this,"You have already clicked",Toast.LENGTH_LONG).show();
             voted.clear();
         }
+
     }
 
     @Override
     public void interestedClick(View v, int position) {
-       voted(v,position);
+       voted(v,position,"interest");
     }
 }

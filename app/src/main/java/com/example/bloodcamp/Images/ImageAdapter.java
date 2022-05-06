@@ -67,11 +67,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                                   .placeholder(R.drawable.loader)
                                   .into(holder.imageView);
                           holder.description.setText(uploadCurrent.getDescription());
-
-
-                          if(uploadCurrent.getVote().getVotedPeople().contains("not"))
+                          for(String s : uploadCurrent.getVote().getVotedPeople())
                           {
-                              holder.notAttend.setBackgroundColor(Color.BLACK);
+                              if(s.contains("not"))
+                              {
+                                  holder.notAttend.setBackgroundColor(Color.GREEN);
+                              }
+                              else if(s.contains("attend"))
+                              {
+                                  holder.attend.setBackgroundColor(Color.GREEN);
+                              }
+                              else if(s.contains("interest"))
+                              {
+                                  holder.interested.setBackgroundColor(Color.GREEN);
+                              }
                           }
                           int total = uploadCurrent.getVote().getTotalVote();
                           int interst = uploadCurrent.getVote().getInterestedVote()*100;
