@@ -17,10 +17,20 @@ public class Donor {
     private String NIC;
     private String phoneNumber;
     private String email;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
     private double latitude;
     private double longitude;
 
-    public Donor(String id, double longitude, double latitude, String name, String DOB, String address, String city, String NIC, String phoneNumber, String email) {
+    public Donor(String password,String id, double longitude, double latitude, String name, String DOB, String address, String city, String NIC, String phoneNumber, String email) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;

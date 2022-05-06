@@ -245,6 +245,7 @@ public class SignIn extends AppCompatActivity {
             donor.setCity(city.getText().toString().trim());
             donor.setLatitude(Double.parseDouble(latitude));
             donor.setLongitude(Double.parseDouble(longitude));
+            donor.setPassword(pswd.getText().toString().trim());
         }
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile()) {
             return;
@@ -252,7 +253,9 @@ public class SignIn extends AppCompatActivity {
         String input = "Email: " + email.getText().toString();
         input += "\n";
         firebaseAuth
-                .createUserWithEmailAndPassword(email.getText().toString().trim(),pswd.getText().toString().trim())
+                .createUserWithEmailAndPassword(
+                        email.getText().toString().trim(),
+                        pswd.getText().toString().trim())
                 .addOnCompleteListener(
                         task -> {
                             if(task.isSuccessful())

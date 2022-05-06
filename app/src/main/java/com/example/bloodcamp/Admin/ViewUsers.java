@@ -1,4 +1,5 @@
 package com.example.bloodcamp.Admin;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,10 +12,15 @@ import android.widget.Toast;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Donor;
 import com.example.bloodcamp.customer.ConsumerViewPhones;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdapterListener{
     private RecyclerView mRecyclerView;
@@ -62,15 +68,26 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
         alertDialog.setTitle("Conformation");
         alertDialog.setMessage("Do you want to delete user data?");
         alertDialog.setPositiveButton("Yes", (dialog, which) -> {
+            Objects.requireNonNull(FirebaseAuth
+                    .getInstance()
+                    .signInWithEmailAndPassword(
+                            donorList.get(position).getEmail(),
+                            donorList.get(position).getPassword())
+                            .addOnCompleteListener(task -> {
+                               if(task.isSuccessful())
+                               {
+                                   task.getResult().getUser().delete();
+                               }
+                            }));
             firestore
                     .collection("Donor")
                     .document(donorList.remove(position).getId())
                     .delete()
                     .addOnSuccessListener(
                             unused ->
-                                    Toast.makeText(ViewUsers.this,"Id is "+key,Toast.LENGTH_SHORT)
+                                    Toast.makeText(ViewUsers.this,"User delete successfully",Toast.LENGTH_SHORT)
                                             .show());
-            donorList.remove(position);
+            //donorList.remove(position);
             showUsers();
         });
         alertDialog.setNegativeButton("no" ,((dialog, which) -> {
