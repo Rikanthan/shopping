@@ -17,10 +17,16 @@ import com.bumptech.glide.Glide;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.Views.Vote;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
@@ -43,72 +49,66 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(ImageViewHolder holder,
                                  @SuppressLint("RecyclerView") final int position) {
-      FirebaseDatabase.getInstance()
-              .getReference("user")
-              .addListenerForSingleValueEvent(new ValueEventListener() {
-                  @Override
-                  public void onDataChange(@NonNull DataSnapshot snapshot) {
-                      if(snapshot.exists())
-                      {
-                          userRole = snapshot.getValue(String.class);
-                          assert userRole != null;
-                          if(userRole.equals("seller"))
-                          {
-                              holder.edit.setVisibility(View.VISIBLE);
-                              holder.delete.setVisibility(View.VISIBLE);
-                          }
-                          Post uploadCurrent = mPosts.get(position);
-                          holder.bloodcamp.setText(uploadCurrent.getBloodCampName());
-                          holder.organizer.setText("Organized By \n"+uploadCurrent.getOrganizerName());
-                          holder.location.setText(uploadCurrent.getLocation());
-                          holder.posted.setText(uploadCurrent.getPostedDate());
-                          Glide.with(mContext)
-                                  .load(uploadCurrent.getImageUri())
-                                  .placeholder(R.drawable.loader)
-                                  .into(holder.imageView);
-                          holder.description.setText(uploadCurrent.getDescription());
-                          for(String s : uploadCurrent.getVote().getVotedPeople())
-                          {
-                              if(s.contains("not"))
-                              {
-                                  holder.notAttend.setBackgroundColor(Color.GREEN);
-                              }
-                              else if(s.contains("attend"))
-                              {
-                                  holder.attend.setBackgroundColor(Color.GREEN);
-                              }
-                              else if(s.contains("interest"))
-                              {
-                                  holder.interested.setBackgroundColor(Color.GREEN);
-                              }
-                          }
-                          int total = uploadCurrent.getVote().getTotalVote();
-                          int interst = uploadCurrent.getVote().getInterestedVote()*100;
-                          int notInter = uploadCurrent.getVote().getNotAttendVote()*100;
-                          int attend = uploadCurrent.getVote().getAttendVote()*100;
-                          if(total > 0)
-                          {
-                              holder.interestedBar.setProgress((int) interst/total) ;
-                              holder.notAttedBar.setProgress((int) notInter/total);
-                              holder.attendBar.setProgress((int)attend/total);
-                              holder.attendper.setText(String.valueOf(attend/total)+"%");
-                              holder.notattendper.setText(String.valueOf(notInter/total)+"%");
-                              holder.interestper.setText(String.valueOf(interst/total)+"%");
-                          }
-                          else
-                          {
-                              holder.interestedBar.setProgress(total) ;
-                              holder.notAttedBar.setProgress(total);
-                              holder.attendBar.setProgress(total);
-                          }
-                      }
-                  }
+        FirebaseFirestore
+                .getInstance()
+                .collection("UserRole")
+                .document(FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(snapshot -> {
+                    String userRole = snapshot.getResult().getData().toString();
+                        if(userRole.contains("Blood"))
+                        {
+                            holder.edit.setVisibility(View.VISIBLE);
+                            holder.delete.setVisibility(View.VISIBLE);
+                        }
+                        Post uploadCurrent = mPosts.get(position);
+                        holder.bloodcamp.setText(uploadCurrent.getBloodCampName());
+                        holder.organizer.setText("Organized By \n"+uploadCurrent.getOrganizerName());
+                        holder.location.setText(uploadCurrent.getLocation());
+                        holder.posted.setText(uploadCurrent.getPostedDate());
+                        Glide.with(mContext)
+                                .load(uploadCurrent.getImageUri())
+                                .placeholder(R.drawable.loader)
+                                .into(holder.imageView);
+                        holder.description.setText(uploadCurrent.getDescription());
+                        for(String s : uploadCurrent.getVote().getVotedPeople())
+                        {
+                            if(s.contains("not"))
+                            {
+                                holder.notAttend.setBackgroundColor(Color.GREEN);
+                            }
+                            else if(s.contains("attend"))
+                            {
+                                holder.attend.setBackgroundColor(Color.GREEN);
+                            }
+                            else if(s.contains("interest"))
+                            {
+                                holder.interested.setBackgroundColor(Color.GREEN);
+                            }
+                        }
+                        int total = uploadCurrent.getVote().getTotalVote();
+                        int interst = uploadCurrent.getVote().getInterestedVote()*100;
+                        int notInter = uploadCurrent.getVote().getNotAttendVote()*100;
+                        int attend = uploadCurrent.getVote().getAttendVote()*100;
+                        if(total > 0)
+                        {
+                            holder.interestedBar.setProgress((int) interst/total) ;
+                            holder.notAttedBar.setProgress((int) notInter/total);
+                            holder.attendBar.setProgress((int)attend/total);
+                            holder.attendper.setText(String.valueOf(attend/total)+"%");
+                            holder.notattendper.setText(String.valueOf(notInter/total)+"%");
+                            holder.interestper.setText(String.valueOf(interst/total)+"%");
+                        }
+                        else
+                        {
+                            holder.interestedBar.setProgress(total) ;
+                            holder.notAttedBar.setProgress(total);
+                            holder.attendBar.setProgress(total);
+                        }
 
-                  @Override
-                  public void onCancelled(@NonNull DatabaseError error) {
+                });
 
-                  }
-              });
+
 
         holder.edit.setOnClickListener(
                 v -> mClickListener.editClick(v,position)
