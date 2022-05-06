@@ -49,10 +49,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(ImageViewHolder holder,
                                  @SuppressLint("RecyclerView") final int position) {
+        String uid = FirebaseAuth.getInstance().getUid();
         FirebaseFirestore
                 .getInstance()
                 .collection("UserRole")
-                .document(FirebaseAuth.getInstance().getUid())
+                .document(uid)
                 .get()
                 .addOnCompleteListener(snapshot -> {
                     String userRole = snapshot.getResult().getData().toString();
@@ -73,15 +74,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                         holder.description.setText(uploadCurrent.getDescription());
                         for(String s : uploadCurrent.getVote().getVotedPeople())
                         {
-                            if(s.contains("not"))
+                            if(s.contains("not") && s.contains(uid))
                             {
                                 holder.notAttend.setBackgroundColor(Color.GREEN);
                             }
-                            else if(s.contains("attend"))
+                            else if(s.contains("attend") && s.contains(uid))
                             {
                                 holder.attend.setBackgroundColor(Color.GREEN);
                             }
-                            else if(s.contains("interest"))
+                            else if(s.contains("interest") && s.contains(uid))
                             {
                                 holder.interested.setBackgroundColor(Color.GREEN);
                             }
