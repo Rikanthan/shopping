@@ -1,20 +1,17 @@
 package com.example.bloodcamp.Donor;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
-import com.example.bloodcamp.Images.ImageAdapter;
-import com.example.bloodcamp.Images.imageupload;
+import com.example.bloodcamp.Post.PostAdapter;
+import com.example.bloodcamp.Post.PostUpload;
 import com.example.bloodcamp.MapsActivity;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Donor;
@@ -29,9 +26,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
+public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
-    private ImageAdapter mAdapter;
+    private PostAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private FirebaseFirestore firestore;
@@ -114,7 +111,7 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
             {
                 mPost.add(post);
             }
-            mAdapter = new ImageAdapter(ShowPosts.this, mPost, ShowPosts.this);
+            mAdapter = new PostAdapter(ShowPosts.this, mPost, ShowPosts.this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -161,7 +158,7 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
                             }
 
                         }
-                        mAdapter = new ImageAdapter(ShowPosts.this, mPost, ShowPosts.this);
+                        mAdapter = new PostAdapter(ShowPosts.this, mPost, ShowPosts.this);
                         mRecyclerView.setAdapter(mAdapter);
                         mProgressCircle.setVisibility(View.GONE);
                     }
@@ -174,7 +171,7 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
 
     @Override
     public void editClick(View v, int position) {
-        Intent i = new Intent(this,imageupload.class);
+        Intent i = new Intent(this, PostUpload.class);
         i.putExtra("isUpdate",true);
         //String id = mPost.get(position).getId();
         i.putExtra("itemid","id");

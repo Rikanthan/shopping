@@ -1,4 +1,4 @@
-package com.example.bloodcamp.Images;
+package com.example.bloodcamp.Post;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +53,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class imageupload extends AppCompatActivity implements OnMapReadyCallback{
+public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
     protected Context context;
     private double latitude, longitude;
@@ -133,7 +133,7 @@ public class imageupload extends AppCompatActivity implements OnMapReadyCallback
         mButtonChooseImage.setOnClickListener(v -> openFileChooser());
         mButtonUpload.setOnClickListener(v -> {
         if(mUploadTask !=null && mUploadTask.isInProgress()){
-            Toast.makeText(imageupload.this,action+" in progress",Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostUpload.this,action+" in progress",Toast.LENGTH_SHORT).show();
         }
         else
             {
@@ -187,7 +187,7 @@ public class imageupload extends AppCompatActivity implements OnMapReadyCallback
                         Handler handler = new Handler();
                         handler.postDelayed(
                                 () -> mProgressBar.setProgress(0), 500);
-                        Toast.makeText(imageupload.this, action+" successful", Toast.LENGTH_LONG).show();
+                        Toast.makeText(PostUpload.this, action+" successful", Toast.LENGTH_LONG).show();
                        Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
                            if(!task.isSuccessful())
                            {
@@ -207,7 +207,7 @@ public class imageupload extends AppCompatActivity implements OnMapReadyCallback
                            }
                        });
                     })
-                    .addOnFailureListener(e -> Toast.makeText(imageupload.this, e.getMessage(), Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(PostUpload.this, e.getMessage(), Toast.LENGTH_SHORT).show())
                     .addOnProgressListener(taskSnapshot -> {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                         mProgressBar.setProgress((int) progress);

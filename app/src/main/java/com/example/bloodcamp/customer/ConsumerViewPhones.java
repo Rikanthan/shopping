@@ -1,6 +1,5 @@
 package com.example.bloodcamp.customer;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.bloodcamp.Images.ImageAdapter;
+import com.example.bloodcamp.Post.PostAdapter;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,9 +25,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapter.ImageAdapterListener{
+public class ConsumerViewPhones extends AppCompatActivity implements PostAdapter.ImageAdapterListener{
     private RecyclerView mRecyclerView;
-    private ImageAdapter mAdapter;
+    private PostAdapter mAdapter;
     private ProgressBar mProgressCircle;
     private DatabaseReference mDatabaseRef;
     private List<Post> mPost;
@@ -107,7 +106,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
             {
                 mPost.add(details);
             }
-            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
+            mAdapter = new PostAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -126,7 +125,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                                     mPost.add(upload);
                                 }
                             }
-                            mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
+                            mAdapter = new PostAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
                             mRecyclerView.setAdapter(mAdapter);
                             mProgressCircle.setVisibility(View.GONE);
                         }
@@ -147,7 +146,7 @@ public class ConsumerViewPhones extends AppCompatActivity implements ImageAdapte
                         mPost.add(upload);
                     }
                 }
-                mAdapter = new ImageAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
+                mAdapter = new PostAdapter(ConsumerViewPhones.this, mPost,ConsumerViewPhones.this);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.GONE);
             }

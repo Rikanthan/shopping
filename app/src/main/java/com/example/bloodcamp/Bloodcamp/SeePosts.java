@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.bloodcamp.Images.ImageAdapter;
-import com.example.bloodcamp.Images.imageupload;
+import com.example.bloodcamp.Post.PostAdapter;
+import com.example.bloodcamp.Post.PostUpload;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,9 +23,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeePosts extends AppCompatActivity implements ImageAdapter.ImageAdapterListener {
+public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdapterListener {
     private RecyclerView mRecyclerView;
-    private ImageAdapter mAdapter;
+    private PostAdapter mAdapter;
     private ProgressBar mProgress;
     private FirebaseFirestore firestore;
     private List<Post> mPost, backupPost;
@@ -61,7 +61,7 @@ public class SeePosts extends AppCompatActivity implements ImageAdapter.ImageAda
                                     backupPost.add(post);
                             }
                         }
-                        mAdapter = new ImageAdapter(SeePosts.this, mPost, SeePosts.this);
+                        mAdapter = new PostAdapter(SeePosts.this, mPost, SeePosts.this);
                         mRecyclerView.setAdapter(mAdapter);
                         mProgress.setVisibility(View.GONE);
                     }
@@ -82,7 +82,7 @@ public class SeePosts extends AppCompatActivity implements ImageAdapter.ImageAda
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_phone:
-                Intent intent = new Intent(this, imageupload.class);
+                Intent intent = new Intent(this, PostUpload.class);
                 intent.putExtra("isUpdate",false);
                 startActivity(intent);
         }

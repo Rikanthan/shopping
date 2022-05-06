@@ -41,7 +41,7 @@
         <activity
             android:name=".customer.ContactSeller"
             android:exported="false" />
-        <activity android:name=".Images.imageupload" />
+        <activity android:name=".Post.PostUpload" />
         <activity android:name=".Login_front.SignIn" />
         <activity android:name=".Login_front.ForgetPassword" />
         <activity android:name=".customer.ConsumerViewPhones" />

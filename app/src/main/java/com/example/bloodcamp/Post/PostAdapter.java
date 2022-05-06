@@ -1,4 +1,4 @@
-package com.example.bloodcamp.Images;
+package com.example.bloodcamp.Post;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
@@ -16,26 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
-import com.example.bloodcamp.Views.Vote;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolder> {
     private final Context mContext;
     public static ImageAdapterListener mClickListener;
     private final List<Post> mPosts;
     private static OnItemClickListener mListener;
     String userRole = "";
-    public ImageAdapter(Context context, List<Post> uploads,ImageAdapterListener listener) {
+    public PostAdapter(Context context, List<Post> uploads, ImageAdapterListener listener) {
         mContext = context;
         mPosts = uploads;
         this.mClickListener = listener;
