@@ -1,6 +1,7 @@
 package com.example.bloodcamp.Images;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
+import com.example.bloodcamp.Views.Vote;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -65,6 +67,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                                   .placeholder(R.drawable.loader)
                                   .into(holder.imageView);
                           holder.description.setText(uploadCurrent.getDescription());
+
+
+                          if(uploadCurrent.getVote().getVotedPeople().contains("not"))
+                          {
+                              holder.notAttend.setBackgroundColor(Color.BLACK);
+                          }
                           int total = uploadCurrent.getVote().getTotalVote();
                           int interst = uploadCurrent.getVote().getInterestedVote()*100;
                           int notInter = uploadCurrent.getVote().getNotAttendVote()*100;
@@ -92,6 +100,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
                   }
               });
+
         holder.edit.setOnClickListener(
                 v -> mClickListener.editClick(v,position)
         );

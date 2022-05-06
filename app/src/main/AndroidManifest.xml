@@ -37,7 +37,7 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".Admin.ShowPosts"></activity>
+        <activity android:name=".Donor.ShowPosts"></activity>
         <activity
             android:name=".customer.ContactSeller"
             android:exported="false" />

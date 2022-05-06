@@ -1,5 +1,8 @@
 package com.example.bloodcamp.Views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Post {
     private String bloodCampName;
     private String organizerName;

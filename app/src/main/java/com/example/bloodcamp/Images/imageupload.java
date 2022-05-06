@@ -26,7 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bloodcamp.Admin.ShowPosts;
+import com.example.bloodcamp.Donor.ShowPosts;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Vote;
@@ -48,8 +48,10 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class imageupload extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
@@ -308,6 +310,9 @@ public class imageupload extends AppCompatActivity implements OnMapReadyCallback
         Post post = new Post();
         String dateNow = format.format(currentTime);
         Vote vote = new Vote();
+        List<String> initiateVote = new ArrayList<>();
+        initiateVote.add("startVoting");
+        vote.setVotedPeople(initiateVote);
         post.setLocation(location.getText().toString());
         post.setPostedDate(dateNow);
         post.setVote(vote);

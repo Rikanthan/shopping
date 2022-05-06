@@ -1,15 +1,19 @@
 package com.example.bloodcamp.Bloodcamp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.bloodcamp.Admin.ShowPosts;
 import com.example.bloodcamp.Images.ImageAdapter;
+import com.example.bloodcamp.Images.imageupload;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,6 +69,24 @@ public class SeePosts extends AppCompatActivity implements ImageAdapter.ImageAda
                         mProgress.setVisibility(View.INVISIBLE);
                     }
                 });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.admin__new,menu);
+        final View addPost = menu.findItem(R.id.add_phone).getActionView();
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_phone:
+                Intent intent = new Intent(this, imageupload.class);
+                intent.putExtra("isUpdate",false);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

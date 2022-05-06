@@ -1,4 +1,4 @@
-package com.example.bloodcamp.Admin;
+package com.example.bloodcamp.Donor;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -170,23 +170,7 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
                     }
                 });
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.admin__new,menu);
-        final View addPost = menu.findItem(R.id.add_phone).getActionView();
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.add_phone:
-                Intent intent = new Intent(this, imageupload.class);
-                intent.putExtra("isUpdate",false);
-                startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void editClick(View v, int position) {
@@ -236,54 +220,44 @@ public class ShowPosts extends AppCompatActivity implements ImageAdapter.ImageAd
 
     @Override
     public void attendClick(View v, int position) {
+       voted(v,position);
+    }
+
+
+
+    @Override
+    public void notAttendClick(View v, int position) {
+       voted(v,position);
+    }
+    public void voted(View v,int position)
+    {
         Post rePost = mPost.get(position);
         List<Post> attendPost = new ArrayList<>();
         attendPost.addAll(mPost);
         attendPost.remove(position);
         Vote vote = rePost.getVote();
-        vote.setAttendVote();
-        rePost.setVote(vote);
-        firestore.collection("Post")
-                .document(rePost.getPostId()).set(rePost);
-        mPost.clear();
-        mProgressCircle.setVisibility(View.VISIBLE);
-      getDonorLocation();
-    }
-
-    @Override
-    public void notAttendClick(View v, int position) {
-        Post rePost = mPost.get(position);
-        Vote vote = new Vote();
-              vote = rePost.getVote();
-        List<String> voted = new ArrayList<>();
-//        if(vote.getVotedPeople().size() > 0)
-//        {
-//            //voted.addAll(vote.getVotedPeople());
-//        }
-        voted.add(firebaseAuth.getUid());
-        vote.setVotedPeople(voted);
-        vote.setNotAttendVote();
-        rePost.setVote(vote);
-        firestore.collection("Post")
-                .document(rePost.getPostId()).set(rePost);
-        mPost.clear();
-//        firestore.collection("Vote")
-//                .document(rePost.getPostId())
-//                .set(voted);
-        mProgressCircle.setVisibility(View.VISIBLE);
-        getDonorLocation();;
+        List <String> voted = new ArrayList<>();
+        voted.addAll(vote.getVotedPeople());
+        if(!voted.contains(firebaseAuth.getUid())) {
+            voted.add(firebaseAuth.getUid());
+            vote.setVotedPeople(voted);
+            vote.setAttendVote();
+            rePost.setVote(vote);
+            firestore.collection("Post")
+                    .document(rePost.getPostId()).set(rePost);
+            mPost.clear();
+            mProgressCircle.setVisibility(View.VISIBLE);
+            getDonorLocation();
+        }
+        else
+        {
+            Toast.makeText(this,"You have already clicked",Toast.LENGTH_LONG).show();
+            voted.clear();
+        }
     }
 
     @Override
     public void interestedClick(View v, int position) {
-        Post rePost = mPost.get(position);
-        Vote vote = rePost.getVote();
-        vote.setInterestedVote();
-        rePost.setVote(vote);
-        firestore.collection("Post")
-                .document(rePost.getPostId()).set(rePost);
-        mPost.clear();
-        mProgressCircle.setVisibility(View.VISIBLE);
-        getDonorLocation();
+       voted(v,position);
     }
 }
