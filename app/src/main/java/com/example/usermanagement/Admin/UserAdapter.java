@@ -1,4 +1,4 @@
-package com.example.bloodcamp.Admin;
+package com.example.usermanagement.Admin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bloodcamp.R;
-import com.example.bloodcamp.Views.Donor;
+import usermanagement.R;
+import com.example.usermanagement.Views.Donor;
 
 import java.util.List;
 

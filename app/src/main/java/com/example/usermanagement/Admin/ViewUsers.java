@@ -1,20 +1,14 @@
-package com.example.bloodcamp.Admin;
-import androidx.annotation.NonNull;
+package com.example.usermanagement.Admin;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-import com.example.bloodcamp.R;
-import com.example.bloodcamp.Views.Donor;
-import com.example.bloodcamp.customer.ConsumerViewPhones;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import usermanagement.R;
+import com.example.usermanagement.Views.Donor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

@@ -1,11 +1,10 @@
-package com.example.bloodcamp.Login_front;
+package com.example.usermanagement.Login_front;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,13 +13,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.bloodcamp.Home.MainActivity;
-import com.example.bloodcamp.Views.Donor;
-import com.example.bloodcamp.Views.Member;
-import com.example.bloodcamp.R;
+import com.example.usermanagement.Home.MainActivity;
+import com.example.usermanagement.Views.Donor;
+import com.example.usermanagement.Views.Member;
+import usermanagement.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -195,7 +193,7 @@ public class SignIn extends AppCompatActivity {
 //
 //        // Check which radio button was clicked
 //        switch(v.getId()) {
-//            case R.id.bloodcamp:
+//            case R.id.usermanagement:
 //                if (checked)
 //                {
 //                    userType = "BloodCamp";

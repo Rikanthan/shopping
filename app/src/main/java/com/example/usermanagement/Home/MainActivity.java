@@ -1,4 +1,4 @@
-package com.example.bloodcamp.Home;
+package com.example.usermanagement.Home;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,16 +11,15 @@ import android.widget.EditText;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.bloodcamp.Admin.ViewUsers;
-import com.example.bloodcamp.Bloodcamp.SeePosts;
-import com.example.bloodcamp.Login_front.ForgetPassword;
-import com.example.bloodcamp.Donor.ShowPosts;
-import com.example.bloodcamp.Login_front.SignIn;
-import com.example.bloodcamp.R;
+import com.example.usermanagement.Admin.ViewUsers;
+import com.example.usermanagement.Login_front.ForgetPassword;
+import com.example.usermanagement.Login_front.SignIn;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import usermanagement.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String CHANNEL_ID = "100 " ;
@@ -123,13 +122,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                        }
                                        else if (role.contains("Donor"))
                                        {
-                                           Intent i= new Intent(MainActivity.this, ShowPosts.class);
-                                           startActivity(i);
+                                           //Intent i= new Intent(MainActivity.this, ShowPosts.class);
+                                          // startActivity(i);
                                        }
                                        else
                                        {
-                                           Intent i= new Intent(MainActivity.this, SeePosts.class);
-                                           startActivity(i);
+                                           //Intent i= new Intent(MainActivity.this, SeePosts.class);
+                                           //startActivity(i);
                                        }
                                     }});
                             }

@@ -1,4 +1,4 @@
-package com.example.bloodcamp.Views;
+package com.example.usermanagement.Views;
 
 public class Donor {
     public String getId() {

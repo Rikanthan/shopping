@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.bloodcamp">
+    package="usermanagement">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -14,10 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity
-            android:name=".Bloodcamp.SeePosts"
-            android:exported="false" />
-        <activity android:name=".Admin.ViewUsers"></activity>
+
+        <activity android:name="com.example.usermanagement.Admin.ViewUsers"></activity>
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -32,20 +30,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-
-        <activity
-            android:name=".MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".Donor.ShowPosts"></activity>
-        <activity
-            android:name=".customer.ContactSeller"
-            android:exported="false" />
-        <activity android:name=".Post.PostUpload" />
-        <activity android:name=".Login_front.SignIn" />
-        <activity android:name=".Login_front.ForgetPassword" />
-        <activity android:name=".customer.ConsumerViewPhones" />
-        <activity android:name=".Home.MainActivity">
+        <activity android:name="com.example.usermanagement.Login_front.SignIn" />
+        <activity android:name="com.example.usermanagement.Login_front.ForgetPassword" />
+        <activity android:name="com.example.usermanagement.Home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

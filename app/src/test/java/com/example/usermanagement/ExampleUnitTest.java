@@ -1,4 +1,4 @@
-package com.example.login_page;
+package com.example.usermanagement;
 
 import org.junit.Test;
 

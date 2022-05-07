@@ -9,7 +9,7 @@ android {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('MAPS_API_KEY')}"]
-        applicationId "com.example.bloodcamp"
+        applicationId "com.example.usermanagement"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
