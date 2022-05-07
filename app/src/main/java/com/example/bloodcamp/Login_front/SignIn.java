@@ -189,33 +189,33 @@ public class SignIn extends AppCompatActivity {
             return true;
         }
     }
-    public void onUserClicked(View v)
-    {
-        boolean checked = ((RadioButton) v).isChecked();
-
-        // Check which radio button was clicked
-        switch(v.getId()) {
-            case R.id.bloodcamp:
-                if (checked)
-                {
-                    userType = "BloodCamp";
-                    dob.setVisibility(View.GONE);
-                    nic.setVisibility(View.GONE);
-                    city.setVisibility(View.GONE);
-                }
-                    break;
-            case R.id.donor:
-                if (checked)
-                {
-                    userType = "Donor";
-                    dob.setVisibility(View.VISIBLE);
-                    nic.setVisibility(View.VISIBLE);
-                    city.setVisibility(View.VISIBLE);
-                }
-                    break;
-        }
-
-    }
+//    public void onUserClicked(View v)
+//    {
+//        boolean checked = ((RadioButton) v).isChecked();
+//
+//        // Check which radio button was clicked
+//        switch(v.getId()) {
+//            case R.id.bloodcamp:
+//                if (checked)
+//                {
+//                    userType = "BloodCamp";
+//                    dob.setVisibility(View.GONE);
+//                    nic.setVisibility(View.GONE);
+//                    city.setVisibility(View.GONE);
+//                }
+//                    break;
+//            case R.id.donor:
+//                if (checked)
+//                {
+//                    userType = "Donor";
+//                    dob.setVisibility(View.VISIBLE);
+//                    nic.setVisibility(View.VISIBLE);
+//                    city.setVisibility(View.VISIBLE);
+//                }
+//                    break;
+//        }
+//
+//    }
 
     public void signin(View v) {
 

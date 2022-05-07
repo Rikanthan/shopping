@@ -3,11 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme2"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Home.MainActivity"
-    android:background="@color/blueaccent">
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/blue_bg"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profile_icon"
+            android:contentDescription="image" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@color/lightblue"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-smallcaps"/>
+    </LinearLayout>
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -19,38 +47,9 @@
             android:layout_margin="20dp"
             tools:ignore="UseCompoundDrawables"
             >
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:src="@drawable/blood"
-                android:contentDescription="image" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/welcome"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"
-                android:fontFamily="sans-serif-smallcaps"
-                android:textFontWeight="30"
-                android:textSize="33dp"
-                android:textColor="@color/lightblue"/>
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"
-                android:fontFamily="sans-serif-smallcaps"
-                android:textFontWeight="30"
-                android:textSize="40sp"
-                android:textColor="@color/lightblue"
-                tools:targetApi="p" />
+
 
             <EditText
                 android:id="@+id/editEmail"
@@ -82,7 +81,7 @@
                     android:id="@+id/editPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_baseline_lock_24"
+                    android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
                     android:ems="10"
                     app:passwordToggleEnabled="true"
                     android:hint=" Password"
@@ -97,7 +96,7 @@
                     android:layout_margin="15dp"
                     android:paddingBottom="10dp"
                     android:background="@drawable/overlay"
-                    android:drawableStart="@drawable/ic_baseline_lock_24" />
+                    android:drawableStart="@drawable/ic_baseline_vpn_key_24" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
@@ -147,5 +146,7 @@
                 android:background="@drawable/button"
                 />
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

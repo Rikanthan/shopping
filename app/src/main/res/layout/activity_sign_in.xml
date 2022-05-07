@@ -4,48 +4,37 @@
     android:layout_height="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:theme="@style/AppTheme2"
-    android:padding="20dp"
     android:background="@color/blueaccent">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/signUp"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-smallcaps"/>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:padding="10dp"
-        android:text="User type"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-smallcaps"/>
-
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <RadioButton android:id="@+id/bloodcamp"
-            android:layout_width="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/blue_bg"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profile_icon"
+            android:contentDescription="image" />
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Blood camp"
-            android:checked="true"
-            android:onClick="onUserClicked"/>
-        <RadioButton android:id="@+id/donor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Donor"
-            android:onClick="onUserClicked"/>
-    </RadioGroup>
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/signin"
+            android:textAllCaps="false"
+            android:textColor="@color/lightblue"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-smallcaps"/>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,6 +42,7 @@
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           android:padding="20dp"
            android:orientation="vertical">
            <EditText
                android:id="@+id/fullName"

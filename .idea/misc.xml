@@ -47,6 +47,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_smartphone_24.xml" value="0.1215" />
         <entry key="app/src/main/res/drawable/ic_baseline_view_list_24.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/ic_baseline_view_module_24.xml" value="0.1535" />
+        <entry key="app/src/main/res/drawable/ic_baseline_vpn_key_24.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/linktext.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/overlay.xml" value="0.1535" />
@@ -59,7 +60,7 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11145833333333334" />
         <entry key="app/src/main/res/layout/activity_images.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_imageupload.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.13269927536231885" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_see_posts.xml" value="0.12454710144927536" />
         <entry key="app/src/main/res/layout/activity_seller_view.xml" value="0.10461956521739131" />
         <entry key="app/src/main/res/layout/activity_show_items_.xml" value="0.19375" />
