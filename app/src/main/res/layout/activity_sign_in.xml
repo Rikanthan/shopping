@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
+            android:id="@+id/title"
             android:text="@string/signin"
             android:textAllCaps="false"
             android:textColor="@color/lightblue"

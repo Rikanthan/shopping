@@ -8,11 +8,13 @@
     android:elevation="15dp"
     app:cardElevation="8dp"
     app:cardCornerRadius="10dp"
+    android:background="@color/white"
     tools:targetApi="O">
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/show_details"
         android:layout_height="wrap_content"
+        android:background="@drawable/overlay"
         android:padding="10dp"
         android:orientation="vertical">
         <TextView
