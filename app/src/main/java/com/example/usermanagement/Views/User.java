@@ -1,6 +1,6 @@
 package com.example.usermanagement.Views;
 
-public class Donor {
+public class User {
     public String getId() {
         return id;
     }
@@ -30,7 +30,7 @@ public class Donor {
     private double latitude;
     private double longitude;
 
-    public Donor(String password,String id, double longitude, double latitude, String name, String DOB, String address, String city, String NIC, String phoneNumber, String email) {
+    public User(String password,String id, double longitude, double latitude, String name, String DOB, String address, String city, String NIC, String phoneNumber, String email) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -43,7 +43,7 @@ public class Donor {
         this.id = id;
     }
 
-    public Donor() {
+    public User() {
     }
 
     public String getName() {

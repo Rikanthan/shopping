@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.usermanagement.Home.MainActivity;
-import com.example.usermanagement.Views.Donor;
+import com.example.usermanagement.Views.User;
 import com.example.usermanagement.Views.Member;
 import usermanagement.R;
 import com.google.firebase.database.DatabaseReference;
@@ -55,7 +55,7 @@ public class SignIn extends AppCompatActivity {
     LocationManager locationManager;
     String latitude,longitude;
     Member member;
-    Donor donor;
+    User user;
     private String userType ="BloodCamp";
 
     @Override
@@ -72,26 +72,10 @@ public class SignIn extends AppCompatActivity {
         dob = findViewById(R.id.DOB);
         city = findViewById(R.id.city);
         member = new Member();
-        donor = new Donor();
+        user = new User();
         reff = FirebaseDatabase.getInstance().getReference().child("Member");
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        //Check gps is enable or not
-
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        {
-            //Write Function To enable gps
-
-            OnGPS();
-        }
-        else
-        {
-            //GPS is already On then
-
-            getLocation();
-        }
 
     }
     private void addUser(Member member,String uid)
@@ -106,10 +90,10 @@ public class SignIn extends AppCompatActivity {
         firestore.collection("UserRole").
                 document(userId).set(userRole);
     }
-    private void addDonor(Donor donor, String uid)
+    private void addUser(User user, String uid)
     {
-        firestore.collection("Donor")
-                .document(uid).set(donor);
+        firestore.collection("User")
+                .document(uid).set(user);
     }
 
     private boolean validefullname()
@@ -187,33 +171,6 @@ public class SignIn extends AppCompatActivity {
             return true;
         }
     }
-//    public void onUserClicked(View v)
-//    {
-//        boolean checked = ((RadioButton) v).isChecked();
-//
-//        // Check which radio button was clicked
-//        switch(v.getId()) {
-//            case R.id.usermanagement:
-//                if (checked)
-//                {
-//                    userType = "BloodCamp";
-//                    dob.setVisibility(View.GONE);
-//                    nic.setVisibility(View.GONE);
-//                    city.setVisibility(View.GONE);
-//                }
-//                    break;
-//            case R.id.donor:
-//                if (checked)
-//                {
-//                    userType = "Donor";
-//                    dob.setVisibility(View.VISIBLE);
-//                    nic.setVisibility(View.VISIBLE);
-//                    city.setVisibility(View.VISIBLE);
-//                }
-//                    break;
-//        }
-//
-//    }
 
     public void signin(View v) {
 
@@ -234,16 +191,16 @@ public class SignIn extends AppCompatActivity {
         }
         else
         {
-            donor.setName(fullname.getText().toString().trim());
-            donor.setEmail(email.getText().toString().trim());
-            donor.setPhoneNumber(mobile.getText().toString().trim());
-            donor.setAddress(location.getText().toString().trim());
-            donor.setDOB(dob.getText().toString().trim());
-            donor.setNIC(nic.getText().toString().trim());
-            donor.setCity(city.getText().toString().trim());
-            donor.setLatitude(Double.parseDouble(latitude));
-            donor.setLongitude(Double.parseDouble(longitude));
-            donor.setPassword(pswd.getText().toString().trim());
+            user.setName(fullname.getText().toString().trim());
+            user.setEmail(email.getText().toString().trim());
+            user.setPhoneNumber(mobile.getText().toString().trim());
+            user.setAddress(location.getText().toString().trim());
+            user.setDOB(dob.getText().toString().trim());
+            user.setNIC(nic.getText().toString().trim());
+            user.setCity(city.getText().toString().trim());
+            user.setLatitude(Double.parseDouble(latitude));
+            user.setLongitude(Double.parseDouble(longitude));
+            user.setPassword(pswd.getText().toString().trim());
         }
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile()) {
             return;
@@ -266,9 +223,9 @@ public class SignIn extends AppCompatActivity {
                                 }
                                 else
                                 {
-                                    donor.setId(uid);
-                                    reff.child(uid).setValue(donor);
-                                    addDonor(donor,uid);
+                                    user.setId(uid);
+                                    reff.child(uid).setValue(user);
+                                    addUser(user,uid);
                                 }
                                 addUserType(uid);
                                 Toast.makeText(SignIn.this, "Data input & user created successfully", Toast.LENGTH_SHORT).show();
@@ -283,75 +240,4 @@ public class SignIn extends AppCompatActivity {
                 );
     }
 
-    private void getLocation() {
-
-        //Check Permissions again
-
-        if (ActivityCompat.checkSelfPermission(SignIn.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(SignIn.this,
-
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this,new String[]
-                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        }
-        else
-        {
-            Location LocationGps= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Location LocationNetwork=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            Location LocationPassive=locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-
-            if (LocationGps !=null)
-            {
-                double lat=LocationGps.getLatitude();
-                double longi=LocationGps.getLongitude();
-
-                latitude = String.valueOf(lat);
-                longitude = String.valueOf(longi);
-
-                System.out.println("Lattitude : "+ latitude);
-            }
-            else if (LocationNetwork !=null)
-            {
-                double lat = LocationNetwork.getLatitude();
-                double longi = LocationNetwork.getLongitude();
-
-                latitude=String.valueOf(lat);
-                longitude=String.valueOf(longi);
-                System.out.println("Lattitude : "+ latitude);
-               // showLocationTxt.setText("Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
-            }
-            else if (LocationPassive !=null)
-            {
-                double lat=LocationPassive.getLatitude();
-                double longi=LocationPassive.getLongitude();
-
-                latitude=String.valueOf(lat);
-                longitude=String.valueOf(longi);
-                System.out.println("Lattitude : "+ latitude);
-
-            }
-            else
-            {
-                Toast.makeText(this, "Can't Get Your Location", Toast.LENGTH_SHORT).show();
-            }
-
-            //Thats All Run Your App
-        }
-
-    }
-
-    private void OnGPS() {
-
-        final AlertDialog.Builder builder= new AlertDialog.Builder(this);
-
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("YES",
-                (dialog, which)
-                        -> startActivity(
-                                new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-                .setNegativeButton("NO", (dialog, which) -> dialog.cancel());
-        final AlertDialog alertDialog=builder.create();
-        alertDialog.show();
-    }
 }

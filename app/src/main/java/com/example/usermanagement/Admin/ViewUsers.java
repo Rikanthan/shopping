@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import usermanagement.R;
-import com.example.usermanagement.Views.Donor;
+import com.example.usermanagement.Views.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -20,7 +20,7 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
     private RecyclerView mRecyclerView;
     private UserAdapter userAdapter;
     private FirebaseFirestore firestore;
-    private List<Donor> donorList;
+    private List<User> userList;
     private String key = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +29,15 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
         mRecyclerView = findViewById(R.id.user_recycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        donorList = new ArrayList<>();
+        userList = new ArrayList<>();
         firestore = FirebaseFirestore.getInstance();
         showUsers();
     }
 
     public void showUsers()
     {
-        donorList.clear();
-        firestore.collection("Donor")
+        userList.clear();
+        firestore.collection("User")
                 .get()
                 .addOnCompleteListener(task -> {
                    if(task.isSuccessful())
@@ -46,12 +46,12 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
                        {
                            if(document.exists())
                            {
-                               Donor donor = document.toObject(Donor.class);
+                               User user = document.toObject(User.class);
                                 key = document.getId();
-                               donorList.add(donor);
+                               userList.add(user);
                            }
                        }
-                       userAdapter = new UserAdapter(ViewUsers.this,donorList, ViewUsers.this);
+                       userAdapter = new UserAdapter(ViewUsers.this,userList, ViewUsers.this);
                        mRecyclerView.setAdapter(userAdapter);
                    }
                 });
@@ -65,8 +65,8 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
             Objects.requireNonNull(FirebaseAuth
                     .getInstance()
                     .signInWithEmailAndPassword(
-                            donorList.get(position).getEmail(),
-                            donorList.get(position).getPassword())
+                            userList.get(position).getEmail(),
+                            userList.get(position).getPassword())
                             .addOnCompleteListener(task -> {
                                if(task.isSuccessful())
                                {
@@ -74,14 +74,14 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
                                }
                             }));
             firestore
-                    .collection("Donor")
-                    .document(donorList.remove(position).getId())
+                    .collection("User")
+                    .document(userList.remove(position).getId())
                     .delete()
                     .addOnSuccessListener(
                             unused ->
                                     Toast.makeText(ViewUsers.this,"User delete successfully",Toast.LENGTH_SHORT)
                                             .show());
-            //donorList.remove(position);
+            //userList.remove(position);
             showUsers();
         });
         alertDialog.setNegativeButton("no" ,((dialog, which) -> {
