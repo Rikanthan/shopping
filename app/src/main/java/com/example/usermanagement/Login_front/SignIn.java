@@ -298,8 +298,12 @@ public class SignIn extends AppCompatActivity {
                                                                                   .delete()
                                                                                   .addOnSuccessListener(
                                                                                           unused ->
-                                                                                                  Toast.makeText(SignIn.this,"Member delete successfully",Toast.LENGTH_SHORT)
-                                                                                                          .show());
+                                                                                          {
+                                                                                              Toast.makeText(SignIn.this,"Member delete successfully",Toast.LENGTH_SHORT)
+                                                                                                      .show();
+                                                                                              Intent i2 = new Intent(SignIn.this,MainActivity.class);
+                                                                                              startActivity(i2);
+                                                                                          });
 
                                                                       }
                                                                   }
