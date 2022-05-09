@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".Home.MainActivity"
     android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue">
-        <ImageView
+        android:background="@color/white"
+        android:orientation="vertical">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/blue_bg"/>
+            android:layout_height="100dp"
+            android:background="@drawable/blue_bg"/>
     </LinearLayout>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -35,9 +35,17 @@
                 android:layout_gravity="center"
                 android:src="@drawable/profile_icon"
                 android:contentDescription="image" />
-
-
-
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@color/lightblue"
+                android:textSize="45sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-smallcaps"/>
             <EditText
                 android:id="@+id/editEmail"
                 android:layout_width="match_parent"
@@ -55,15 +63,12 @@
                 android:layout_marginTop="20dp"
                 android:paddingLeft="20dp"
                 />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 app:passwordToggleEnabled="true">
-
-
                 <EditText
                     android:id="@+id/editPassword"
                     android:layout_width="match_parent"

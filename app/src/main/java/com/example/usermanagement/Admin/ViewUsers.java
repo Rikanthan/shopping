@@ -1,14 +1,20 @@
 package com.example.usermanagement.Admin;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import usermanagement.R;
-import com.example.usermanagement.Views.User;
+
+import com.example.usermanagement.Login_front.SignIn;
+import com.example.usermanagement.Views.Member;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -18,9 +24,9 @@ import java.util.Objects;
 
 public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdapterListener{
     private RecyclerView mRecyclerView;
-    private UserAdapter userAdapter;
+    private UserAdapter memberAdapter;
     private FirebaseFirestore firestore;
-    private List<User> userList;
+    private List<Member> memberList;
     private String key = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +35,15 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
         mRecyclerView = findViewById(R.id.user_recycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userList = new ArrayList<>();
+        memberList = new ArrayList<>();
         firestore = FirebaseFirestore.getInstance();
-        showUsers();
+        showMembers();
     }
 
-    public void showUsers()
+    public void showMembers()
     {
-        userList.clear();
-        firestore.collection("User")
+        memberList.clear();
+        firestore.collection("Member")
                 .get()
                 .addOnCompleteListener(task -> {
                    if(task.isSuccessful())
@@ -46,50 +52,39 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
                        {
                            if(document.exists())
                            {
-                               User user = document.toObject(User.class);
+                               Member member = document.toObject(Member.class);
                                 key = document.getId();
-                               userList.add(user);
+                               memberList.add(member);
                            }
                        }
-                       userAdapter = new UserAdapter(ViewUsers.this,userList, ViewUsers.this);
-                       mRecyclerView.setAdapter(userAdapter);
+                       memberAdapter = new UserAdapter(ViewUsers.this,memberList, ViewUsers.this);
+                       mRecyclerView.setAdapter(memberAdapter);
                    }
                 });
     }
     @Override
-    public void deleteClick(View v, int position) {
-        android.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(ViewUsers.this);
-        alertDialog.setTitle("Conformation");
-        alertDialog.setMessage("Do you want to delete user data?");
-        alertDialog.setPositiveButton("Yes", (dialog, which) -> {
-            Objects.requireNonNull(FirebaseAuth
-                    .getInstance()
-                    .signInWithEmailAndPassword(
-                            userList.get(position).getEmail(),
-                            userList.get(position).getPassword())
-                            .addOnCompleteListener(task -> {
-                               if(task.isSuccessful())
-                               {
-                                   task.getResult().getUser().delete();
-                               }
-                            }));
-            firestore
-                    .collection("User")
-                    .document(userList.remove(position).getId())
-                    .delete()
-                    .addOnSuccessListener(
-                            unused ->
-                                    Toast.makeText(ViewUsers.this,"User delete successfully",Toast.LENGTH_SHORT)
-                                            .show());
-            //userList.remove(position);
-            showUsers();
-        });
-        alertDialog.setNegativeButton("no" ,((dialog, which) -> {
-        }));
-        AlertDialog alert = alertDialog.create();
-        alert.setCanceledOnTouchOutside(false);
-        alert.show();
+    public void userClick(View v, int position) {
+        Intent i = new Intent(ViewUsers.this, SignIn.class);
+        i.putExtra("Action","showuser");
+        i.putExtra("UserId",memberList.get(position).getUid());
+        startActivity(i);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.admin__new,menu);
+        final View addPhone = menu.findItem(R.id.add_user).getActionView();
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_user:
+                Intent intent = new Intent(this, SignIn.class);
+                intent.putExtra("Action","register");
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

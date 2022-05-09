@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import usermanagement.R;
+
+import com.example.usermanagement.Views.Member;
 import com.example.usermanagement.Views.User;
 
 import java.util.List;
@@ -21,8 +23,8 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolder> {
     private final Context mContext;
     public static UserAdapterListener mClickListener;
-    private final List<User> mUser;
-    public UserAdapter(Context context, List<User> Users, UserAdapterListener listener) {
+    private final List<Member> mUser;
+    public UserAdapter(Context context, List<Member> Users, UserAdapterListener listener) {
         mContext = context;
         mUser = Users;
         this.mClickListener = listener;
@@ -39,16 +41,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
-        User user = mUser.get(position);
+        Member user = mUser.get(position);
         holder.name.setText(user.getName());
-        holder.phone.setText(user.getPhoneNumber());
-        holder.address.setText(user.getAddress());
-        holder.dob.setText(user.getDOB());
-        holder.nic.setText(user.getNIC());
+        holder.phone.setText(String.valueOf(user.getMobile()));
+        holder.address.setText(user.getLocation());
         holder.email.setText(user.getEmail());
-        holder.delete.setOnClickListener(
-                v -> mClickListener.deleteClick(v,position)
-        );
     }
     @Override
     public int getItemCount() {
@@ -71,20 +68,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
             email = itemView.findViewById(R.id.email);
             phone = itemView.findViewById(R.id.phone);
             address = itemView.findViewById(R.id.location);
-            dob = itemView.findViewById(R.id.dob);
-            nic = itemView.findViewById(R.id.nic);
-            delete = itemView.findViewById(R.id.delete);
             linearLayoutManager = (LinearLayout)itemView.findViewById(R.id.show_details);
             linearLayoutManager.setOnClickListener(v -> mClickListener
-                    .deleteClick(v,ImageViewHolder.this.getAdapterPosition()));
+                    .userClick(v,ImageViewHolder.this.getAdapterPosition()));
             itemView.setOnClickListener(this);
         }
 
     }
 
-
     public interface UserAdapterListener{
-        void deleteClick(View v, int position);
+        void userClick(View v, int position);
     }
   
 

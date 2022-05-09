@@ -28,17 +28,123 @@
             android:gravity="center"
             android:padding="10dp"
             android:id="@+id/title"
-            android:text="@string/signin"
+            android:text="User Details"
             android:textAllCaps="false"
             android:textColor="@color/lightblue"
             android:textSize="45sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-smallcaps"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_individual_users"
+            android:visibility="visible"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:id="@+id/show_name"
+                android:text="Username :- name"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:id="@+id/show_Location"
+                android:text="Location :- location"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:id="@+id/show_email"
+                android:text="Email :- email@email.com"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:id="@+id/show_phoneno"
+                android:text="Phone :- 0775748569"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:id="@+id/show_password"
+                android:text="Password :- *******"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:filterTouchesWhenObscured="true"
+                android:fontFamily="sans-serif"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
+                <Button
+                    android:id="@+id/user_edit"
+                    android:layout_width="100dp"
+                    android:layout_gravity="left"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button"
+                    android:onClick="edit"
+                    android:padding="3dp"
+                    android:text="Edit"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:fontFamily="casual"
+                    android:textStyle="bold" />
+                <Button
+                    android:id="@+id/user_delete"
+                    android:layout_width="100dp"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button"
+                    android:onClick="delete"
+                    android:padding="3dp"
+                    android:text="Delete"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:fontFamily="casual"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/edit_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         >
        <LinearLayout
            android:layout_width="match_parent"

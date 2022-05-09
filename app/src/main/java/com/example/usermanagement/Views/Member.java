@@ -5,25 +5,18 @@ public class Member {
     private String Email;
     private long Mobile;
     private  String Location;
+    private String password;
+    private String uid;
 
-
-    public Member(String name, String email, long mobile, String location, String userType) {
+    public Member(String name, String email, long mobile, String location, String password, String uid) {
         Name = name;
         Email = email;
         Mobile = mobile;
         Location = location;
-        this.userType = userType;
+        this.password = password;
+        this.uid = uid;
     }
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    private String userType;
 
     public String getName() {
         return Name;
@@ -61,5 +54,21 @@ public class Member {
     public Member()
     {
 
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

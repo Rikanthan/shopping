@@ -78,7 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public  void signup(View v)
     {
-        Intent i=new Intent(this, SignIn.class);
+        Intent i = new Intent(this, SignIn.class);
+        i.putExtra("Action","register");
         startActivity(i);
     }
     public  void forgetpassword(View v)
@@ -115,21 +116,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     if(task1.isSuccessful())
                                     {
                                         String role = task1.getResult().getData().get(uid).toString();
-                                       if(role.contains("Admin") )
+                                       if(role.contains("admin") )
                                        {
                                            Intent i= new Intent(MainActivity.this, ViewUsers.class);
                                            startActivity(i);
                                        }
-                                       else if (role.contains("Donor"))
+                                       else if (role.contains("User"))
                                        {
-                                           //Intent i= new Intent(MainActivity.this, ShowPosts.class);
-                                          // startActivity(i);
+                                           Intent i= new Intent(MainActivity.this, SignIn.class);
+                                           i.putExtra("Action","showuser");
+                                           System.out.println(uid);
+                                           i.putExtra("UserId",uid);
+                                           startActivity(i);
                                        }
-                                       else
-                                       {
-                                           //Intent i= new Intent(MainActivity.this, SeePosts.class);
-                                           //startActivity(i);
-                                       }
+
                                     }});
                             }
                             else {
@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
         userEmail = email.getText().toString();
         userPassword = pass.getText().toString();
-        userRef.setValue("seller");
         if (saveLoginCheckBox.isChecked()) {
             loginPrefsEditor.putBoolean("saveLogin", true);
             loginPrefsEditor.putString("username", userEmail);

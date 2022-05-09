@@ -12,55 +12,45 @@
     tools:targetApi="O">
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/show_details"
         android:layout_height="wrap_content"
-        android:background="@drawable/overlay"
-        android:padding="10dp"
-        android:orientation="vertical">
-        <TextView
+        android:orientation="horizontal"
+        android:background="@drawable/recycle_design">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profile_icon"/>
+        <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/show_details"
             android:layout_height="wrap_content"
-            android:id="@+id/name"
-            android:text="User name"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/email"
-            android:text="User email"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/phone"
-            android:text="User Phone"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/location"
-            android:text="User location"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dob"
-            android:text="User Date of Birth"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/nic"
-            android:text="User nic"
-            />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/delete"
-            android:src="@drawable/ic_baseline_delete_24"
-            android:layout_margin="10dp"
-            android:visibility="visible"
-            />
+            android:padding="10dp"
+            android:layout_gravity="right"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                android:text="User name"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/email"
+                android:text="User email"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/phone"
+                android:text="User Phone"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/location"
+                android:text="User location"
+                />
+        </LinearLayout>
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>
