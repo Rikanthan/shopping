@@ -15,9 +15,12 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
+            android:name=".Admin.ShowDetails"
+            android:exported="false" />
+        <activity
             android:name=".Bloodcamp.SeePosts"
             android:exported="false" />
-        <activity android:name=".Admin.ViewUsers"></activity>
+        <activity android:name=".Admin.ViewUsers" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -37,14 +40,10 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".Donor.ShowPosts"></activity>
-        <activity
-            android:name=".customer.ContactSeller"
-            android:exported="false" />
+        <activity android:name=".Donor.ShowPosts" />
         <activity android:name=".Post.PostUpload" />
         <activity android:name=".Login_front.SignIn" />
         <activity android:name=".Login_front.ForgetPassword" />
-        <activity android:name=".customer.ConsumerViewPhones" />
         <activity android:name=".Home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

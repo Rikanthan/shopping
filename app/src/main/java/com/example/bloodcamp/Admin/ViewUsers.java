@@ -1,20 +1,15 @@
 package com.example.bloodcamp.Admin;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import com.example.bloodcamp.R;
-import com.example.bloodcamp.Views.Donor;
-import com.example.bloodcamp.customer.ConsumerViewPhones;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.bloodcamp.Views.UserRole;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -26,7 +21,7 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
     private RecyclerView mRecyclerView;
     private UserAdapter userAdapter;
     private FirebaseFirestore firestore;
-    private List<Donor> donorList;
+    private List<UserRole> donorList;
     private String key = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +38,7 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
     public void showUsers()
     {
         donorList.clear();
-        firestore.collection("Donor")
+        firestore.collection("UserRole")
                 .get()
                 .addOnCompleteListener(task -> {
                    if(task.isSuccessful())
@@ -52,7 +47,7 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
                        {
                            if(document.exists())
                            {
-                               Donor donor = document.toObject(Donor.class);
+                               UserRole donor = document.toObject(UserRole.class);
                                 key = document.getId();
                                donorList.add(donor);
                            }
@@ -64,38 +59,40 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
     }
     @Override
     public void deleteClick(View v, int position) {
-        android.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(ViewUsers.this);
-        alertDialog.setTitle("Conformation");
-        alertDialog.setMessage("Do you want to delete user data?");
-        alertDialog.setPositiveButton("Yes", (dialog, which) -> {
-            Objects.requireNonNull(FirebaseAuth
-                    .getInstance()
-                    .signInWithEmailAndPassword(
-                            donorList.get(position).getEmail(),
-                            donorList.get(position).getPassword())
-                            .addOnCompleteListener(task -> {
-                               if(task.isSuccessful())
-                               {
-                                   task.getResult().getUser().delete();
-                               }
-                            }));
-            firestore
-                    .collection("Donor")
-                    .document(donorList.remove(position).getId())
-                    .delete()
-                    .addOnSuccessListener(
-                            unused ->
-                                    Toast.makeText(ViewUsers.this,"User delete successfully",Toast.LENGTH_SHORT)
-                                            .show());
-            //donorList.remove(position);
-            showUsers();
-        });
-        alertDialog.setNegativeButton("no" ,((dialog, which) -> {
-        }));
-        AlertDialog alert = alertDialog.create();
-        alert.setCanceledOnTouchOutside(false);
-        alert.show();
-
-
+        Intent i = new Intent(ViewUsers.this,ShowDetails.class);
+        i.putExtra("id",donorList.get(position).getUid());
+        i.putExtra("UserRole",donorList.get(position).getUserRole());
+        startActivity(i);
+//        android.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(ViewUsers.this);
+//        alertDialog.setTitle("Conformation");
+//        alertDialog.setMessage("Do you want to delete user data?");
+//        alertDialog.setPositiveButton("Yes", (dialog, which) -> {
+//            Objects.requireNonNull(FirebaseAuth
+//                    .getInstance()
+//                    .signInWithEmailAndPassword(
+//                            donorList.get(position).getEmail(),
+//                            donorList.get(position).getPassword())
+//                            .addOnCompleteListener(task -> {
+//                               if(task.isSuccessful())
+//                               {
+//                                   task.getResult().getUser().delete();
+//                               }
+//                            }));
+//            firestore
+//                    .collection("UserRole")
+//                    .document(donorList.remove(position).getId())
+//                    .delete()
+//                    .addOnSuccessListener(
+//                            unused ->
+//                                    Toast.makeText(ViewUsers.this,"User delete successfully",Toast.LENGTH_SHORT)
+//                                            .show());
+//            //donorList.remove(position);
+//            showUsers();
+//        });
+//        alertDialog.setNegativeButton("no" ,((dialog, which) -> {
+//        }));
+//        AlertDialog alert = alertDialog.create();
+//        alert.setCanceledOnTouchOutside(false);
+//        alert.show();
     }
 }

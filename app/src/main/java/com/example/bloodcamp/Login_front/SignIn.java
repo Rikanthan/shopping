@@ -21,6 +21,7 @@ import com.example.bloodcamp.Home.MainActivity;
 import com.example.bloodcamp.Views.Donor;
 import com.example.bloodcamp.Views.Member;
 import com.example.bloodcamp.R;
+import com.example.bloodcamp.Views.UserRole;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,19 +81,15 @@ public class SignIn extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         //Check gps is enable or not
-
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
             //Write Function To enable gps
-
             OnGPS();
         }
         else
         {
             //GPS is already On then
-
             getLocation();
         }
 
@@ -102,12 +99,11 @@ public class SignIn extends AppCompatActivity {
         firestore.collection("Member")
                 .document(uid).set(member);
     }
-    private void addUserType(String userId)
+    private void addUserType(UserRole userRole)
     {
-        Map<String ,String> userRole = new HashMap<>();
-        userRole.put(userId,userType);
+
         firestore.collection("UserRole").
-                document(userId).set(userRole);
+                document(userRole.getUid()).set(userRole);
     }
     private void addDonor(Donor donor, String uid)
     {
@@ -193,7 +189,6 @@ public class SignIn extends AppCompatActivity {
     public void onUserClicked(View v)
     {
         boolean checked = ((RadioButton) v).isChecked();
-
         // Check which radio button was clicked
         switch(v.getId()) {
             case R.id.bloodcamp:
@@ -215,15 +210,16 @@ public class SignIn extends AppCompatActivity {
                 }
                     break;
         }
-
     }
 
     public void signin(View v) {
-
+        UserRole userRole = new UserRole();
+        System.out.println(userType);
         if(userType.contains("BloodCamp"))
         {
             member.setName(fullname.getText().toString().trim());
             member.setEmail(email.getText().toString().trim());
+            member.setPassword(pswd.getText().toString().trim());
             try {
                 Long phn=Long.parseLong(mobile.getText().toString().trim());
                 member.setMobile(phn);
@@ -251,8 +247,6 @@ public class SignIn extends AppCompatActivity {
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile()) {
             return;
         }
-        String input = "Email: " + email.getText().toString();
-        input += "\n";
         firebaseAuth
                 .createUserWithEmailAndPassword(
                         email.getText().toString().trim(),
@@ -265,15 +259,19 @@ public class SignIn extends AppCompatActivity {
                                 if(userType.contains("BloodCamp"))
                                 {
                                     reff.child(uid).setValue(member);
+                                    userRole.setName(member.getName());
                                     addUser(member,uid);
                                 }
-                                else
+                                else if(userType.contains("Donor"))
                                 {
                                     donor.setId(uid);
                                     reff.child(uid).setValue(donor);
                                     addDonor(donor,uid);
+                                    userRole.setName(donor.getName());
                                 }
-                                addUserType(uid);
+                                userRole.setUserRole(userType);
+                                userRole.setUid(uid);
+                                addUserType(userRole);
                                 Toast.makeText(SignIn.this, "Data input & user created successfully", Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(SignIn.this, MainActivity.class);
                                 startActivity(i);
@@ -287,9 +285,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void getLocation() {
-
         //Check Permissions again
-
         if (ActivityCompat.checkSelfPermission(SignIn.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(SignIn.this,
@@ -309,46 +305,34 @@ public class SignIn extends AppCompatActivity {
             {
                 double lat=LocationGps.getLatitude();
                 double longi=LocationGps.getLongitude();
-
                 latitude = String.valueOf(lat);
                 longitude = String.valueOf(longi);
-
                 System.out.println("Lattitude : "+ latitude);
             }
             else if (LocationNetwork !=null)
             {
                 double lat = LocationNetwork.getLatitude();
                 double longi = LocationNetwork.getLongitude();
-
                 latitude=String.valueOf(lat);
                 longitude=String.valueOf(longi);
                 System.out.println("Lattitude : "+ latitude);
-               // showLocationTxt.setText("Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
             }
             else if (LocationPassive !=null)
             {
                 double lat=LocationPassive.getLatitude();
                 double longi=LocationPassive.getLongitude();
-
                 latitude=String.valueOf(lat);
                 longitude=String.valueOf(longi);
                 System.out.println("Lattitude : "+ latitude);
-
             }
             else
             {
                 Toast.makeText(this, "Can't Get Your Location", Toast.LENGTH_SHORT).show();
             }
-
-            //Thats All Run Your App
         }
-
     }
-
     private void OnGPS() {
-
         final AlertDialog.Builder builder= new AlertDialog.Builder(this);
-
         builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("YES",
                 (dialog, which)
                         -> startActivity(

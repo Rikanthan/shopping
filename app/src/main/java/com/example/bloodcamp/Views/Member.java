@@ -6,13 +6,23 @@ public class Member {
     private long Mobile;
     private  String Location;
 
+    public String getPassword() {
+        return password;
+    }
 
-    public Member(String name, String email, long mobile, String location, String userType) {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
+    public Member(String name, String email, long mobile, String location, String userType, String password) {
         Name = name;
         Email = email;
         Mobile = mobile;
         Location = location;
         this.userType = userType;
+        this.password = password;
     }
 
     public String getUserType() {

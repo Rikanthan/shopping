@@ -17,6 +17,7 @@ import com.example.bloodcamp.Login_front.ForgetPassword;
 import com.example.bloodcamp.Donor.ShowPosts;
 import com.example.bloodcamp.Login_front.SignIn;
 import com.example.bloodcamp.R;
+import com.example.bloodcamp.Views.UserRole;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -116,7 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         .get().addOnCompleteListener(task1 -> {
                                     if(task1.isSuccessful())
                                     {
-                                        String role = task1.getResult().getData().get(uid).toString();
+                                        UserRole userRole = task1.getResult().toObject(UserRole.class);
+                                        String role = userRole.getUserRole();
                                        if(role.contains("Admin") )
                                        {
                                            Intent i= new Intent(MainActivity.this, ViewUsers.class);

@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bloodcamp.R;
-import com.example.bloodcamp.Views.Donor;
+import com.example.bloodcamp.Views.UserRole;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolder> {
     private final Context mContext;
     public static UserAdapterListener mClickListener;
-    private final List<Donor> mDonor;
-    public UserAdapter(Context context, List<Donor> Donors, UserAdapterListener listener) {
+    private final List<UserRole> mUserRole;
+    public UserAdapter(Context context, List<UserRole> UserRoles, UserAdapterListener listener) {
         mContext = context;
-        mDonor = Donors;
+        mUserRole = UserRoles;
         this.mClickListener = listener;
     }
     @NonNull
@@ -39,23 +39,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
-        Donor donor = mDonor.get(position);
-        holder.name.setText(donor.getName());
-        holder.phone.setText(donor.getPhoneNumber());
-        holder.address.setText(donor.getAddress());
-        holder.dob.setText(donor.getDOB());
-        holder.nic.setText(donor.getNIC());
-        holder.email.setText(donor.getEmail());
-        holder.delete.setOnClickListener(
-                v -> mClickListener.deleteClick(v,position)
-        );
+        UserRole userRole = mUserRole.get(position);
+        holder.name.setText(userRole.getName());
+        holder.userType.setText(userRole.getUserRole());
     }
     @Override
     public int getItemCount() {
-        return mDonor.size();
+        return mUserRole.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name,address,dob,nic,email,phone;
+        public TextView name,userType;
         public ImageButton delete;
         public LinearLayout linearLayoutManager;
 
@@ -68,12 +61,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         public ImageViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            email = itemView.findViewById(R.id.email);
-            phone = itemView.findViewById(R.id.phone);
-            address = itemView.findViewById(R.id.location);
-            dob = itemView.findViewById(R.id.dob);
-            nic = itemView.findViewById(R.id.nic);
-            delete = itemView.findViewById(R.id.delete);
+            userType = itemView.findViewById(R.id.type);
             linearLayoutManager = (LinearLayout)itemView.findViewById(R.id.show_details);
             linearLayoutManager.setOnClickListener(v -> mClickListener
                     .deleteClick(v,ImageViewHolder.this.getAdapterPosition()));
