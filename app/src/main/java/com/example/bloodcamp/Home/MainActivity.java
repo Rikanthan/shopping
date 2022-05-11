@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         email = (EditText) findViewById(R.id.editEmail);
         pass = (EditText) findViewById(R.id.editPassword);
         login = (Button) findViewById(R.id.userlogin);

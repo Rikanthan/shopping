@@ -64,6 +64,7 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        getSupportActionBar().hide();
         fullname = findViewById(R.id.fullName);
         email = findViewById(R.id.userEmailId);
         mobile = findViewById(R.id.mobileNumber);
