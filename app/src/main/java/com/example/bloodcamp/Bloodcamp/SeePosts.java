@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.bloodcamp.Admin.ShowDetails;
 import com.example.bloodcamp.Post.PostAdapter;
 import com.example.bloodcamp.Post.PostUpload;
 import com.example.bloodcamp.R;
@@ -85,6 +86,11 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
                 Intent intent = new Intent(this, PostUpload.class);
                 intent.putExtra("isUpdate",false);
                 startActivity(intent);
+            case R.id.profile:
+                Intent i = new Intent(this, ShowDetails.class);
+                i.putExtra("id",firebaseAuth.getUid());
+                i.putExtra("UserRole","BloodCamp");
+                startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

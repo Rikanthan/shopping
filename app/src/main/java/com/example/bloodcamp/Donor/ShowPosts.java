@@ -1,15 +1,20 @@
 package com.example.bloodcamp.Donor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
+
+import com.example.bloodcamp.Admin.ShowDetails;
 import com.example.bloodcamp.Post.PostAdapter;
 import com.example.bloodcamp.Post.PostUpload;
 import com.example.bloodcamp.MapsActivity;
@@ -74,7 +79,6 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                 }
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String query) {
                 if(query != null )
@@ -97,7 +101,24 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.donorsmenu,menu);
+        final View addPost = menu.findItem(R.id.profile).getActionView();
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.profile:
+                Intent i = new Intent(this, ShowDetails.class);
+                i.putExtra("id",firebaseAuth.getUid());
+                i.putExtra("UserRole","Donor");
+                startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void search(String s)
     {
         List<Post> searchPost = new ArrayList<>();
@@ -156,7 +177,6 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                                     backupPost.add(post);
                                 }
                             }
-
                         }
                         mAdapter = new PostAdapter(ShowPosts.this, mPost, ShowPosts.this);
                         mRecyclerView.setAdapter(mAdapter);
@@ -167,7 +187,6 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                     }
                 });
     }
-
 
     @Override
     public void editClick(View v, int position) {
@@ -212,7 +231,6 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
         i.putExtra("lat",mPost.get(postion).getLatitude());
         i.putExtra("name",mPost.get(postion).getBloodCampName());
         startActivity(i);
-//        startActivity(i);
     }
 
     @Override
@@ -220,12 +238,11 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
        voted(v,position,"attend");
     }
 
-
-
     @Override
     public void notAttendClick(View v, int position) {
        voted(v,position,"not");
     }
+
     public void voted(View v,int position,String type)
     {
         Post rePost = mPost.get(position);

@@ -63,36 +63,5 @@ public class ViewUsers extends AppCompatActivity implements UserAdapter.UserAdap
         i.putExtra("id",donorList.get(position).getUid());
         i.putExtra("UserRole",donorList.get(position).getUserRole());
         startActivity(i);
-//        android.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(ViewUsers.this);
-//        alertDialog.setTitle("Conformation");
-//        alertDialog.setMessage("Do you want to delete user data?");
-//        alertDialog.setPositiveButton("Yes", (dialog, which) -> {
-//            Objects.requireNonNull(FirebaseAuth
-//                    .getInstance()
-//                    .signInWithEmailAndPassword(
-//                            donorList.get(position).getEmail(),
-//                            donorList.get(position).getPassword())
-//                            .addOnCompleteListener(task -> {
-//                               if(task.isSuccessful())
-//                               {
-//                                   task.getResult().getUser().delete();
-//                               }
-//                            }));
-//            firestore
-//                    .collection("UserRole")
-//                    .document(donorList.remove(position).getId())
-//                    .delete()
-//                    .addOnSuccessListener(
-//                            unused ->
-//                                    Toast.makeText(ViewUsers.this,"User delete successfully",Toast.LENGTH_SHORT)
-//                                            .show());
-//            //donorList.remove(position);
-//            showUsers();
-//        });
-//        alertDialog.setNegativeButton("no" ,((dialog, which) -> {
-//        }));
-//        AlertDialog alert = alertDialog.create();
-//        alert.setCanceledOnTouchOutside(false);
-//        alert.show();
     }
 }
