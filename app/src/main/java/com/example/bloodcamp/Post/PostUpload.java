@@ -99,6 +99,7 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         setContentView(R.layout.activity_imageupload);
         Button mButtonChooseImage = findViewById(R.id.button_choose_image);
         Button mButtonUpload = findViewById(R.id.button_upload);
+        firestore = FirebaseFirestore.getInstance();
         mImageView = findViewById(R.id.image_view);
         mProgressBar = findViewById(R.id.progress_bar);
         description = findViewById(R.id.description);
@@ -112,18 +113,19 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         post = new Post();
-        isUpdate = getIntent().getBooleanExtra("isUpdate",false);
-        uploadId = getIntent().getStringExtra("itemid");
+        isUpdate = getIntent().getBooleanExtra("Action",false);
         if(isUpdate)
         {
+            uploadId = getIntent().getStringExtra("PostId");
             header.setText("Edit Post");
             mButtonUpload.setText("Update");
             action = "update";
+            getPost();
         }
         currentTime = new Date();
         format = new SimpleDateFormat(DATE_FORMAT);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        firestore = FirebaseFirestore.getInstance();
+
         mStorageRef= FirebaseStorage.getInstance().getReference("product");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -141,6 +143,28 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
             }
         });
 
+    }
+    private void getPost()
+    {
+        firestore
+                .collection("Post")
+                .document(uploadId)
+                .get()
+                .addOnCompleteListener(
+                        task -> {
+                            if(task.isSuccessful())
+                            {
+                                Post post = task.getResult().toObject(Post.class);
+                                Picasso.get().load(post.getImageUri()).into(mImageView);
+                                description.setText(post.getDescription());
+                                bloodCampName.setText(post.getBloodCampName());
+                                organizer.setText(post.getOrganizerName());
+                                location.setText(post.getLocation());
+                                chooseDate.setText(post.getDate());
+                                chooseTime.setText(post.getTime());
+                            }
+                        }
+                );
     }
     private void addPost(Post post,String id)
     {

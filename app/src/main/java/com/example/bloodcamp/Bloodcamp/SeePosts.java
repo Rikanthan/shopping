@@ -40,7 +40,6 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgress = findViewById(R.id.progress_circle);
         mPost = new ArrayList<>();
-        backupPost = new ArrayList<>();
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         showPostForBloodCamp();
@@ -59,7 +58,6 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
                             {
                                 Post post = document.toObject(Post.class);
                                     mPost.add(post);
-                                    backupPost.add(post);
                             }
                         }
                         mAdapter = new PostAdapter(SeePosts.this, mPost, SeePosts.this);
@@ -97,7 +95,10 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
 
     @Override
     public void editClick(View v, int position) {
-
+        Intent intent = new Intent(SeePosts.this,PostUpload.class);
+        intent.putExtra("Action",true);
+        intent.putExtra("PostId",mPost.get(position).getPostId());
+        startActivity(intent);
     }
 
     @Override
