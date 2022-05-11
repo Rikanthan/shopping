@@ -13,8 +13,12 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bloodcamp.Home.MainActivity;
@@ -54,13 +58,18 @@ public class SignIn extends AppCompatActivity {
     private EditText nic;
     private EditText dob;
     private EditText city;
+    private TextView userHeader;
+    private TextView title;
+    private boolean isUpdate;
     private static  final int REQUEST_LOCATION=1;
+    private Button action;
+    private ProgressBar progressBar;
     LocationManager locationManager;
     String latitude,longitude;
     Member member;
     Donor donor;
     private String userType ="BloodCamp";
-
+    private RadioGroup radioGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +82,15 @@ public class SignIn extends AppCompatActivity {
         pswd = findViewById(R.id.password);
         conpswd = findViewById(R.id.confirmPassword);
         nic = findViewById(R.id.NIC);
+        action = findViewById(R.id.signUpBtn);
         dob = findViewById(R.id.DOB);
         city = findViewById(R.id.city);
         member = new Member();
         donor = new Donor();
+        progressBar = findViewById(R.id.progress_bar);
+        title = findViewById(R.id.title);
+        userHeader = findViewById(R.id.userheader);
+        radioGroup = findViewById(R.id.radio);
         reff = FirebaseDatabase.getInstance().getReference().child("Member");
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -92,7 +106,23 @@ public class SignIn extends AppCompatActivity {
             //GPS is already On then
             getLocation();
         }
-
+        isUpdate = getIntent().getBooleanExtra("Action",false);
+        if(isUpdate)
+        {
+            userHeader.setVisibility(View.GONE);
+            radioGroup.setVisibility(View.GONE);
+            title.setText("Edit User");
+            action.setText("Update");
+            userType = getIntent().getStringExtra("UserType");
+            if(userType.contains("Donor"))
+            {
+                updateDonor();
+            }
+            else
+            {
+                updateMember();
+            }
+        }
     }
     private void addUser(Member member,String uid)
     {
@@ -212,10 +242,60 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
+    private void updateDonor()
+    {
+        firestore
+                .collection("Donor")
+                .document(firebaseAuth.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                   if(task.isSuccessful())
+                   {
+                       Donor donor1 = task.getResult().toObject(Donor.class);
+                       fullname.setText(donor1.getName());
+                       email.setText(donor1.getEmail());
+                       mobile.setText(donor1.getPhoneNumber());
+                       location.setText(donor1.getCity());
+                       pswd.setText(donor1.getPassword());
+                       conpswd.setText(donor1.getPassword());
+                       nic.setText(donor1.getNIC());
+                       dob.setText(donor1.getDOB());
+                       city.setText(donor1.getCity());
+                   }
+                });
+    }
+    private void updateMember()
+    {
+        String user ="";
+        if(userType.contains("Admin"))
+        {
+            user = "Admin";
+        }
+        else
+        {
+            user = "Member";
+        }
+        firestore
+                .collection(user)
+                .document(firebaseAuth.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful())
+                    {
+                        Member donor1 = task.getResult().toObject(Member.class);
+                        fullname.setText(donor1.getName());
+                        email.setText(donor1.getEmail());
+                        mobile.setText(String.valueOf(donor1.getMobile()));
+                        location.setText(donor1.getLocation());
+                        pswd.setText(donor1.getPassword());
+                        conpswd.setText(donor1.getPassword());
+                    }
+                });
+    }
     public void signin(View v) {
-        UserRole userRole = new UserRole();
+
         System.out.println(userType);
-        if(userType.contains("BloodCamp"))
+        if(userType.contains("BloodCamp") || userType.contains("Admin"))
         {
             member.setName(fullname.getText().toString().trim());
             member.setEmail(email.getText().toString().trim());
@@ -247,6 +327,71 @@ public class SignIn extends AppCompatActivity {
         if (!valideEmail() | !validePassword() | !validecon() |!validefullname() |!validelocation() |!validemobile()) {
             return;
         }
+        if(isUpdate)
+        {
+            updateUser();
+        }
+        else
+        {
+            createUser();
+        }
+    }
+    private void updateUser()
+    {
+        action.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        firebaseAuth
+                .getCurrentUser()
+                .updateEmail(email.getText().toString().trim())
+                .addOnCompleteListener(
+                        task -> {
+                            firebaseAuth
+                                    .getCurrentUser()
+                                    .updatePassword(pswd.getText().toString().trim())
+                                    .addOnCompleteListener( task2 -> {
+                                        if(task2.isSuccessful())
+                                        {
+                                            if(userType.contains("Donor"))
+                                            {
+                                                updateAndSaveDonor();
+                                            }
+                                            else
+                                            {
+                                                updateAndSaveUser(userType);
+                                            }
+                                        }
+                                    });
+                        });
+    }
+    private void updateAndSaveDonor()
+    {
+        firestore
+                .collection("Donor")
+                .document(firebaseAuth.getUid())
+                .set(donor)
+                .addOnSuccessListener(task ->{
+                    Toast.makeText(this,"Donor Details updates successfully",Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(this,MainActivity.class);
+                    startActivity(i);
+                    progressBar.setVisibility(View.GONE);
+                });
+    }
+    private void updateAndSaveUser(String userType)
+    {
+        firestore
+                .collection(userType)
+                .document(firebaseAuth.getUid())
+                .set(member)
+                .addOnSuccessListener(task ->{
+                    Toast.makeText(this, userType+" Details updates successfully",Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(this,MainActivity.class);
+                    startActivity(i);
+                    progressBar.setVisibility(View.GONE);
+                });
+    }
+    private void createUser()
+    {
+        UserRole userRole = new UserRole();
         firebaseAuth
                 .createUserWithEmailAndPassword(
                         email.getText().toString().trim(),
@@ -284,6 +429,7 @@ public class SignIn extends AppCompatActivity {
                 );
     }
 
+
     private void getLocation() {
         //Check Permissions again
         if (ActivityCompat.checkSelfPermission(SignIn.this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -297,9 +443,9 @@ public class SignIn extends AppCompatActivity {
         }
         else
         {
-            Location LocationGps= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Location LocationNetwork=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            Location LocationPassive=locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            Location LocationGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location LocationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location LocationPassive = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
             if (LocationGps !=null)
             {

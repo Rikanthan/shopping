@@ -36,8 +36,8 @@
                android:fontFamily="serif"
                android:text="Rikanthan"
                android:textColor="@color/black"
-               android:textFontWeight="30"
-               android:textStyle="bold" />
+               android:textStyle="bold"
+               tools:targetApi="p" />
            <TextView
                android:id="@+id/type"
                android:layout_width="match_parent"

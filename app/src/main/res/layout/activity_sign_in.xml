@@ -17,6 +17,7 @@
         android:layout_margin="20dp"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -34,13 +35,17 @@
             android:padding="10dp"
             android:text="User type"
             android:textColor="@color/black"
+            android:id="@+id/userheader"
             android:textSize="16sp"
+            android:visibility="visible"
             android:textStyle="bold"
             android:fontFamily="sans-serif-smallcaps"/>
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
+            android:id="@+id/radio"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:orientation="horizontal">
             <RadioButton android:id="@+id/bloodcamp"
                 android:layout_width="wrap_content"
@@ -272,6 +277,12 @@
                     android:textSize="17sp"
                     android:fontFamily="casual"
                     android:textStyle="bold" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:id="@+id/progress_bar"/>
             </LinearLayout>
 
         </ScrollView>

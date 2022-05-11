@@ -2,11 +2,13 @@ package com.example.bloodcamp.Admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.bloodcamp.Login_front.SignIn;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Donor;
 import com.example.bloodcamp.Views.Member;
@@ -18,7 +20,7 @@ public class ShowDetails extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private FirebaseAuth firebaseAuth;
     private String uid,userRole;
-    private Button edit,delete;
+    private Button editUser,delete;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class ShowDetails extends AppCompatActivity {
         phone = findViewById(R.id.show_phoneno);
         uid = getIntent().getStringExtra("id");
         userRole = getIntent().getStringExtra("UserRole");
-        edit = findViewById(R.id.user_edit);
+        editUser = findViewById(R.id.user_edit);
         delete = findViewById(R.id.user_delete);
         if(userRole.contains("Admin"))
         {
@@ -52,12 +54,19 @@ public class ShowDetails extends AppCompatActivity {
     {
         if(uid.contains(firebaseAuth.getUid()))
         {
-            edit.setVisibility(View.VISIBLE);
+            editUser.setVisibility(View.VISIBLE);
         }
         else
         {
-            edit.setVisibility(View.GONE);
+            editUser.setVisibility(View.GONE);
         }
+    }
+    public void edit(View v)
+    {
+        Intent intent = new Intent(ShowDetails.this, SignIn.class);
+        intent.putExtra("Action",true);
+        intent.putExtra("UserType",userRole);
+        startActivity(intent);
     }
     private void showDonor()
     {

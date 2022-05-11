@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <item
-        android:id="@+id/filter"
-        android:icon="@drawable/ic_baseline_filter_alt_24"
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_baseline_perm_identity_24"
         android:orderInCategory="100"
         android:title="filter"
         app:showAsAction="always"
