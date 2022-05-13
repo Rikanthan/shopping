@@ -13,6 +13,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.Bloodcamp.SeePosts;
 import com.example.bloodcamp.Donor.ShowPosts;
+import com.example.bloodcamp.Login_front.SignIn;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Vote;
@@ -62,6 +64,7 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
     protected Context context;
     private double latitude, longitude;
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static  final int REQUEST_LOCATION=1;
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private TextView header,chooseDate,chooseTime;
     private EditText bloodCampName, organizer, description, location;
@@ -121,6 +124,10 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         {
             //Write Function To enable gps
             OnGPS();
+        }
+        else
+        {
+            getLocation();
         }
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
@@ -230,6 +237,7 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                         Handler handler = new Handler();
                         handler.postDelayed(
                                 () -> mProgressBar.setProgress(0), 500);
+                        if(isReady)
                         Toast.makeText(PostUpload.this, action+" successful", Toast.LENGTH_LONG).show();
                        Task<Uri> uriTask = uploadTask.continueWithTask(task -> {
                            if(!task.isSuccessful())
@@ -246,7 +254,6 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                                    uploadId = mDatabaseRef.push().getKey();
                                }
                                downloadImageUrl = task.getResult().toString();
-                               //isReady = true;
                               addDetails();
                            }
                        });
@@ -261,7 +268,6 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         else if(isUpdate && !isClicked)
         {
             addDetails();
-            isReady = true;
             Toast.makeText(this, "Update Success", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, SeePosts.class);
             startActivity(i);
@@ -384,10 +390,17 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         {
             post.setImageUri(downloadImageUrl);
         }
-        addPost(post,uploadId);
-        mDatabaseRef.child(uploadId).setValue(post);
-        Intent i = new Intent(PostUpload.this, SeePosts.class);
-        startActivity(i);
+        if(isReady)
+        {
+            addPost(post,uploadId);
+            mDatabaseRef.child(uploadId).setValue(post);
+            Intent i = new Intent(PostUpload.this, SeePosts.class);
+            startActivity(i);
+        }
+        else
+        {
+            Toast.makeText(this,"Wait until your location isn't set",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -403,12 +416,7 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-//                if(isReady)
-//                {
-//                    addDetails();
-//                    Intent i = new Intent(this, SeePosts.class);
-//                    startActivity(i);
-//                }
+                isReady = true;
             }
             catch (SecurityException e)
             {
@@ -438,4 +446,54 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         alertDialog.show();
     }
 
+    private void getLocation() {
+        //Check Permissions again
+        if (ActivityCompat.checkSelfPermission(PostUpload.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(PostUpload.this,
+
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+        else
+        {
+            Location LocationGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location LocationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location LocationPassive = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+            if (LocationGps !=null)
+            {
+                double lat=LocationGps.getLatitude();
+                double longi=LocationGps.getLongitude();
+                latitude = lat;
+                longitude = longi;
+                System.out.println("Lattitude : "+ latitude);
+                isReady = true;
+            }
+            else if (LocationNetwork !=null)
+            {
+                double lat = LocationNetwork.getLatitude();
+                double longi = LocationNetwork.getLongitude();
+                latitude = lat;
+                longitude = longi;
+                isReady = true;
+                System.out.println("Lattitude : "+ latitude);
+            }
+            else if (LocationPassive !=null)
+            {
+                double lat=LocationPassive.getLatitude();
+                double longi=LocationPassive.getLongitude();
+                latitude = lat;
+                longitude = longi;
+                isReady = true;
+                System.out.println("Lattitude : "+ latitude);
+            }
+            else
+            {
+                Toast.makeText(this, "Can't Get Your Location", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
