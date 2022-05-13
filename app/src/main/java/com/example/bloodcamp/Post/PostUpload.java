@@ -2,6 +2,7 @@ package com.example.bloodcamp.Post;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -17,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -26,6 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.bloodcamp.Bloodcamp.SeePosts;
 import com.example.bloodcamp.Donor.ShowPosts;
 import com.example.bloodcamp.Views.Post;
 import com.example.bloodcamp.R;
@@ -86,12 +90,13 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
     String getMinute = "";
     String getDigital = "";
     private LatLng latLng;
+    boolean isReady = false;
     long id = 0;
     String uploadId = "";
     int count = 0;
     String uid;
     String action = "upload";
-    Post post;
+    Post post1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +115,17 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         chooseDate = findViewById(R.id.choosed_date);
         chooseTime = findViewById(R.id.choosed_time);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //Check gps is enable or not
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            //Write Function To enable gps
+            OnGPS();
+        }
+
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
-        post = new Post();
+        post1 = new Post();
         isUpdate = getIntent().getBooleanExtra("Action",false);
         if(isUpdate)
         {
@@ -125,8 +138,7 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         currentTime = new Date();
         format = new SimpleDateFormat(DATE_FORMAT);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        mStorageRef= FirebaseStorage.getInstance().getReference("product");
+        mStorageRef = FirebaseStorage.getInstance().getReference("product");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -154,14 +166,21 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                         task -> {
                             if(task.isSuccessful())
                             {
-                                Post post = task.getResult().toObject(Post.class);
-                                Picasso.get().load(post.getImageUri()).into(mImageView);
-                                description.setText(post.getDescription());
-                                bloodCampName.setText(post.getBloodCampName());
-                                organizer.setText(post.getOrganizerName());
-                                location.setText(post.getLocation());
-                                chooseDate.setText(post.getDate());
-                                chooseTime.setText(post.getTime());
+                                post1 = task.getResult().toObject(Post.class);
+                                Glide
+                                        .with(getApplicationContext())
+                                        .load(post1.getImageUri())
+                                        .placeholder(R.mipmap.loading).into(mImageView);
+                                description.setText(post1.getDescription());
+                                bloodCampName.setText(post1.getBloodCampName());
+                                organizer.setText(post1.getOrganizerName());
+                                location.setText(post1.getLocation());
+                                chooseDate.setText(post1.getDate());
+                                chooseTime.setText(post1.getTime());
+                                date = post1.getDate();
+                                time = post1.getTime();
+                                longitude = post1.getLongitude();
+                                latitude = post1.getLatitude();
                             }
                         }
                 );
@@ -227,7 +246,8 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                                    uploadId = mDatabaseRef.push().getKey();
                                }
                                downloadImageUrl = task.getResult().toString();
-                               addDetails();
+                               //isReady = true;
+                              addDetails();
                            }
                        });
                     })
@@ -241,8 +261,9 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         else if(isUpdate && !isClicked)
         {
             addDetails();
+            isReady = true;
             Toast.makeText(this, "Update Success", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, ShowPosts.class);
+            Intent i = new Intent(this, SeePosts.class);
             startActivity(i);
         }
         else {
@@ -328,7 +349,6 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
 
     }
 
-
     private void addDetails()
     {
         Post post = new Post();
@@ -343,15 +363,31 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         post.setOrganizerName(organizer.getText().toString());
         post.setDescription(description.getText().toString());
         post.setBloodCampName(bloodCampName.getText().toString());
-        post.setImageUri(downloadImageUrl);
         post.setPostId(uploadId);
         post.setBloodCampId(uid);
         post.setLongitude(longitude);
         post.setLatitude(latitude);
         post.setDate(date);
         post.setTime(time);
+        if(isUpdate)
+        {
+          if(downloadImageUrl == null)
+          {
+              post.setImageUri(post1.getImageUri());
+          }
+          else
+          {
+              post.setImageUri(downloadImageUrl);
+          }
+        }
+        else
+        {
+            post.setImageUri(downloadImageUrl);
+        }
         addPost(post,uploadId);
         mDatabaseRef.child(uploadId).setValue(post);
+        Intent i = new Intent(PostUpload.this, SeePosts.class);
+        startActivity(i);
     }
 
     @Override
@@ -367,6 +403,12 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+//                if(isReady)
+//                {
+//                    addDetails();
+//                    Intent i = new Intent(this, SeePosts.class);
+//                    startActivity(i);
+//                }
             }
             catch (SecurityException e)
             {
@@ -384,6 +426,16 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
             e.printStackTrace();
         }
 
+    }
+    private void OnGPS() {
+        final AlertDialog.Builder builder= new AlertDialog.Builder(this);
+        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("YES",
+                (dialog, which)
+                        -> startActivity(
+                        new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+                .setNegativeButton("NO", (dialog, which) -> dialog.cancel());
+        final AlertDialog alertDialog=builder.create();
+        alertDialog.show();
     }
 
 }

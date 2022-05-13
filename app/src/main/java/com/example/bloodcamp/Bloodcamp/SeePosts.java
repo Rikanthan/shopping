@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.bloodcamp.Admin.ShowDetails;
 import com.example.bloodcamp.Post.PostAdapter;
@@ -47,6 +49,7 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
     }
     public void showPostForBloodCamp()
     {
+        mPost.clear();
         String id = firebaseAuth.getCurrentUser().getUid();
         firestore.collection("Post")
                 .whereEqualTo("bloodCampId", id)
@@ -73,17 +76,14 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.admin__new,menu);
-        final View addPost = menu.findItem(R.id.add_phone).getActionView();
+       // final View addPost = menu.findItem(R.id.add_phone).getActionView();
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.add_phone:
-                Intent intent = new Intent(this, PostUpload.class);
-                intent.putExtra("isUpdate",false);
-                startActivity(intent);
+
             case R.id.profile:
                 Intent i = new Intent(this, ShowDetails.class);
                 i.putExtra("id",firebaseAuth.getUid());
@@ -92,7 +92,12 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
         }
         return super.onOptionsItemSelected(item);
     }
-
+    public void addPost(View v)
+    {
+        Intent intent = new Intent(this, PostUpload.class);
+        intent.putExtra("isUpdate",false);
+        startActivity(intent);
+    }
     @Override
     public void editClick(View v, int position) {
         Intent intent = new Intent(SeePosts.this,PostUpload.class);
@@ -103,7 +108,27 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
 
     @Override
     public void deleteClick(View v, int position) {
+        android.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(SeePosts.this);
+        alertDialog.setTitle("Conformation");
+        alertDialog.setMessage("Do you want to delete post?");
+        alertDialog.setPositiveButton("Yes", (dialog, which) -> {
+            Post post = mPost.get(position);
+            mPost.remove(position);
+            firestore
+                    .collection("Post")
+                    .document(post.getPostId())
+                    .delete()
+                    .addOnSuccessListener( task -> {
+                        Toast.makeText(SeePosts.this,"Post delete successfully",Toast.LENGTH_SHORT).show();
+                        showPostForBloodCamp();
+                    });
+        });
+        alertDialog.setNegativeButton("No",(dialog,which) ->{
 
+        });
+        AlertDialog alert = alertDialog.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 
     @Override

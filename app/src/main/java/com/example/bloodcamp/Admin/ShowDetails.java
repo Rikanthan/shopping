@@ -82,8 +82,6 @@ public class ShowDetails extends AppCompatActivity {
     }
     public void delete(View v)
     {
-        delete.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
         String email = "";
         String password = "";
         String reference = "";
@@ -112,6 +110,8 @@ public class ShowDetails extends AppCompatActivity {
         String finalPassword = password;
         String finalReference = reference;
         alertDialog.setPositiveButton("Yes", (dialog, which) -> {
+            delete.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             Objects.requireNonNull(FirebaseAuth
                     .getInstance()
                     .signInWithEmailAndPassword(
@@ -138,8 +138,6 @@ public class ShowDetails extends AppCompatActivity {
                                     );
                         }
                     }));
-
-
         });
         alertDialog.setNegativeButton("no" ,((dialog, which) -> {
         }));

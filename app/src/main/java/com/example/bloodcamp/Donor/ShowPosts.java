@@ -154,8 +154,14 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful())
                         {
-                            Donor donor = task.getResult().toObject(Donor.class);
-                            showPost(donor.getLongitude(),donor.getLatitude());
+                            try {
+                                Donor donor = task.getResult().toObject(Donor.class);
+                                showPost(donor.getLongitude(),donor.getLatitude());
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
                     });
     }
@@ -264,7 +270,19 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
         if(!found) {
             voted.add(firebaseAuth.getUid()+type);
             vote.setVotedPeople(voted);
-            vote.setAttendVote();
+            if(type.contains("not"))
+            {
+                vote.setNotAttendVote();
+            }
+            else if(type.contains("attend"))
+            {
+                vote.setAttendVote();
+            }
+            else if(type.contains("interest"))
+            {
+                vote.setInterestedVote();
+            }
+
             rePost.setVote(vote);
             firestore.collection("Post")
                     .document(rePost.getPostId()).set(rePost);

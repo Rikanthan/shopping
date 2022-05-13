@@ -156,7 +156,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
             interestper = itemView.findViewById(R.id.interstedper);
             attendper = itemView.findViewById(R.id.attendper);
             notattendper = itemView.findViewById(R.id.notattendper);
-            delete = itemView.findViewById(R.id.delete);
+            delete = itemView.findViewById(R.id.delete_post);
             view = itemView.findViewById(R.id.view);
             attend = itemView.findViewById(R.id.voteattend);
             notAttend = itemView.findViewById(R.id.votenot);
