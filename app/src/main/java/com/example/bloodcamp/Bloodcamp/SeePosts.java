@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bloodcamp.Admin.ShowDetails;
@@ -33,6 +34,7 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
     private FirebaseFirestore firestore;
     private List<Post> mPost, backupPost;
     private FirebaseAuth firebaseAuth;
+    private TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +44,14 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgress = findViewById(R.id.progress_circle);
         mPost = new ArrayList<>();
+        textView = findViewById(R.id.warning_text);
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         showPostForBloodCamp();
-
+        if(mPost != null && mPost.isEmpty())
+        {
+            textView.setVisibility(View.VISIBLE);
+        }
     }
     public void showPostForBloodCamp()
     {
@@ -66,6 +72,10 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
                         mAdapter = new PostAdapter(SeePosts.this, mPost, SeePosts.this);
                         mRecyclerView.setAdapter(mAdapter);
                         mProgress.setVisibility(View.GONE);
+                        if(!mPost.isEmpty())
+                        {
+                            textView.setVisibility(View.GONE);
+                        }
                     }
                     else {
                         mProgress.setVisibility(View.INVISIBLE);

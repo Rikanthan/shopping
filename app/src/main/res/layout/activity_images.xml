@@ -10,7 +10,21 @@
         android:id="@+id/search_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint='Search items' />
+        android:queryHint='Search items'
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/warning_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/lato"
+        android:text="There is no bloodcamp near your location"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
 
     <ProgressBar
         android:layout_marginTop="200dp"

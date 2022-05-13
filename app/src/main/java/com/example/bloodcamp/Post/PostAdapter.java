@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
+import com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -57,13 +58,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                         Post uploadCurrent = mPosts.get(position);
                         holder.bloodcamp.setText(uploadCurrent.getBloodCampName());
                         holder.organizer.setText("Organized By \n"+uploadCurrent.getOrganizerName());
-                        holder.location.setText(uploadCurrent.getLocation());
-                        holder.posted.setText(uploadCurrent.getPostedDate());
+                        holder.location.setText("Venue:- "+uploadCurrent.getLocation());
+                        holder.posted.setText("Post created at : "+uploadCurrent.getPostedDate());
                         Glide.with(mContext)
                                 .load(uploadCurrent.getImageUri())
                                 .placeholder(R.drawable.loader)
                                 .into(holder.imageView);
                         holder.description.setText(uploadCurrent.getDescription());
+                        holder.date.setText("Date:- "+uploadCurrent.getDate());
+                        holder.time.setText("Time:- "+uploadCurrent.getTime());
                         for(String s : uploadCurrent.getVote().getVotedPeople())
                         {
                             if(s.contains("not") && s.contains(uid))
@@ -98,11 +101,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                             holder.notAttedBar.setProgress(total);
                             holder.attendBar.setProgress(total);
                         }
-
                 });
-
-
-
         holder.edit.setOnClickListener(
                 v -> mClickListener.editClick(v,position)
         );
@@ -118,15 +117,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
         holder.interested.setOnClickListener(
                 v -> mClickListener.interestedClick(v,position)
         );
-
-
     }
     @Override
     public int getItemCount() {
         return mPosts.size();
     }
     public static class ImageViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        public TextView bloodcamp,organizer,location,description,posted,attendper,notattendper,interestper;
+        public TextView bloodcamp,organizer,location,description,posted,attendper,notattendper,interestper,date,time;
         public ImageButton edit,delete,view, attend,notAttend, interested;
         public ImageView imageView;
         public LinearLayout linearLayoutManager;
@@ -156,6 +153,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
             interestper = itemView.findViewById(R.id.interstedper);
             attendper = itemView.findViewById(R.id.attendper);
             notattendper = itemView.findViewById(R.id.notattendper);
+            date = itemView.findViewById(R.id.camp_date);
+            time = itemView.findViewById(R.id.camp_time);
             delete = itemView.findViewById(R.id.delete_post);
             view = itemView.findViewById(R.id.view);
             attend = itemView.findViewById(R.id.voteattend);

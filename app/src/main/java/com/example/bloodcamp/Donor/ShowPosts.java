@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bloodcamp.Admin.ShowDetails;
@@ -42,6 +43,7 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
     private SearchView mSearchView;
     private boolean isClicked = false;
     FirebaseAuth firebaseAuth;
+    private TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         mSearchView.setVisibility(View.GONE);
+        textView = findViewById(R.id.warning_text);
         getDonorLocation();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -100,6 +103,10 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                 return true;
             }
         });
+        if(mPost != null && mPost.isEmpty())
+        {
+            textView.setVisibility(View.VISIBLE);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -187,6 +194,10 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                         mAdapter = new PostAdapter(ShowPosts.this, mPost, ShowPosts.this);
                         mRecyclerView.setAdapter(mAdapter);
                         mProgressCircle.setVisibility(View.GONE);
+                        if(!mPost.isEmpty())
+                        {
+                            textView.setVisibility(View.GONE);
+                        }
                     }
                     else {
                         mProgressCircle.setVisibility(View.INVISIBLE);
@@ -228,6 +239,10 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);
         alert.show();
+        if(mPost != null && mPost.isEmpty())
+        {
+            textView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

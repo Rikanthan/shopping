@@ -95,7 +95,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
                 <TextView
-                    android:id="@+id/posteddate"
+                    android:id="@+id/camp_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -104,7 +104,20 @@
                     android:fontFamily="@font/lato"
                     android:text="Posted date"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp" />
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/camp_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/lato"
+                    android:text="Posted time"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    />
             </LinearLayout>
 
         </LinearLayout>
@@ -115,6 +128,7 @@
             android:layout_margin="10dp"
             android:background="#9C0B0B"
             />
+
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -225,6 +239,8 @@
                 android:layout_gravity="center"
                 android:text="Interested"/>
 
+
+
             <ProgressBar
                 android:id="@+id/progressBarInterested"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -251,6 +267,18 @@
                 android:visibility="visible"
                 />
         </LinearLayout>
+        <TextView
+            android:id="@+id/posteddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/lato"
+            android:text="Posted date"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="italic" />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

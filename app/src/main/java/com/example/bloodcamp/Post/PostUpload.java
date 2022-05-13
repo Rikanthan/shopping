@@ -275,7 +275,6 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         else {
             Toast.makeText(this, "Please choose the file", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void chooseDate(View v)
@@ -352,7 +351,6 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                         chooseTime.setText(time);
                     }, mHour, mMinute, false);
             timePickerDialog.show();
-
     }
 
     private void addDetails()
@@ -399,16 +397,14 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         }
         else
         {
-            Toast.makeText(this,"Wait until your location isn't set",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Wait until your location set",Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
-
         locationListener = location -> {
             try{
                 latLng = new LatLng(location.getLatitude(),location.getLongitude());
@@ -423,9 +419,7 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
                 e.printStackTrace();
             }
         };
-
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, locationListener);
         }
@@ -433,7 +427,6 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         {
             e.printStackTrace();
         }
-
     }
     private void OnGPS() {
         final AlertDialog.Builder builder= new AlertDialog.Builder(this);
