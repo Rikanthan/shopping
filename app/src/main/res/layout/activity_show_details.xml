@@ -30,10 +30,10 @@
             android:id="@+id/title"
             android:text="User Details"
             android:textAllCaps="false"
-            android:textColor="@color/lightblue"
-            android:textSize="45sp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-smallcaps"/>
+            android:fontFamily="@font/open_sans"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="@font/open_sans"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="@font/open_sans"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="@font/open_sans"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="@font/open_sans"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:filterTouchesWhenObscured="true"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="@font/open_sans"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,9 +117,10 @@
                     android:padding="3dp"
                     android:text="Edit"
                     android:onClick="edit"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:fontFamily="casual"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/open_sans"
                     android:textStyle="bold" />
                 <Button
                     android:id="@+id/user_delete"
@@ -132,9 +133,10 @@
                     android:padding="3dp"
                     android:text="Delete"
                     android:onClick="delete"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:fontFamily="casual"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/open_sans"
                     android:textStyle="bold" />
             </LinearLayout>
             <ProgressBar

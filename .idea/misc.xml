@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_battery_std_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_book_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_calendar_month_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.139" />
         <entry key="app/src/main/res/drawable/ic_baseline_check_box_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_contact_support_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_dashboard_24.xml" value="0.1" />
@@ -50,6 +51,7 @@
         <entry key="app/src/main/res/drawable/ic_bottom.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/ic_wave.xml" value="0.1235" />
+        <entry key="app/src/main/res/drawable/imageborder.xml" value="0.139" />
         <entry key="app/src/main/res/drawable/linktext.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/overlay.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/recycle_design.xml" value="0.1345" />
@@ -60,11 +62,13 @@
         <entry key="app/src/main/res/layout-v30/activity_main.xml" value="0.4439140811455847" />
         <entry key="app/src/main/res/layout/activity_contact_seller.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_customer.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_forgetpassword.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_images.xml" value="0.16893115942028986" />
-        <entry key="app/src/main/res/layout/activity_imageupload.xml" value="0.10280797101449275" />
+        <entry key="app/src/main/res/layout/activity_imageupload.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_see_posts.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/activity_seller_view.xml" value="0.10416666666666667" />
         <entry key="app/src/main/res/layout/activity_show_details.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_show_items_.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.5" />

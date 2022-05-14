@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bloodcamp.R;
@@ -65,6 +66,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                                 .load(uploadCurrent.getImageUri())
                                 .placeholder(R.drawable.loader)
                                 .into(holder.imageView);
+                        holder.imageView.setClipToOutline(true);
                         holder.description.setText(uploadCurrent.getDescription());
                         holder.date.setText("Date:- "+uploadCurrent.getDate());
                         holder.time.setText("Time:- "+uploadCurrent.getTime());
@@ -72,16 +74,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                         {
                             if(s.contains("not") && s.contains(uid))
                             {
-                                holder.notAttend.setBackgroundColor(Color.GREEN);
-                               // holder.notattendper.setBackgroundResource(R.id.checkbox);
+                                holder.notAttend
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.checkbox));
                             }
                             else if(s.contains("attend") && s.contains(uid))
                             {
-                                //holder.attend.setBackgroundResource(R.id.checkbox);
+                                holder.attend
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.checkbox));
                             }
                             else if(s.contains("interest") && s.contains(uid))
                             {
-                               // holder.interested.setBackgroundResource(R.id.checkbox);
+                               holder.interested
+                                       .setBackground(
+                                               ContextCompat
+                                                       .getDrawable(mContext, R.drawable.checkbox));
                             }
                         }
                         int total = uploadCurrent.getVote().getTotalVote();
