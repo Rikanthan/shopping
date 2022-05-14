@@ -64,7 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                         holder.posted.setText("Post created at : "+uploadCurrent.getPostedDate());
                         Glide.with(mContext)
                                 .load(uploadCurrent.getImageUri())
-                                .placeholder(R.drawable.loader)
+                                .placeholder(R.drawable.newloader)
                                 .into(holder.imageView);
                         holder.imageView.setClipToOutline(true);
                         holder.description.setText(uploadCurrent.getDescription());
