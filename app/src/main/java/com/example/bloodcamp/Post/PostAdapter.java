@@ -39,6 +39,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
         View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
         return new ImageViewHolder(v);
     }
+    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(ImageViewHolder holder,
                                  @SuppressLint("RecyclerView") final int position) {
@@ -72,14 +73,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                             if(s.contains("not") && s.contains(uid))
                             {
                                 holder.notAttend.setBackgroundColor(Color.GREEN);
+                               // holder.notattendper.setBackgroundResource(R.id.checkbox);
                             }
                             else if(s.contains("attend") && s.contains(uid))
                             {
-                                holder.attend.setBackgroundColor(Color.GREEN);
+                                //holder.attend.setBackgroundResource(R.id.checkbox);
                             }
                             else if(s.contains("interest") && s.contains(uid))
                             {
-                                holder.interested.setBackgroundColor(Color.GREEN);
+                               // holder.interested.setBackgroundResource(R.id.checkbox);
                             }
                         }
                         int total = uploadCurrent.getVote().getTotalVote();

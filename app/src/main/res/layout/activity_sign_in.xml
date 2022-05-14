@@ -23,10 +23,11 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/signUp"
-            android:textColor="@color/lightblue"
+            android:textColor="@color/black"
             android:textSize="25sp"
+            android:textAllCaps="false"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-smallcaps"/>
+            android:fontFamily="@font/open_sans"/>
 
         <TextView
             android:layout_width="fill_parent"
@@ -36,26 +37,35 @@
             android:text="User type"
             android:textColor="@color/black"
             android:id="@+id/userheader"
-            android:textSize="16sp"
             android:visibility="visible"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-smallcaps"/>
+            android:fontFamily="@font/open_sans"/>
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:id="@+id/radio"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:backgroundTint="@color/green"
+            android:outlineAmbientShadowColor="@color/green"
+            android:outlineSpotShadowColor="@color/green"
             android:orientation="horizontal">
             <RadioButton android:id="@+id/bloodcamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Blood camp"
+                android:fontFamily="@font/open_sans"
                 android:checked="true"
+                android:buttonTint="@color/black"
+                android:drawableTint="@color/green"
+                android:backgroundTint="@color/green"
+                android:foregroundTint="@color/green"
                 android:onClick="onUserClicked"/>
             <RadioButton android:id="@+id/donor"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/open_sans"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/black"
                 android:text="Donor"
                 android:onClick="onUserClicked"/>
         </RadioGroup>
@@ -81,8 +91,9 @@
                     android:drawableLeft="@drawable/overlay"
                     android:padding="10dp"
                     android:singleLine="true"
+                    android:fontFamily="@font/open_sans"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
 
                 <View
@@ -95,6 +106,7 @@
                     android:id="@+id/userEmailId"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
                     android:layout_marginTop="15dp"
                     android:drawableStart="@drawable/ic_baseline_email_24"
                     android:background="@drawable/overlay"
@@ -106,7 +118,7 @@
                     android:singleLine="true"
                     android:drawableLeft="@drawable/overlay"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
 
                 <View
@@ -118,6 +130,7 @@
                     android:id="@+id/mobileNumber"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
                     android:drawableStart="@drawable/ic_baseline_local_phone_24"
                     android:layout_marginTop="15dp"
                     android:drawableLeft="@drawable/overlay"
@@ -129,7 +142,7 @@
                     android:padding="10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
 
                 <View
@@ -141,6 +154,7 @@
                     android:id="@+id/DOB"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
                     android:layout_marginTop="15dp"
                     android:drawableStart="@drawable/ic_baseline_calendar_month_24"
                     android:background="@drawable/overlay"
@@ -153,12 +167,13 @@
                     android:visibility="gone"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/NIC"
                     android:layout_width="fill_parent"
+                    android:fontFamily="@font/open_sans"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:drawableStart="@drawable/ic_baseline_featured_video_24"
@@ -172,12 +187,13 @@
                     android:visibility="gone"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/location"
                     android:layout_width="fill_parent"
+                    android:fontFamily="@font/open_sans"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:drawableStart="@drawable/ic_baseline_location_on_24"
@@ -190,11 +206,12 @@
                     android:padding="10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
                 <EditText
                     android:id="@+id/city"
                     android:layout_width="fill_parent"
+                    android:fontFamily="@font/open_sans"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:drawableStart="@drawable/ic_baseline_location_city_24"
@@ -208,7 +225,7 @@
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:visibility="gone"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
 
                 <View
@@ -219,6 +236,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passError"
                     android:layout_width="match_parent"
+                    android:fontFamily="@font/open_sans"
+                    android:textColorHint="@color/grey"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true">
 
@@ -233,11 +252,12 @@
                         android:ems="10"
                         android:hint=" Password"
                         android:inputType="textPassword"
+                        android:fontFamily="@font/open_sans"
                         android:padding="10dp"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/lightblue"
+                        android:textColorHint="@color/grey"
                         app:passwordToggleEnabled="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -251,6 +271,7 @@
                     android:layout_width="fill_parent"
                     android:drawableStart="@drawable/ic_baseline_check_box_24"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/overlay"
                     android:drawableLeft="@drawable/overlay"
@@ -261,7 +282,7 @@
                     android:padding="10dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/lightblue"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp" />
                 <Button
                     android:id="@+id/signUpBtn"
@@ -272,10 +293,11 @@
                     android:background="@drawable/button"
                     android:onClick="signin"
                     android:padding="3dp"
-                    android:text="sign up"
-                    android:textColor="@color/white"
+                    android:text="@string/signUp"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
-                    android:fontFamily="casual"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/open_sans"
                     android:textStyle="bold" />
                 <ProgressBar
                     android:layout_width="wrap_content"

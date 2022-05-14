@@ -6,5 +6,7 @@
         <item>@font/lato</item>
         <item>@font/ledger</item>
         <item>@font/lobster</item>
+        <item>@font/open_sans</item>
+        <item>@font/roboto_thin</item>
     </array>
 </resources>
