@@ -57,6 +57,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                             holder.edit.setVisibility(View.VISIBLE);
                             holder.delete.setVisibility(View.VISIBLE);
                         }
+                        else if(userRole.contains("Donor"))
+                        {
+                            holder.notattendper.setVisibility(View.GONE);
+                            holder.attendper.setVisibility(View.GONE);
+                            holder.interestper.setVisibility(View.GONE);
+                            holder.notAttedBar.setVisibility(View.GONE);
+                            holder.attendBar.setVisibility(View.GONE);
+                            holder.interestedBar.setVisibility(View.GONE);
+                        }
                         Post uploadCurrent = mPosts.get(position);
                         holder.bloodcamp.setText(uploadCurrent.getBloodCampName());
                         holder.organizer.setText("Organized By \n"+uploadCurrent.getOrganizerName());

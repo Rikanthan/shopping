@@ -183,8 +183,8 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                             if(document.exists())
                             {
                                 Post post = document.toObject(Post.class);
-                                if(post.getLatitude() - latitude < 1.0 &&
-                                        post.getLongitude() - longitude < 1.0)
+                                if(post.getLatitude() - latitude < 2.0 || post.getLatitude() - latitude < -2.0  &&
+                                        post.getLongitude() - longitude < 2.0 || post.getLongitude() - longitude < -2.0 )
                                 {
                                     mPost.add(post);
                                     backupPost.add(post);
