@@ -62,7 +62,7 @@ import java.util.List;
 public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
     protected Context context;
-    private double latitude, longitude;
+    private double latitude = 6.75, longitude = 79.97;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static  final int REQUEST_LOCATION=1;
     private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -82,7 +82,6 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
     private StorageTask mUploadTask;
     private LocationListener locationListener;
     private LocationManager locationManager;
-
     private final long MIN_TIME = 1000; // 1 second
     private final long MIN_DIST = 5; // 5 Meters
     private int mYear, mMonth, mDay, mHour, mMinute;
@@ -388,17 +387,17 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         {
             post.setImageUri(downloadImageUrl);
         }
-        if(isReady)
-        {
+        //if(isReady)
+        //{
             addPost(post,uploadId);
             mDatabaseRef.child(uploadId).setValue(post);
             Intent i = new Intent(PostUpload.this, SeePosts.class);
             startActivity(i);
-        }
-        else
-        {
-            Toast.makeText(this,"Wait until your location set",Toast.LENGTH_SHORT).show();
-        }
+        //}
+//        else
+//        {
+//            Toast.makeText(this,"Wait until your location set",Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override

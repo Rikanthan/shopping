@@ -65,8 +65,9 @@ public class SignIn extends AppCompatActivity {
     private Button action;
     private ProgressBar progressBar;
     LocationManager locationManager;
-    String latitude,longitude;
+    String latitude = "6.75",longitude = "79.97";
     Member member;
+    String user ="";
     Donor donor;
     private String userType ="BloodCamp";
     private RadioGroup radioGroup;
@@ -266,7 +267,7 @@ public class SignIn extends AppCompatActivity {
     }
     private void updateMember()
     {
-        String user ="";
+
         if(userType.contains("Admin"))
         {
             user = "Admin";
@@ -357,7 +358,7 @@ public class SignIn extends AppCompatActivity {
                                             }
                                             else
                                             {
-                                                updateAndSaveUser(userType);
+                                                updateAndSaveUser(user);
                                             }
                                         }
                                     });
@@ -378,6 +379,7 @@ public class SignIn extends AppCompatActivity {
     }
     private void updateAndSaveUser(String userType)
     {
+        member.setName(fullname.getText().toString().trim());
         firestore
                 .collection(userType)
                 .document(firebaseAuth.getUid())
