@@ -20,6 +20,7 @@ import com.example.bloodcamp.Post.PostAdapter;
 import com.example.bloodcamp.Post.PostUpload;
 import com.example.bloodcamp.R;
 import com.example.bloodcamp.Views.Post;
+import com.example.bloodcamp.Views.Vote;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -148,16 +149,65 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
 
     @Override
     public void attendClick(View v, int position) {
-
+        voted(v,position,"attend");
     }
 
     @Override
     public void notAttendClick(View v, int position) {
-
+        voted(v,position,"not");
     }
 
     @Override
     public void interestedClick(View v, int position) {
+        voted(v,position,"interest");
+    }
+
+    public void voted(View v,int position,String type)
+    {
+        Post rePost = mPost.get(position);
+        List<Post> attendPost = new ArrayList<>();
+        attendPost.addAll(mPost);
+        attendPost.remove(position);
+        Vote vote = rePost.getVote();
+        List <String> voted = new ArrayList<>();
+        voted.addAll(vote.getVotedPeople());
+        boolean found = false;
+        for(String s: voted)
+        {
+            if(s.contains(firebaseAuth.getUid()))
+            {
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            voted.add(firebaseAuth.getUid()+type);
+            vote.setVotedPeople(voted);
+            if(type.contains("not"))
+            {
+                vote.setNotAttendVote();
+            }
+            else if(type.contains("attend"))
+            {
+                vote.setAttendVote();
+            }
+            else if(type.contains("interest"))
+            {
+                vote.setInterestedVote();
+            }
+
+            rePost.setVote(vote);
+            firestore.collection("Post")
+                    .document(rePost.getPostId()).set(rePost);
+            mPost.clear();
+            mProgress.setVisibility(View.VISIBLE);
+            showPostForBloodCamp();
+        }
+        else
+        {
+            Toast.makeText(this,"You have already clicked",Toast.LENGTH_LONG).show();
+            voted.clear();
+        }
 
     }
 }
