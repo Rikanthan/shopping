@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -49,6 +52,7 @@ public class SignIn extends AppCompatActivity {
                     ".{8,15}" +
                     "$");
     private static final Pattern EMAIL=Pattern.compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
+    private int mYear, mMonth, mDay;
     private EditText fullname;
     private EditText email;
     private EditText mobile;
@@ -56,7 +60,7 @@ public class SignIn extends AppCompatActivity {
     private EditText pswd;
     private EditText conpswd;
     private EditText nic;
-    private EditText dob;
+    private TextView dob;
     private EditText city;
     private TextView userHeader;
     private TextView title;
@@ -65,6 +69,8 @@ public class SignIn extends AppCompatActivity {
     private Button action;
     private ProgressBar progressBar;
     LocationManager locationManager;
+    LinearLayout dateLayout;
+    private String date = "";
     String latitude = "6.75",longitude = "79.97";
     Member member;
     String user ="";
@@ -92,6 +98,7 @@ public class SignIn extends AppCompatActivity {
         title = findViewById(R.id.title);
         userHeader = findViewById(R.id.userheader);
         radioGroup = findViewById(R.id.radio);
+        dateLayout = findViewById(R.id.date_layout);
         reff = FirebaseDatabase.getInstance().getReference().child("Member");
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -226,7 +233,7 @@ public class SignIn extends AppCompatActivity {
                 if (checked)
                 {
                     userType = "BloodCamp";
-                    dob.setVisibility(View.GONE);
+                    dateLayout.setVisibility(View.GONE);
                     nic.setVisibility(View.GONE);
                     city.setVisibility(View.GONE);
                 }
@@ -235,7 +242,7 @@ public class SignIn extends AppCompatActivity {
                 if (checked)
                 {
                     userType = "Donor";
-                    dob.setVisibility(View.VISIBLE);
+                    dateLayout.setVisibility(View.VISIBLE);
                     nic.setVisibility(View.VISIBLE);
                     city.setVisibility(View.VISIBLE);
                 }
@@ -363,6 +370,34 @@ public class SignIn extends AppCompatActivity {
                                         }
                                     });
                         });
+    }
+    public void chooseDate(View v)
+    {
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    if(dayOfMonth < 10 && monthOfYear < 10)
+                    {
+                        date = year + "-0" + (monthOfYear + 1) + "-0" + dayOfMonth;
+                    }
+                    else if(dayOfMonth < 10)
+                    {
+                        date = year + "-" + (monthOfYear + 1) + "-0" + dayOfMonth;
+                    }
+                    else if(monthOfYear < 10)
+                    {
+                        date = year + "-0" + (monthOfYear + 1) + "-" + dayOfMonth;
+                    }
+                    else
+                    {
+                        date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                    }
+                    dob.setText(date);
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
     private void updateAndSaveDonor()
     {
