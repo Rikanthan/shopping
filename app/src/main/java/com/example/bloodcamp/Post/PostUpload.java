@@ -59,7 +59,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
+public class PostUpload extends AppCompatActivity{
     private GoogleMap mMap;
     protected Context context;
     private double latitude = 6.75, longitude = 79.97;
@@ -145,9 +145,9 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
         format = new SimpleDateFormat(DATE_FORMAT);
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mStorageRef = FirebaseStorage.getInstance().getReference("product");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
         //SupportMapFragment googleMap=(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("post");
         mButtonChooseImage.setOnClickListener(v -> openFileChooser());
@@ -400,33 +400,33 @@ public class PostUpload extends AppCompatActivity implements OnMapReadyCallback{
 //        }
     }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-        locationListener = location -> {
-            try{
-                latLng = new LatLng(location.getLatitude(),location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(latLng).title("My position"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                isReady = true;
-            }
-            catch (SecurityException e)
-            {
-                e.printStackTrace();
-            }
-        };
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, locationListener);
-        }
-        catch (SecurityException e)
-        {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void onMapReady(@NonNull GoogleMap googleMap) {
+//        mMap = googleMap;
+//        // Add a marker in Sydney and move the camera
+//        locationListener = location -> {
+//            try{
+//                latLng = new LatLng(location.getLatitude(),location.getLongitude());
+//                mMap.addMarker(new MarkerOptions().position(latLng).title("My position"));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//                latitude = location.getLatitude();
+//                longitude = location.getLongitude();
+//                isReady = true;
+//            }
+//            catch (SecurityException e)
+//            {
+//                e.printStackTrace();
+//            }
+//        };
+//        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        try {
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, locationListener);
+//        }
+//        catch (SecurityException e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
     private void OnGPS() {
         final AlertDialog.Builder builder= new AlertDialog.Builder(this);
         builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("YES",

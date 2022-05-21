@@ -247,11 +247,11 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
 
     @Override
     public void itemClick(View v, int postion) {
-        Intent i = new Intent(this, MapsActivity.class);
-        i.putExtra("long",mPost.get(postion).getLongitude());
-        i.putExtra("lat",mPost.get(postion).getLatitude());
-        i.putExtra("name",mPost.get(postion).getBloodCampName());
-        startActivity(i);
+//        Intent i = new Intent(this, MapsActivity.class);
+//        i.putExtra("long",mPost.get(postion).getLongitude());
+//        i.putExtra("lat",mPost.get(postion).getLatitude());
+//        i.putExtra("name",mPost.get(postion).getBloodCampName());
+//        startActivity(i);
     }
 
     @Override

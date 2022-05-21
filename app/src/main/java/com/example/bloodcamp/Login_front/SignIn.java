@@ -454,7 +454,7 @@ public class SignIn extends AppCompatActivity {
                                 userRole.setUserRole(userType);
                                 userRole.setUid(uid);
                                 addUserType(userRole);
-                                Toast.makeText(SignIn.this, "Data input & user created successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignIn.this, "Account has been successfully created", Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(SignIn.this, MainActivity.class);
                                 startActivity(i);
                             }

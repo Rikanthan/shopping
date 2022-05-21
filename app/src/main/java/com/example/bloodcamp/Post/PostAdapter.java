@@ -87,20 +87,47 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ImageViewHolde
                                         .setBackground(
                                                 ContextCompat
                                                         .getDrawable(mContext, R.drawable.checkbox));
+                                holder.attend
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.vote));
+                                holder.interested
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.vote));
+                                break;
                             }
                             else if(s.contains("attend") && s.contains(uid))
                             {
+                                holder.notAttend
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.vote));
                                 holder.attend
                                         .setBackground(
                                                 ContextCompat
                                                         .getDrawable(mContext, R.drawable.checkbox));
+                                holder.interested
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.vote));
+                                break;
                             }
                             else if(s.contains("interest") && s.contains(uid))
                             {
-                               holder.interested
-                                       .setBackground(
-                                               ContextCompat
-                                                       .getDrawable(mContext, R.drawable.checkbox));
+                                holder.notAttend
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.vote));
+                                holder.attend
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.vote));
+                                holder.interested
+                                        .setBackground(
+                                                ContextCompat
+                                                        .getDrawable(mContext, R.drawable.checkbox));
+                               break;
                             }
                         }
                         int total = uploadCurrent.getVote().getTotalVote();
