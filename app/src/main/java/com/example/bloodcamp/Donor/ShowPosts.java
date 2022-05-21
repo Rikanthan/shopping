@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bloodcamp.Admin.ShowDetails;
+import com.example.bloodcamp.Home.MainActivity;
 import com.example.bloodcamp.Post.PostAdapter;
 import com.example.bloodcamp.Post.PostUpload;
 import com.example.bloodcamp.MapsActivity;
@@ -58,7 +59,7 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Post");
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        mSearchView.setVisibility(View.GONE);
+        //mSearchView.setVisibility(View.GONE);
         textView = findViewById(R.id.warning_text);
         getDonorLocation();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -123,6 +124,11 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
                 i.putExtra("id",firebaseAuth.getUid());
                 i.putExtra("UserRole","Donor");
                 startActivity(i);
+                break;
+            case R.id.logout:
+                Intent i1 = new Intent(this, MainActivity.class);
+                startActivity(i1);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -247,11 +253,6 @@ public class ShowPosts extends AppCompatActivity implements PostAdapter.ImageAda
 
     @Override
     public void itemClick(View v, int postion) {
-//        Intent i = new Intent(this, MapsActivity.class);
-//        i.putExtra("long",mPost.get(postion).getLongitude());
-//        i.putExtra("lat",mPost.get(postion).getLatitude());
-//        i.putExtra("name",mPost.get(postion).getBloodCampName());
-//        startActivity(i);
     }
 
     @Override

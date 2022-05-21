@@ -274,7 +274,6 @@ public class SignIn extends AppCompatActivity {
     }
     private void updateMember()
     {
-
         if(userType.contains("Admin"))
         {
             user = "Admin";
@@ -466,13 +465,11 @@ public class SignIn extends AppCompatActivity {
                 );
     }
 
-
     private void getLocation() {
         //Check Permissions again
         if (ActivityCompat.checkSelfPermission(SignIn.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(SignIn.this,
-
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(this,new String[]

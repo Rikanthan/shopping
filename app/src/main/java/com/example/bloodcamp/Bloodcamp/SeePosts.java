@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bloodcamp.Admin.ShowDetails;
+import com.example.bloodcamp.Home.MainActivity;
 import com.example.bloodcamp.Post.PostAdapter;
 import com.example.bloodcamp.Post.PostUpload;
 import com.example.bloodcamp.R;
@@ -94,12 +95,16 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-
             case R.id.profile:
                 Intent i = new Intent(this, ShowDetails.class);
                 i.putExtra("id",firebaseAuth.getUid());
                 i.putExtra("UserRole","BloodCamp");
                 startActivity(i);
+                break;
+            case R.id.logout:
+                Intent i1 = new Intent(this, MainActivity.class);
+                startActivity(i1);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -135,7 +140,6 @@ public class SeePosts extends AppCompatActivity implements PostAdapter.ImageAdap
                     });
         });
         alertDialog.setNegativeButton("No",(dialog,which) ->{
-
         });
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);
